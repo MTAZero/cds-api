@@ -36,6 +36,11 @@ export class BaseDBService<T extends Document> implements IBaseDBService<T> {
         $match: filter,
       },
       {
+        $project: {
+          password: 0,
+        },
+      },
+      {
         $sort: sort,
       },
       {
@@ -123,5 +128,20 @@ export class BaseDBService<T extends Document> implements IBaseDBService<T> {
     entity.last_update = new Date().getTime();
     const ans = await this.model.updateMany(query, entity);
     return ans;
+  }
+
+  async countByFilter(filter) {
+    const ans = await this.model
+      .aggregate([
+        {
+          $match: filter,
+        },
+        {
+          $count: 'total',
+        },
+      ])
+      .exec();
+
+    return ans[0] ? ans[0].total : 0;
   }
 }

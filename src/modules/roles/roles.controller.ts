@@ -13,27 +13,27 @@ import {
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
-import { ResponseCode, ResponseMessage } from 'src/const';
-import { ApiResponse } from 'src/utils';
-import { UserDBService } from '../database/services/userDbService';
-import { PaginationType } from 'src/middleware';
+import { RoleDBService } from '../database/services/roleDbService';
+import { CreateRoleDto } from './dtos/create-role.dto';
+import { UpdateRoleDto } from './dtos/update-role.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateUserDto } from './dtos/create-user.dto';
-import { UpdateUserDto } from './dtos/update-user.dto';
+import { ResponseCode, ResponseMessage } from 'src/const';
+import { PaginationType } from 'src/middleware';
+import { ApiResponse } from 'src/utils';
 
-@Controller('users')
-export class UsersController {
-  @Inject(UserDBService)
-  userDBService: UserDBService;
+@Controller('roles')
+export class RolesController {
+  @Inject(RoleDBService)
+  roleDbService: RoleDBService;
 
   @Get('/')
-  async getListUsers(@Res() res, @Req() req, @Query() query) {
+  async getListRoles(@Res() res, @Req() req, @Query() query) {
     const pagination: PaginationType = req.pagination;
     const sort = req.sort;
     const filter = {};
     const keyword = query.keyword ? query.keyword : '';
 
-    const data = await this.userDBService.getItems({
+    const data = await this.roleDbService.getItems({
       filter,
       sort,
       skip: pagination.skip,
@@ -52,11 +52,11 @@ export class UsersController {
 
   @Post('')
   @UseInterceptors(FileInterceptor('file'))
-  async insertUser(
-    @Body(new ValidationPipe()) entity: CreateUserDto,
+  async insertRole(
+    @Body(new ValidationPipe()) entity: CreateRoleDto,
     @Res() res,
   ) {
-    const ans = await this.userDBService.insertItem(entity);
+    const ans = await this.roleDbService.insertItem(entity);
     return ApiResponse(
       res,
       true,
@@ -68,13 +68,13 @@ export class UsersController {
 
   @Put('/:id')
   @UseInterceptors(FileInterceptor('file'))
-  async updateUser(
-    @Body(new ValidationPipe()) entity: UpdateUserDto,
+  async updateRole(
+    @Body(new ValidationPipe()) entity: UpdateRoleDto,
     @Res() res,
     @Param() params,
   ) {
     const id = params.id;
-    const ans = await this.userDBService.updateItem(id, entity);
+    const ans = await this.roleDbService.updateItem(id, entity);
     return ApiResponse(
       res,
       true,
@@ -85,9 +85,9 @@ export class UsersController {
   }
 
   @Delete('/:id')
-  async removeUser(@Res() res, @Param() params) {
+  async removeRole(@Res() res, @Param() params) {
     const id = params.id;
-    const ans = await this.userDBService.removeItem(id);
+    const ans = await this.roleDbService.removeItem(id);
     return ApiResponse(
       res,
       true,
@@ -98,9 +98,9 @@ export class UsersController {
   }
 
   @Get('/:id')
-  async getDetailUser(@Res() res, @Param() params) {
+  async getDetailRole(@Res() res, @Param() params) {
     const id = params.id;
-    const ans = await this.userDBService.getItemById(id);
+    const ans = await this.roleDbService.getItemById(id);
     return ApiResponse(
       res,
       true,

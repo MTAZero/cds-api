@@ -1,9 +1,9 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../schemas/users.schema';
 import { BaseDBService } from './base';
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { BCRYPT_SALT } from 'src/const';
+import { BCRYPT_SALT, ResponseCode, ResponseMessage } from 'src/const';
 
 @Injectable()
 export class UserDBService extends BaseDBService<User> {
@@ -17,6 +17,13 @@ export class UserDBService extends BaseDBService<User> {
   }
 
   async insertItem(entity: Partial<User>): Promise<any> {
+    const cnt = await this.countByFilter({ username: entity.username });
+    if (cnt > 0)
+      throw new HttpException(
+        ResponseMessage.ALREAY_EXIST,
+        ResponseCode.BAD_REQUEST,
+      );
+
     entity.created_date = new Date().getTime();
     entity.last_update = new Date().getTime();
     entity.password = await bcrypt.hash(entity.password, BCRYPT_SALT);

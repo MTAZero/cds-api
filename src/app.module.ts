@@ -8,6 +8,7 @@ import { DatabaseModule } from './modules/database/database.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { UsersModule } from './modules/users/users.module';
 import { PaginationMiddleware, SortMiddleware } from './middleware';
+import { RolesModule } from './modules/roles/roles.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PaginationMiddleware, SortMiddleware } from './middleware';
     DatabaseModule,
     AuthenticationModule,
     UsersModule,
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

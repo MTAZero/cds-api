@@ -3,6 +3,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { User, UserSchema } from './schemas/users.schema';
 import { UserDBService } from './services/userDbService';
+import { Role, RoleSchema } from './schemas/roles.schema';
+import { RoleDBService } from './services/roleDbService';
 
 @Module({
   imports: [
@@ -11,9 +13,13 @@ import { UserDBService } from './services/userDbService';
         name: User.name,
         schema: UserSchema,
       },
+      {
+        name: Role.name,
+        schema: RoleSchema,
+      },
     ]),
   ],
-  providers: [UserDBService],
-  exports: [UserDBService],
+  providers: [UserDBService, RoleDBService],
+  exports: [UserDBService, RoleDBService],
 })
 export class DatabaseModule {}

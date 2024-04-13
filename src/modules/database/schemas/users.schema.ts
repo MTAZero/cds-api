@@ -19,19 +19,11 @@ export class User extends Document<any> {
 
   @Prop()
   created_date: number;
-
-  @Prop()
-  status: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
 
-export const UserNameSchema: string = 'tbl_users';
-
 UserSchema.index({
   username: 'text',
-  email: 'text',
-  address: 'text',
   full_name: 'text',
-  role: 'text',
 });

@@ -7,16 +7,11 @@ import { BCRYPT_SALT, ResponseCode, ResponseMessage } from 'src/const';
 
 @Injectable()
 export class UserDBService extends BaseDBService<User> {
-  constructor(@InjectModel(User.name) private readonly userModel) {
-    super(userModel);
+  constructor(@InjectModel(User.name) private readonly entityModel) {
+    super(entityModel);
   }
 
-  async updateItem(id: any, entity: Partial<User>): Promise<User | null> {
-    entity.last_update = new Date().getTime();
-    return super.updateItem(id, entity);
-  }
-
-  async insertItem(entity: Partial<User>): Promise<any> {
+  async insertItem(entity: any): Promise<any> {
     const cnt = await this.countByFilter({ username: entity.username });
     if (cnt > 0)
       throw new HttpException(
@@ -24,14 +19,7 @@ export class UserDBService extends BaseDBService<User> {
         ResponseCode.BAD_REQUEST,
       );
 
-    entity.created_date = new Date().getTime();
-    entity.last_update = new Date().getTime();
     entity.password = await bcrypt.hash(entity.password, BCRYPT_SALT);
     return super.insertItem(entity);
-  }
-
-  async updateMany(query: object = {}, entity: any) {
-    entity.last_update = new Date().getTime();
-    return super.updateMany(query, entity);
   }
 }

@@ -9,6 +9,8 @@ import { AuthenticationModule } from './modules/authentication/authentication.mo
 import { UsersModule } from './modules/users/users.module';
 import { PaginationMiddleware, SortMiddleware } from './middleware';
 import { RolesModule } from './modules/roles/roles.module';
+import { UnitsModule } from './modules/units/units.module';
+import { PermissionsModule } from './modules/permissions/permissions.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { RolesModule } from './modules/roles/roles.module';
     AuthenticationModule,
     UsersModule,
     RolesModule,
+    UnitsModule,
+    PermissionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

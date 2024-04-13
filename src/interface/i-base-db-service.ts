@@ -19,9 +19,9 @@ export interface IBaseDBService<T> {
 
   getItemById(id: any): Promise<T | null>;
 
-  updateItem(id: any, entity: Partial<T>): Promise<T | null>;
+  updateItem(id: any, entity: any): Promise<any>;
 
   removeItem(id: any): Promise<boolean>;
 
-  insertItem(entity: T): Promise<any>;
+  insertItem(entity: any): Promise<any>;
 }

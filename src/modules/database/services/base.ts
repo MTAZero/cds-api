@@ -77,7 +77,8 @@ export class BaseDBService<T extends Document> implements IBaseDBService<T> {
     return await this.model.findById(id).exec();
   }
 
-  async updateItem(id: any, entity: Partial<T>): Promise<T | null> {
+  async updateItem(id: any, entity: any): Promise<any> {
+    entity.last_update = new Date().getTime();
     await this.model
       .updateOne(
         {
@@ -104,7 +105,9 @@ export class BaseDBService<T extends Document> implements IBaseDBService<T> {
     }
   }
 
-  async insertItem(entity: Partial<T>): Promise<any> {
+  async insertItem(entity: any): Promise<any> {
+    entity.created_date = new Date().getTime();
+    entity.last_update = new Date().getTime();
     const _entity = new this.model(entity);
     return _entity.save();
   }

@@ -16,9 +16,6 @@ export class Role extends Document<any> {
 
   @Prop()
   created_date: number;
-
-  @Prop()
-  status: string;
 }
 
 export const RoleSchema = SchemaFactory.createForClass(Role);

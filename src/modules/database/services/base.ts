@@ -14,7 +14,7 @@ export class BaseDBService<T extends Document> implements IBaseDBService<T> {
     let { sort, filter } = query;
     const { textSearch, skip, limit } = query;
 
-    if (textSearch !== '')
+    if (textSearch && textSearch !== '')
       filter = {
         ...filter,
         ...{
@@ -73,8 +73,8 @@ export class BaseDBService<T extends Document> implements IBaseDBService<T> {
     };
   }
 
-  async getItemById(id: any): Promise<T | null> {
-    return await this.model.findById(id).exec();
+  async getItemById(id: any): Promise<any> {
+    return await this.model.findById(id).lean().exec();
   }
 
   async updateItem(id: any, entity: any): Promise<any> {

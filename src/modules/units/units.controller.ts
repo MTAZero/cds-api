@@ -90,4 +90,30 @@ export class UnitsController {
       ans,
     );
   }
+
+  @Get('/child/:id')
+  async getListChild(@Res() res, @Param() params) {
+    const id = params.id;
+    const ans = await this.unitDBService.getListChild(id);
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
+  @Get('/descendants/:id')
+  async getDescendantsUnit(@Res() res, @Param() params) {
+    const id = params.id;
+    const ans = await this.unitDBService.getListDescendants(id);
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
 }

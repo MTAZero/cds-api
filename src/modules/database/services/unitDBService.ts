@@ -2,6 +2,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { BaseDBService } from './base';
 import { Injectable } from '@nestjs/common';
 import { Unit } from '../schemas/units.schema';
+import { QueryParams } from 'src/interface/i-base-db-service';
 
 @Injectable()
 export class UnitDBService extends BaseDBService<Unit> {
@@ -27,5 +28,53 @@ export class UnitDBService extends BaseDBService<Unit> {
       key: { $regex: item._id, $options: 'i' },
     });
     return ans;
+  }
+
+  async getListChild(id: string): Promise<Array<Unit>> {
+    const query: QueryParams = {
+      skip: 0,
+      limit: 1000,
+      filter: {
+        parent: id,
+      },
+    };
+    const ans = await this.getItems(query);
+    return ans.items;
+  }
+
+  async getListDescendants(id: string): Promise<any> {
+    const ans = await this.getItemById(id);
+
+    const query: QueryParams = {
+      skip: 0,
+      limit: 1000,
+      filter: {
+        parent: id,
+      },
+    };
+    const childs = (await this.getItems(query)).items;
+
+    if (childs.length === 0)
+      return {
+        ...ans,
+        ...{
+          childs: [],
+        },
+      };
+
+    const finalChilds = await Promise.all(
+      childs.map(async (child) => {
+        const childId = child._id.toString();
+        const childList = await this.getListDescendants(childId);
+        return childList;
+      }),
+    );
+
+    return {
+      ...ans,
+      ...{
+        childs: finalChilds,
+      },
+    };
   }
 }

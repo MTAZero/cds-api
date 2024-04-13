@@ -20,11 +20,28 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ResponseCode, ResponseMessage } from 'src/const';
 import { PaginationType } from 'src/middleware';
 import { ApiResponse } from 'src/utils';
+import { PermissionDBService } from '../database/services/permissionDbService';
 
 @Controller('roles')
 export class RolesController {
   @Inject(RoleDBService)
   roleDbService: RoleDBService;
+
+  @Inject(PermissionDBService)
+  permissionDBService: PermissionDBService;
+
+  @Get('/permissions/:id')
+  async getPermisisonOfRoles(@Res() res, @Param() params) {
+    const id = params.id;
+    const ans = await this.permissionDBService.getPermissionOfRoles(id);
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
 
   @Get('/')
   async getListRoles(@Res() res, @Req() req, @Query() query) {

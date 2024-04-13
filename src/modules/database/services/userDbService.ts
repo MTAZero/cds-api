@@ -4,10 +4,14 @@ import { BaseDBService } from './base';
 import { HttpException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { BCRYPT_SALT, ResponseCode, ResponseMessage } from 'src/const';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserDBService extends BaseDBService<User> {
-  constructor(@InjectModel(User.name) private readonly entityModel) {
+  constructor(
+    @InjectModel(User.name) private readonly entityModel,
+    private readonly jwtService: JwtService,
+  ) {
     super(entityModel);
   }
 
@@ -21,5 +25,67 @@ export class UserDBService extends BaseDBService<User> {
 
     entity.password = await bcrypt.hash(entity.password, BCRYPT_SALT);
     return super.insertItem(entity);
+  }
+
+  async validateUser(
+    username: string,
+    password: string,
+  ): Promise<{
+    isValidate: boolean;
+    user: User | null;
+  }> {
+    try {
+      let user = await this.getFirstItem({ username: username });
+      if (!user)
+        return {
+          isValidate: false,
+          user: null,
+        };
+
+      if (await bcrypt.compare(password, user.password))
+        return {
+          isValidate: true,
+          user,
+        };
+    } catch (ex) {}
+
+    return {
+      isValidate: false,
+      user: null,
+    };
+  }
+
+  async signTokenByUser(user: User) {
+    let payload = {
+      username: user.username,
+      sub: user._id,
+    };
+
+    return {
+      user: user,
+      access_token: this.jwtService.sign(payload),
+    };
+  }
+
+  async changePassword(
+    id: string,
+    old_password = '',
+    new_password = '',
+  ): Promise<Boolean> {
+    let user = await this.getItemById(id);
+    if (!user) throw new HttpException('Not Found', ResponseCode.ERROR);
+
+    let res = await bcrypt.compare(old_password, user.password);
+    if (!res) throw new HttpException('Password incorrect', ResponseCode.ERROR);
+
+    try {
+      user.password = await bcrypt.hash(new_password, 10);
+
+      await this.updateItem(id, user);
+      return true;
+    } catch (ex) {
+      console.log('User ChangePassword Error : ', ex.message);
+      return false;
+    }
   }
 }

@@ -4,3 +4,6 @@ export const DEFAULT_PAGE_SIZE = process.env['DEFAULT_PAGE_SIZE']
   : 10;
 export const DEFAULT_PAGE_INDEX = 1;
 export const BCRYPT_SALT = 10;
+export const JWT_SECRET_KEY = process.env['JWT_SECRET_KEY']
+  ? process.env['JWT_SECRET_KEY']
+  : 'default_key';

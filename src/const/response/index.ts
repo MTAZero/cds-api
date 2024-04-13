@@ -11,4 +11,5 @@ export const ResponseMessage = {
   SUCCESS: 'success',
   ERROR: 'error',
   ALREAY_EXIST: 'already exsit entity',
+  NOT_HAVE_PERMISSION: 'You do not have permission',
 };

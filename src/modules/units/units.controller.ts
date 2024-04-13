@@ -10,6 +10,7 @@ import {
   Query,
   Req,
   Res,
+  UseGuards,
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
@@ -19,6 +20,7 @@ import { ResponseCode, ResponseMessage } from 'src/const';
 import { PaginationType } from 'src/middleware';
 import { ApiResponse } from 'src/utils';
 import { CreateUnitDto } from './dtos/create-unit.dto';
+import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 
 @Controller('units')
 export class UnitsController {
@@ -51,6 +53,7 @@ export class UnitsController {
 
   @Post('')
   @UseInterceptors(FileInterceptor('file'))
+  @UseGuards(JwtAuthGuard)
   async insertUnit(
     @Body(new ValidationPipe()) entity: CreateUnitDto,
     @Res() res,

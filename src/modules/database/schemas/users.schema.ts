@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document, ObjectId, Types } from 'mongoose';
+import { Unit } from './units.schema';
+import { Role } from './roles.schema';
 
 @Schema()
 export class User extends Document<any> {
@@ -16,6 +18,12 @@ export class User extends Document<any> {
 
   @Prop()
   last_update: number;
+
+  @Prop({ type: Types.ObjectId, ref: Unit.name, default: null })
+  unit: ObjectId;
+
+  @Prop({ type: Types.ObjectId, ref: Role.name, default: null })
+  role: ObjectId;
 
   @Prop()
   created_date: number;

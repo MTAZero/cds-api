@@ -1,13 +1,19 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../schemas/users.schema';
 import { BaseDBService } from './base';
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { BCRYPT_SALT, ResponseCode, ResponseMessage } from 'src/const';
 import { JwtService } from '@nestjs/jwt';
+import { Permission } from '../schemas/permissions.schema';
+import { PermissionDBService } from './permissionDbService';
+import { SystemAction, SystemFeatures } from 'src/enums';
 
 @Injectable()
 export class UserDBService extends BaseDBService<User> {
+  @Inject(PermissionDBService)
+  permissionDBService: PermissionDBService;
+
   constructor(
     @InjectModel(User.name) private readonly entityModel,
     private readonly jwtService: JwtService,
@@ -87,5 +93,37 @@ export class UserDBService extends BaseDBService<User> {
       console.log('User ChangePassword Error : ', ex.message);
       return false;
     }
+  }
+
+  async getPermisisonOfUser(id: string): Promise<Array<Permission>> {
+    const user = await this.getItemById(id);
+
+    if (!user)
+      throw new HttpException(
+        ResponseMessage.NOT_FOUND,
+        ResponseCode.NOT_FOUND,
+      );
+    if (!user.role) return [];
+
+    const ans = await this.permissionDBService.getPermissionOfRoles(user.role);
+
+    return ans;
+  }
+
+  async checkPermission(
+    id: string,
+    module: SystemFeatures,
+    actions: Array<SystemAction>,
+  ) {
+    const permisisons = await this.getPermisisonOfUser(id);
+
+    for (let index = 0; index < permisisons.length; index++)
+      if (
+        (permisisons[index].module as SystemFeatures) === module &&
+        actions.includes(permisisons[index].action as SystemAction)
+      )
+        return true;
+
+    return false;
   }
 }

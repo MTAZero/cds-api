@@ -10,6 +10,7 @@ import {
   Query,
   Req,
   Res,
+  UseGuards,
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
@@ -20,13 +21,22 @@ import { PaginationType } from 'src/middleware';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { PermissionsGuard } from '../authentication/guards/permission.guard';
+import {
+  ActionsPermission,
+  ModulePermission,
+} from 'src/decorator/module-action.decorator';
+import { SystemAction, SystemFeatures } from 'src/enums';
 
 @Controller('users')
+@UseGuards(PermissionsGuard)
 export class UsersController {
   @Inject(UserDBService)
   userDBService: UserDBService;
 
   @Get('/')
+  @ActionsPermission([SystemAction.View, SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerUsers)
   async getListUsers(@Res() res, @Req() req, @Query() query) {
     const pagination: PaginationType = req.pagination;
     const sort = req.sort;
@@ -52,6 +62,8 @@ export class UsersController {
 
   @Post('')
   @UseInterceptors(FileInterceptor('file'))
+  @ActionsPermission([SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerUsers)
   async insertUser(
     @Body(new ValidationPipe()) entity: CreateUserDto,
     @Res() res,
@@ -68,6 +80,8 @@ export class UsersController {
 
   @Put('/:id')
   @UseInterceptors(FileInterceptor('file'))
+  @ActionsPermission([SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerUsers)
   async updateUser(
     @Body(new ValidationPipe()) entity: UpdateUserDto,
     @Res() res,
@@ -85,6 +99,8 @@ export class UsersController {
   }
 
   @Delete('/:id')
+  @ActionsPermission([SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerUsers)
   async removeUser(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.userDBService.removeItem(id);
@@ -98,6 +114,8 @@ export class UsersController {
   }
 
   @Get('/:id')
+  @ActionsPermission([SystemAction.View, SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerUsers)
   async getDetailUser(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.userDBService.getItemById(id);

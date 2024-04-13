@@ -20,17 +20,21 @@ import { ResponseCode, ResponseMessage } from 'src/const';
 import { ApiResponse } from 'src/utils';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { PermissionDBService } from '../database/services/permissionDbService';
 
 @Controller('authentication')
 export class AuthenticationController {
   @Inject(UserDBService)
   userDBService: UserDBService;
 
+  @Inject(PermissionDBService)
+  permissionDBService: PermissionDBService;
+
   @UseGuards(LocalAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @Post('login')
   async login(@Res() res, @Req() req) {
-    let ans = await this.userDBService.signTokenByUser(req.user);
+    const ans = await this.userDBService.signTokenByUser(req.user);
 
     return ApiResponse(
       res,
@@ -44,8 +48,14 @@ export class AuthenticationController {
   @UseGuards(JwtAuthGuard)
   @Get('/my-info')
   async handleGetMyInfo(@Req() req, @Res() res) {
-    let userId: any = req.user.userId;
-    let ans = await this.userDBService.getFirstItem({ _id: userId });
+    const userId: any = req.user.userId;
+
+    const ans = {
+      ...(await this.userDBService.getFirstItem({ _id: userId })),
+      ...{
+        permisisons: await this.userDBService.getPermisisonOfUser(userId),
+      },
+    };
 
     return ApiResponse(
       res,

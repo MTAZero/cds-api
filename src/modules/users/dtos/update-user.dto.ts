@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsMongoId, IsOptional, IsString } from 'class-validator';
 
 export class UpdateUserDto {
   @IsString()
@@ -12,4 +12,12 @@ export class UpdateUserDto {
   @IsString()
   @IsOptional()
   password: string;
+
+  @IsMongoId()
+  @IsOptional()
+  unit: string;
+
+  @IsMongoId()
+  @IsOptional()
+  role: string;
 }

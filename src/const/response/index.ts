@@ -10,6 +10,7 @@ export const ResponseCode = {
 export const ResponseMessage = {
   SUCCESS: 'success',
   ERROR: 'error',
-  ALREAY_EXIST: 'already exsit entity',
+  ALREAY_EXIST: 'Already exsit entity',
   NOT_HAVE_PERMISSION: 'You do not have permission',
+  NOT_FOUND: 'Not found',
 };

@@ -10,6 +10,7 @@ import {
   Query,
   Req,
   Res,
+  UseGuards,
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
@@ -21,8 +22,15 @@ import { ResponseCode, ResponseMessage } from 'src/const';
 import { PaginationType } from 'src/middleware';
 import { ApiResponse } from 'src/utils';
 import { PermissionDBService } from '../database/services/permissionDbService';
+import { PermissionsGuard } from '../authentication/guards/permission.guard';
+import {
+  ActionsPermission,
+  ModulePermission,
+} from 'src/decorator/module-action.decorator';
+import { SystemAction, SystemFeatures } from 'src/enums';
 
 @Controller('roles')
+@UseGuards(PermissionsGuard)
 export class RolesController {
   @Inject(RoleDBService)
   roleDbService: RoleDBService;
@@ -31,6 +39,8 @@ export class RolesController {
   permissionDBService: PermissionDBService;
 
   @Get('/permissions/:id')
+  @ActionsPermission([SystemAction.View, SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerRoles)
   async getPermisisonOfRoles(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.permissionDBService.getPermissionOfRoles(id);
@@ -44,6 +54,8 @@ export class RolesController {
   }
 
   @Get('/')
+  @ActionsPermission([SystemAction.View, SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerRoles)
   async getListRoles(@Res() res, @Req() req, @Query() query) {
     const pagination: PaginationType = req.pagination;
     const sort = req.sort;
@@ -69,6 +81,8 @@ export class RolesController {
 
   @Post('')
   @UseInterceptors(FileInterceptor('file'))
+  @ActionsPermission([SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerRoles)
   async insertRole(
     @Body(new ValidationPipe()) entity: CreateRoleDto,
     @Res() res,
@@ -85,6 +99,8 @@ export class RolesController {
 
   @Put('/:id')
   @UseInterceptors(FileInterceptor('file'))
+  @ActionsPermission([SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerRoles)
   async updateRole(
     @Body(new ValidationPipe()) entity: UpdateRoleDto,
     @Res() res,
@@ -102,6 +118,8 @@ export class RolesController {
   }
 
   @Delete('/:id')
+  @ActionsPermission([SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerRoles)
   async removeRole(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.roleDbService.removeItem(id);
@@ -115,6 +133,8 @@ export class RolesController {
   }
 
   @Get('/:id')
+  @ActionsPermission([SystemAction.View, SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerRoles)
   async getDetailRole(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.roleDbService.getItemById(id);

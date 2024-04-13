@@ -20,14 +20,22 @@ import { ResponseCode, ResponseMessage } from 'src/const';
 import { PaginationType } from 'src/middleware';
 import { ApiResponse } from 'src/utils';
 import { CreateUnitDto } from './dtos/create-unit.dto';
-import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
+import { PermissionsGuard } from '../authentication/guards/permission.guard';
+import {
+  ActionsPermission,
+  ModulePermission,
+} from 'src/decorator/module-action.decorator';
+import { SystemAction, SystemFeatures } from 'src/enums';
 
 @Controller('units')
+@UseGuards(PermissionsGuard)
 export class UnitsController {
   @Inject(UnitDBService)
   unitDBService: UnitDBService;
 
   @Get('/')
+  @ActionsPermission([SystemAction.Edit, SystemAction.View])
+  @ModulePermission(SystemFeatures.ManagerUnits)
   async getListUnits(@Res() res, @Req() req, @Query() query) {
     const pagination: PaginationType = req.pagination;
     const sort = req.sort;
@@ -53,7 +61,8 @@ export class UnitsController {
 
   @Post('')
   @UseInterceptors(FileInterceptor('file'))
-  @UseGuards(JwtAuthGuard)
+  @ActionsPermission([SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerUnits)
   async insertUnit(
     @Body(new ValidationPipe()) entity: CreateUnitDto,
     @Res() res,
@@ -69,6 +78,8 @@ export class UnitsController {
   }
 
   @Delete('/:id')
+  @ActionsPermission([SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerUnits)
   async removeUnit(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.unitDBService.removeItem(id);
@@ -82,6 +93,8 @@ export class UnitsController {
   }
 
   @Get('/:id')
+  @ActionsPermission([SystemAction.Edit, SystemAction.View])
+  @ModulePermission(SystemFeatures.ManagerUnits)
   async getDetailUnit(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.unitDBService.getItemById(id);
@@ -95,6 +108,8 @@ export class UnitsController {
   }
 
   @Get('/child/:id')
+  @ActionsPermission([SystemAction.Edit, SystemAction.View])
+  @ModulePermission(SystemFeatures.ManagerUnits)
   async getListChild(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.unitDBService.getListChild(id);
@@ -108,6 +123,8 @@ export class UnitsController {
   }
 
   @Get('/descendants/:id')
+  @ActionsPermission([SystemAction.Edit, SystemAction.View])
+  @ModulePermission(SystemFeatures.ManagerUnits)
   async getDescendantsUnit(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.unitDBService.getListDescendants(id);

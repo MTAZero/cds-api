@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -12,4 +12,12 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   password: string;
+
+  @IsMongoId()
+  @IsNotEmpty()
+  unit: string;
+
+  @IsMongoId()
+  @IsNotEmpty()
+  role: string;
 }

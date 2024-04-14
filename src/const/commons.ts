@@ -7,3 +7,5 @@ export const BCRYPT_SALT = 10;
 export const JWT_SECRET_KEY = process.env['JWT_SECRET_KEY']
   ? process.env['JWT_SECRET_KEY']
   : 'default_key';
+
+export const MAX_ITEM_QUERYS = 1000;

@@ -3,6 +3,7 @@ import { BaseDBService } from './base';
 import { Injectable } from '@nestjs/common';
 import { Unit } from '../schemas/units.schema';
 import { QueryParams } from 'src/interface/i-base-db-service';
+import { MAX_ITEM_QUERYS } from 'src/const';
 
 @Injectable()
 export class UnitDBService extends BaseDBService<Unit> {
@@ -33,7 +34,7 @@ export class UnitDBService extends BaseDBService<Unit> {
   async getListChild(id: string): Promise<Array<Unit>> {
     const query: QueryParams = {
       skip: 0,
-      limit: 1000,
+      limit: MAX_ITEM_QUERYS,
       filter: {
         parent: id,
       },
@@ -47,7 +48,7 @@ export class UnitDBService extends BaseDBService<Unit> {
 
     const query: QueryParams = {
       skip: 0,
-      limit: 1000,
+      limit: MAX_ITEM_QUERYS,
       filter: {
         parent: id,
       },
@@ -83,7 +84,7 @@ export class UnitDBService extends BaseDBService<Unit> {
 
     const query: QueryParams = {
       skip: 0,
-      limit: 1000,
+      limit: MAX_ITEM_QUERYS,
       filter: {
         key: { $regex: unit._id.toString(), $options: 'i' },
       },

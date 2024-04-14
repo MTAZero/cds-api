@@ -3,6 +3,7 @@ import { BaseDBService } from './base';
 import { Injectable } from '@nestjs/common';
 import { Permission } from '../schemas/permissions.schema';
 import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
+import { MAX_ITEM_QUERYS } from 'src/const';
 
 @Injectable()
 export class PermissionDBService extends BaseDBService<Permission> {
@@ -13,7 +14,7 @@ export class PermissionDBService extends BaseDBService<Permission> {
   async getPermissionOfRoles(id: string): Promise<Array<Permission>> {
     const query: QueryParams = {
       skip: 0,
-      limit: 1000,
+      limit: MAX_ITEM_QUERYS,
       filter: {
         role: id,
       },

@@ -42,8 +42,9 @@ export class UsersController {
     const sort = req.sort;
     const filter = {};
     const keyword = query.keyword ? query.keyword : '';
+    const userId: any = req.user?.userId;
 
-    const data = await this.userDBService.getItems({
+    const data = await this.userDBService.getItemsByScope(userId, {
       filter,
       sort,
       skip: pagination.skip,

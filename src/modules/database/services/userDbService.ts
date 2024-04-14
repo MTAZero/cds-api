@@ -8,11 +8,16 @@ import { JwtService } from '@nestjs/jwt';
 import { Permission } from '../schemas/permissions.schema';
 import { PermissionDBService } from './permissionDbService';
 import { SystemAction, SystemFeatures } from 'src/enums';
+import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
+import { UnitDBService } from './unitDbService';
 
 @Injectable()
 export class UserDBService extends BaseDBService<User> {
   @Inject(PermissionDBService)
   permissionDBService: PermissionDBService;
+
+  @Inject(UnitDBService)
+  unitDBService: UnitDBService;
 
   constructor(
     @InjectModel(User.name) private readonly entityModel,
@@ -125,5 +130,45 @@ export class UserDBService extends BaseDBService<User> {
         return true;
 
     return false;
+  }
+
+  async getItemsByScope(
+    userID: string,
+    query: QueryParams,
+  ): Promise<ResponseQuery<any>> {
+    let { filter } = query;
+    const { skip, limit } = query;
+    const pageIndex = skip / limit + 1;
+
+    let res = {
+      items: [],
+      total: 0,
+      size: limit,
+      page: pageIndex,
+      offset: skip,
+    };
+
+    const user = await this.getItemById(userID);
+    const unit = await this.unitDBService.getItemById(user.unit);
+
+    if (!unit) return res;
+    const units = await this.unitDBService.getAllDescendants(user.unit);
+
+    filter = {
+      ...filter,
+      ...{
+        unit: {
+          $in: units.map((i) => i._id.toString()),
+        },
+      },
+    };
+
+    const ans = await this.getItems({
+      ...query,
+      ...{
+        filter,
+      },
+    });
+    return ans;
   }
 }

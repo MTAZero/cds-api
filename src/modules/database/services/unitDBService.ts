@@ -77,4 +77,19 @@ export class UnitDBService extends BaseDBService<Unit> {
       },
     };
   }
+
+  async getAllDescendants(id: string): Promise<Array<Unit>> {
+    const unit = await this.getItemById(id);
+
+    const query: QueryParams = {
+      skip: 0,
+      limit: 1000,
+      filter: {
+        key: { $regex: unit._id.toString(), $options: 'i' },
+      },
+    };
+    const childs = (await this.getItems(query)).items;
+
+    return childs;
+  }
 }

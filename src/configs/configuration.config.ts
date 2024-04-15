@@ -12,8 +12,10 @@ export const databaseConfig = (): IDatabaseConfig => ({
 
 export interface IAppConfig {
   port: number;
+  jwt_key: string;
 }
 
 export const appConfig = (): IAppConfig => ({
   port: parseInt(process.env.PORT),
+  jwt_key: process.env.JWT_SECRET_KEY,
 });

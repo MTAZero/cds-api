@@ -10,7 +10,7 @@ import { PermisisonShema, Permission } from './schemas/permissions.schema';
 import { UnitDBService } from './services/unitDbService';
 import { PermissionDBService } from './services/permissionDbService';
 import { JwtModule } from '@nestjs/jwt';
-import { JWT_SECRET_KEY } from 'src/const';
+import { appConfig } from 'src/configs/configuration.config';
 
 @Module({
   imports: [
@@ -32,11 +32,13 @@ import { JWT_SECRET_KEY } from 'src/const';
         schema: PermisisonShema,
       },
     ]),
-    JwtModule.register({
-      secret: JWT_SECRET_KEY,
-      signOptions: {
-        expiresIn: '10d',
-      },
+    JwtModule.registerAsync({
+      useFactory: async () => ({
+        secret: (await appConfig()).jwt_key,
+        signOptions: {
+          expiresIn: '10d',
+        },
+      }),
     }),
   ],
   providers: [UserDBService, RoleDBService, UnitDBService, PermissionDBService],

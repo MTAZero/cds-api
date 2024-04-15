@@ -1,4 +1,5 @@
-import { IsMongoId, IsOptional, IsString } from 'class-validator';
+import { IsIn, IsMongoId, IsOptional, IsString } from 'class-validator';
+import { ListUserType } from 'src/const';
 
 export class UpdateUserDto {
   @IsString()
@@ -20,4 +21,9 @@ export class UpdateUserDto {
   @IsMongoId()
   @IsOptional()
   role: string;
+
+  @IsString()
+  @IsOptional()
+  @IsIn(ListUserType)
+  type: string;
 }

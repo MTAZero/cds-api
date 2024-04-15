@@ -74,7 +74,7 @@ export class BaseDBService<T extends Document> implements IBaseDBService<T> {
   }
 
   async getItemById(id: any): Promise<any> {
-    return await this.model.findById(id).lean().exec();
+    return await this.model.findById(id, { password: 0 }).lean().exec();
   }
 
   async updateItem(id: any, entity: any): Promise<any> {
@@ -113,7 +113,12 @@ export class BaseDBService<T extends Document> implements IBaseDBService<T> {
   }
 
   async getFirstItem(query: object = {}, sort: any = { _id: 1 }) {
-    const ans = await this.model.find(query).sort(sort).limit(1).lean().exec();
+    const ans = await this.model
+      .find(query, { password: 0 })
+      .sort(sort)
+      .limit(1)
+      .lean()
+      .exec();
     const res = ans[0];
     return res;
   }

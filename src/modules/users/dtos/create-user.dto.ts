@@ -1,4 +1,5 @@
-import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
+import { IsIn, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
+import { ListUserType } from 'src/const';
 
 export class CreateUserDto {
   @IsString()
@@ -20,4 +21,9 @@ export class CreateUserDto {
   @IsMongoId()
   @IsNotEmpty()
   role: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsIn(ListUserType)
+  type: string;
 }

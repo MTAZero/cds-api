@@ -26,6 +26,9 @@ export class User extends Document<any> {
   role: ObjectId;
 
   @Prop()
+  type: string;
+
+  @Prop()
   created_date: number;
 }
 
@@ -34,4 +37,5 @@ export const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.index({
   username: 'text',
   full_name: 'text',
+  type: 'text',
 });

@@ -3,12 +3,14 @@ export enum SystemFeatures {
   ManagerRoles = 'ManagerRoles',
   ManagerUnits = 'ManagerUnits',
   ManagerPermission = 'ManagerPermissions',
+  TroopReports = 'TroopReports',
 }
 
 export enum SystemAction {
   View = 'View',
   Edit = 'Edit',
   Approve = 'Approve',
+  Report = 'Report',
 }
 
 export enum TroopStatus {
@@ -20,6 +22,7 @@ export enum TroopStatus {
   NghiCuoiTuan = 'NghiCuoiTuan',
   CongTac = 'CongTac',
   ChinhSach = 'ChinhSach',
+  DiHoc = 'DiHoc',
   Khac = 'Khac',
 }
 

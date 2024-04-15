@@ -11,6 +11,10 @@ import { UnitDBService } from './services/unitDbService';
 import { PermissionDBService } from './services/permissionDbService';
 import { JwtModule } from '@nestjs/jwt';
 import { appConfig } from 'src/configs/configuration.config';
+import { TroopUnitSchema, TroopUnits } from './schemas/troop-units.schema';
+import { TroopDetail, TroopDetailSchema } from './schemas/troop-detail.schema';
+import { TroopDetailDBService } from './services/troopDetailDBService';
+import { TroopUnitDBService } from './services/troopUnitDBService';
 
 @Module({
   imports: [
@@ -31,6 +35,14 @@ import { appConfig } from 'src/configs/configuration.config';
         name: Permission.name,
         schema: PermisisonShema,
       },
+      {
+        name: TroopUnits.name,
+        schema: TroopUnitSchema,
+      },
+      {
+        name: TroopDetail.name,
+        schema: TroopDetailSchema,
+      },
     ]),
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -41,7 +53,21 @@ import { appConfig } from 'src/configs/configuration.config';
       }),
     }),
   ],
-  providers: [UserDBService, RoleDBService, UnitDBService, PermissionDBService],
-  exports: [UserDBService, RoleDBService, UnitDBService, PermissionDBService],
+  providers: [
+    UserDBService,
+    RoleDBService,
+    UnitDBService,
+    PermissionDBService,
+    TroopDetailDBService,
+    TroopUnitDBService,
+  ],
+  exports: [
+    UserDBService,
+    RoleDBService,
+    UnitDBService,
+    PermissionDBService,
+    TroopDetailDBService,
+    TroopUnitDBService,
+  ],
 })
 export class DatabaseModule {}

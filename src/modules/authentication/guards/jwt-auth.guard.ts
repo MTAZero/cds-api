@@ -25,6 +25,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (!user) return false;
 
     request.userId = user._id;
+    request.user = user;
 
     return true;
   }

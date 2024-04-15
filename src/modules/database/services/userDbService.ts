@@ -3,7 +3,12 @@ import { User } from '../schemas/users.schema';
 import { BaseDBService } from './base';
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { BCRYPT_SALT, ResponseCode, ResponseMessage } from 'src/const';
+import {
+  BCRYPT_SALT,
+  MAX_ITEM_QUERYS,
+  ResponseCode,
+  ResponseMessage,
+} from 'src/const';
 import { JwtService } from '@nestjs/jwt';
 import { Permission } from '../schemas/permissions.schema';
 import { PermissionDBService } from './permissionDbService';
@@ -149,9 +154,11 @@ export class UserDBService extends BaseDBService<User> {
     };
 
     const user = await this.getItemById(userID);
-    const unit = await this.unitDBService.getItemById(user.unit);
+    if (!user.unit) return res;
 
+    const unit = await this.unitDBService.getItemById(user.unit);
     if (!unit) return res;
+
     const units = await this.unitDBService.getAllDescendants(user.unit);
 
     filter = {
@@ -170,5 +177,17 @@ export class UserDBService extends BaseDBService<User> {
       },
     });
     return ans;
+  }
+
+  async getUsersOfUnit(unit: string): Promise<Array<User>> {
+    const requestData = await this.getItems({
+      filter: {
+        unit: unit,
+      },
+      skip: 0,
+      limit: MAX_ITEM_QUERYS,
+    });
+
+    return requestData.items;
   }
 }

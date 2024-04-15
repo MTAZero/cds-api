@@ -21,6 +21,7 @@ import { ApiResponse } from 'src/utils';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { PermissionDBService } from '../database/services/permissionDbService';
+import { CurrentUser } from 'src/decorator/current-user.decorator';
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -47,13 +48,11 @@ export class AuthenticationController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/my-info')
-  async handleGetMyInfo(@Req() req, @Res() res) {
-    const userId: any = req.user.userId;
-
+  async handleGetMyInfo(@Req() req, @Res() res, @CurrentUser() user) {
     const ans = {
-      ...(await this.userDBService.getFirstItem({ _id: userId })),
+      ...(await this.userDBService.getFirstItem({ _id: user._id })),
       ...{
-        permisisons: await this.userDBService.getPermisisonOfUser(userId),
+        permisisons: await this.userDBService.getPermisisonOfUser(user._id),
       },
     };
 

@@ -39,6 +39,7 @@ export class PermissionsGuard extends AuthGuard('jwt') {
     const user = await this.userDBService.getItemById(request.user.userId);
     if (!user) return false;
     request.userId = user._id;
+    request.user = user;
 
     if (!module && !actions) return true;
 

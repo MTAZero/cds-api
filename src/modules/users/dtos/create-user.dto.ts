@@ -1,5 +1,5 @@
 import { IsIn, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
-import { ListUserType } from 'src/const';
+import { LIST_USER_TYPES } from 'src/const';
 
 export class CreateUserDto {
   @IsString()
@@ -24,6 +24,6 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsIn(ListUserType)
+  @IsIn(LIST_USER_TYPES)
   type: string;
 }

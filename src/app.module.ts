@@ -11,6 +11,7 @@ import { PaginationMiddleware, SortMiddleware } from './middleware';
 import { RolesModule } from './modules/roles/roles.module';
 import { UnitsModule } from './modules/units/units.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
+import { TroopReportModule } from './modules/troop-report/troop-report.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { PermissionsModule } from './modules/permissions/permissions.module';
     RolesModule,
     UnitsModule,
     PermissionsModule,
+    TroopReportModule,
   ],
   controllers: [AppController],
   providers: [AppService],

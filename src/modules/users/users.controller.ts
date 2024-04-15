@@ -27,6 +27,7 @@ import {
   ModulePermission,
 } from 'src/decorator/module-action.decorator';
 import { SystemAction, SystemFeatures } from 'src/enums';
+import { CurrentUser } from 'src/decorator/current-user.decorator';
 
 @Controller('users')
 @UseGuards(PermissionsGuard)
@@ -37,14 +38,18 @@ export class UsersController {
   @Get('/')
   @ActionsPermission([SystemAction.View, SystemAction.Edit])
   @ModulePermission(SystemFeatures.ManagerUsers)
-  async getListUsers(@Res() res, @Req() req, @Query() query) {
+  async getListUsers(
+    @Res() res,
+    @Req() req,
+    @Query() query,
+    @CurrentUser() user,
+  ) {
     const pagination: PaginationType = req.pagination;
     const sort = req.sort;
     const filter = {};
     const keyword = query.keyword ? query.keyword : '';
-    const userId: any = req.user?.userId;
-
-    const data = await this.userDBService.getItemsByScope(userId, {
+    
+    const data = await this.userDBService.getItemsByScope(user._id, {
       filter,
       sort,
       skip: pagination.skip,

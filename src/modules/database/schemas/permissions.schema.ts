@@ -25,6 +25,6 @@ export class Permission extends Document<any> {
 export const PermisisonShema = SchemaFactory.createForClass(Permission);
 
 PermisisonShema.index({
-  name: 'text',
-  description: 'text',
+  module: 'text',
+  action: 'text',
 });

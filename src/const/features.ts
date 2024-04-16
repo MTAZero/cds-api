@@ -6,6 +6,7 @@ export const FEATURES_SYSTEM = [
   SystemFeatures.ManagerUnits,
   SystemFeatures.ManagerPermission,
   SystemFeatures.TroopReports,
+  SystemFeatures.ManagerRegisterLeave,
 ];
 
 export const ACTIONS_SYSTEM = [
@@ -13,4 +14,5 @@ export const ACTIONS_SYSTEM = [
   SystemAction.Edit,
   SystemAction.Approve,
   SystemAction.Report,
+  SystemAction.UnitApprove,
 ];

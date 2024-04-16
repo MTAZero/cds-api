@@ -4,6 +4,7 @@ export enum SystemFeatures {
   ManagerUnits = 'ManagerUnits',
   ManagerPermission = 'ManagerPermissions',
   TroopReports = 'TroopReports',
+  ManagerRegisterLeave = 'ManagerRegisterLeave',
 }
 
 export enum SystemAction {
@@ -11,6 +12,7 @@ export enum SystemAction {
   Edit = 'Edit',
   Approve = 'Approve',
   Report = 'Report',
+  UnitApprove = 'UnitApprove',
 }
 
 export enum TroopStatus {
@@ -31,4 +33,11 @@ export enum UserType {
   QNCN = 'QNCN',
   CCQP = 'CCQP',
   HQSCS = 'HSQCS',
+}
+
+export enum RegisterLeaveStatus {
+  CREATED = 'created',
+  WATING_FOR_APPROVE = 'waiting_for_approve',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
 }

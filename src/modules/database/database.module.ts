@@ -15,6 +15,11 @@ import { TroopUnitSchema, TroopUnits } from './schemas/troop-units.schema';
 import { TroopDetail, TroopDetailSchema } from './schemas/troop-detail.schema';
 import { TroopDetailDBService } from './services/troopDetailDBService';
 import { TroopUnitDBService } from './services/troopUnitDBService';
+import {
+  LeaveRegister,
+  LeaveRegisterSchema,
+} from './schemas/leave-register.schema';
+import { LeaveRegisterDBService } from './services/leaveRegisterDBService';
 
 @Module({
   imports: [
@@ -43,6 +48,10 @@ import { TroopUnitDBService } from './services/troopUnitDBService';
         name: TroopDetail.name,
         schema: TroopDetailSchema,
       },
+      {
+        name: LeaveRegister.name,
+        schema: LeaveRegisterSchema,
+      },
     ]),
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -60,6 +69,7 @@ import { TroopUnitDBService } from './services/troopUnitDBService';
     PermissionDBService,
     TroopDetailDBService,
     TroopUnitDBService,
+    LeaveRegisterDBService,
   ],
   exports: [
     UserDBService,
@@ -68,6 +78,7 @@ import { TroopUnitDBService } from './services/troopUnitDBService';
     PermissionDBService,
     TroopDetailDBService,
     TroopUnitDBService,
+    LeaveRegisterDBService,
   ],
 })
 export class DatabaseModule {}

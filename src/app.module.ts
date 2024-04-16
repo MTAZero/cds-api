@@ -12,6 +12,7 @@ import { RolesModule } from './modules/roles/roles.module';
 import { UnitsModule } from './modules/units/units.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { TroopReportModule } from './modules/troop-report/troop-report.module';
+import { RegisterLeaveModule } from './modules/register-leave/register-leave.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { TroopReportModule } from './modules/troop-report/troop-report.module';
     UnitsModule,
     PermissionsModule,
     TroopReportModule,
+    RegisterLeaveModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,10 @@
-import { IsIn, IsMongoId, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsIn,
+  IsMongoId,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { LIST_USER_TYPES } from 'src/const';
 
 export class UpdateUserDto {
@@ -26,4 +32,8 @@ export class UpdateUserDto {
   @IsOptional()
   @IsIn(LIST_USER_TYPES)
   type: string;
+
+  @IsBoolean()
+  @IsOptional()
+  isPersonal: boolean;
 }

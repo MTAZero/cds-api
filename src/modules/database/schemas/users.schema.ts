@@ -17,6 +17,9 @@ export class User extends Document<any> {
   password: string;
 
   @Prop()
+  isPersonal: boolean;
+
+  @Prop()
   last_update: number;
 
   @Prop({ type: Types.ObjectId, ref: Unit.name, default: null })

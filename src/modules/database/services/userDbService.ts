@@ -12,7 +12,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Permission } from '../schemas/permissions.schema';
 import { PermissionDBService } from './permissionDbService';
-import { SystemAction, SystemFeatures } from 'src/enums';
+import { SystemAction, SystemFeatures, UserType } from 'src/enums';
 import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
 import { UnitDBService } from './unitDbService';
 
@@ -51,7 +51,13 @@ export class UserDBService extends BaseDBService<User> {
     user: User | null;
   }> {
     try {
-      let user = await this.getFirstItem({ username: username });
+      const dataRequest = await this.entityModel
+        .find({ username })
+        .limit(1)
+        .lean()
+        .exec();
+      const user = dataRequest[0];
+
       if (!user)
         return {
           isValidate: false,
@@ -72,7 +78,7 @@ export class UserDBService extends BaseDBService<User> {
   }
 
   async signTokenByUser(user: User) {
-    let payload = {
+    const payload = {
       username: user.username,
       sub: user._id,
     };
@@ -87,11 +93,11 @@ export class UserDBService extends BaseDBService<User> {
     id: string,
     old_password = '',
     new_password = '',
-  ): Promise<Boolean> {
-    let user = await this.getItemById(id);
+  ): Promise<boolean> {
+    const user = await this.getItemById(id);
     if (!user) throw new HttpException('Not Found', ResponseCode.ERROR);
 
-    let res = await bcrypt.compare(old_password, user.password);
+    const res = await bcrypt.compare(old_password, user.password);
     if (!res) throw new HttpException('Password incorrect', ResponseCode.ERROR);
 
     try {
@@ -145,7 +151,7 @@ export class UserDBService extends BaseDBService<User> {
     const { skip, limit } = query;
     const pageIndex = skip / limit + 1;
 
-    let res = {
+    const res = {
       items: [],
       total: 0,
       size: limit,
@@ -183,6 +189,21 @@ export class UserDBService extends BaseDBService<User> {
     const requestData = await this.getItems({
       filter: {
         unit: unit,
+        isPersonal: true,
+      },
+      skip: 0,
+      limit: MAX_ITEM_QUERYS,
+    });
+
+    return requestData.items;
+  }
+
+  async getUsersTypeOfUnit(unit: string, type: UserType): Promise<Array<User>> {
+    const requestData = await this.getItems({
+      filter: {
+        unit: unit,
+        type,
+        isPersonal: true,
       },
       skip: 0,
       limit: MAX_ITEM_QUERYS,

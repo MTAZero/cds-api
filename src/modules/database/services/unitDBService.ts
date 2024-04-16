@@ -93,4 +93,17 @@ export class UnitDBService extends BaseDBService<Unit> {
 
     return childs;
   }
+
+  async checkUnitIsDescenants(
+    unitId: string,
+    unitChildId: string,
+  ): Promise<boolean> {
+    const unit: Unit = await this.getItemById(unitId);
+    const entity: Unit = await this.getItemById(unitChildId);
+
+    if (!unit || !entity) return false;
+    if (entity.key.toString().includes(unit._id.toString())) return true;
+
+    return false;
+  }
 }

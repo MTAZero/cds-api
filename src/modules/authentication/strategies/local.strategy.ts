@@ -9,7 +9,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   userDBService: UserDBService;
 
   async validate(username: string, password: string): Promise<any> {
-    let result = await this.userDBService.validateUser(username, password);
+    const result = await this.userDBService.validateUser(username, password);
 
     if (!result.isValidate) throw new UnauthorizedException();
 

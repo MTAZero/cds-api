@@ -9,6 +9,9 @@ export class Position extends Document<any> {
   name: string;
 
   @Prop()
+  type: string
+
+  @Prop()
   last_update: number;
 
   @Prop()

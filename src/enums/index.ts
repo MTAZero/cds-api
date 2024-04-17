@@ -69,3 +69,17 @@ export enum Rank {
   ThuongTuong = "Thượng tướng",
   DaiTuong = "Đại tướng"
 }
+
+export enum TypePosition {
+  SQCH = "SQCH",
+  SQTCM = "SQTCM",
+  SQTCTT = "SQTCTT",
+  SQCNTT = "SQCNTT",
+  KTVTCM = "KTVTCM",
+  KTVTCTT = "KTVTCTT",
+  KTVCNTT = "KTVCNTT",
+  NVTCM = "NVTCM",
+  NVTCTT = "NVTCTT",
+  NVCNTT = "NVCNTT",
+  NVCMKT = "NVCMKT" 
+}

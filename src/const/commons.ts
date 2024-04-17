@@ -1,4 +1,4 @@
-import { TroopStatus, UserType, Rank } from 'src/enums';
+import { TroopStatus, UserType, Rank, TypePosition } from 'src/enums';
 
 export const API_VERSION = '1.0';
 export const DEFAULT_PAGE_SIZE = process.env['DEFAULT_PAGE_SIZE']
@@ -48,4 +48,18 @@ export const RANK = [
   Rank.TrungTuong,
   Rank.ThuongTuong,
   Rank.DaiTuong
+]
+
+export const TYPE_POSITION = [
+  TypePosition.SQCH,
+  TypePosition.SQTCM,
+  TypePosition.SQTCTT,
+  TypePosition.SQCNTT,
+  TypePosition.KTVTCM,
+  TypePosition.KTVCNTT,
+  TypePosition.KTVTCTT,
+  TypePosition.NVTCM,
+  TypePosition.NVCNTT,
+  TypePosition.NVTCTT,
+  TypePosition.NVCMKT
 ]

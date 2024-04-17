@@ -35,7 +35,7 @@ export class UserDBService extends BaseDBService<User> {
     const cnt = await this.countByFilter({ username: entity.username });
     if (cnt > 0)
       throw new HttpException(
-        ResponseMessage.ALREAY_EXIST,
+        ResponseMessage.ALREADY_EXIST,
         ResponseCode.BAD_REQUEST,
       );
 

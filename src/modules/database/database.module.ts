@@ -20,6 +20,13 @@ import {
   LeaveRegisterSchema,
 } from './schemas/leave-register.schema';
 import { LeaveRegisterDBService } from './services/leaveRegisterDBService';
+import { GuardDutty, GuardDuttySchema } from './schemas/guard-dutty.schema';
+import {
+  DuttySetting,
+  DuttySettingSchema,
+} from './schemas/dutty-setting.schema';
+import { GuardDuttyDBService } from './services/guardDuttyDBService';
+import { DuttySettingDBSerivce } from './services/duttySettingDBService';
 
 @Module({
   imports: [
@@ -52,6 +59,14 @@ import { LeaveRegisterDBService } from './services/leaveRegisterDBService';
         name: LeaveRegister.name,
         schema: LeaveRegisterSchema,
       },
+      {
+        name: GuardDutty.name,
+        schema: GuardDuttySchema,
+      },
+      {
+        name: DuttySetting.name,
+        schema: DuttySettingSchema,
+      },
     ]),
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -70,6 +85,8 @@ import { LeaveRegisterDBService } from './services/leaveRegisterDBService';
     TroopDetailDBService,
     TroopUnitDBService,
     LeaveRegisterDBService,
+    GuardDuttyDBService,
+    DuttySettingDBSerivce,
   ],
   exports: [
     UserDBService,
@@ -79,6 +96,8 @@ import { LeaveRegisterDBService } from './services/leaveRegisterDBService';
     TroopDetailDBService,
     TroopUnitDBService,
     LeaveRegisterDBService,
+    GuardDuttyDBService,
+    DuttySettingDBSerivce,
   ],
 })
 export class DatabaseModule {}

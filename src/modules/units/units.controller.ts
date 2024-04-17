@@ -14,7 +14,7 @@ import {
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
-import { UnitDBService } from '../database/services/unitDbService';
+import { UnitDBService } from '../database/services/unitDBService';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ResponseCode, ResponseMessage } from 'src/const';
 import { PaginationType } from 'src/middleware';

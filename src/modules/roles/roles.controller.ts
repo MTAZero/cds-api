@@ -14,14 +14,14 @@ import {
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
-import { RoleDBService } from '../database/services/roleDBService';
+import { RoleDBService } from '../database/services/roleDbService';
 import { CreateRoleDto } from './dtos/create-role.dto';
 import { UpdateRoleDto } from './dtos/update-role.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ResponseCode, ResponseMessage } from 'src/const';
 import { PaginationType } from 'src/middleware';
 import { ApiResponse } from 'src/utils';
-import { PermissionDBService } from '../database/services/permissionDbService';
+import { PermissionDBService } from '../database/services/permissionDBService';
 import { PermissionsGuard } from '../authentication/guards/permission.guard';
 import {
   ActionsPermission,

@@ -1,4 +1,4 @@
-import { TroopStatus, UserType } from 'src/enums';
+import { TroopStatus, UserType, Rank } from 'src/enums';
 
 export const API_VERSION = '1.0';
 export const DEFAULT_PAGE_SIZE = process.env['DEFAULT_PAGE_SIZE']
@@ -27,3 +27,25 @@ export const LIST_USER_TYPES = [
   UserType.CCQP,
   UserType.HQSCS,
 ];
+
+export const RANK = [
+  Rank.ThieuUyCN,
+  Rank.TrungUyCN,
+  Rank.ThuongUyCN,
+  Rank.DaiUyCN,
+  Rank.ThieuTaCN,
+  Rank.TrungTaCN,
+  Rank.ThuongTaCN,
+  Rank.ThieuUy,
+  Rank.TrungUy,
+  Rank.ThuongUy,
+  Rank.DaiUy,
+  Rank.ThieuTa,
+  Rank.TrungTa,
+  Rank.ThuongTa,
+  Rank.DaiTa,
+  Rank.ThieuTuong,
+  Rank.TrungTuong,
+  Rank.ThuongTuong,
+  Rank.DaiTuong
+]

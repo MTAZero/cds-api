@@ -13,7 +13,7 @@ import {
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
-import { PermissionDBService } from '../database/services/permissionDbService';
+import { PermissionDBService } from '../database/services/permissionDBService';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ResponseCode, ResponseMessage } from 'src/const';
 import { PaginationType } from 'src/middleware';

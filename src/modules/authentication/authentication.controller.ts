@@ -12,7 +12,7 @@ import {
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
-import { UserDBService } from '../database/services/userDBService';
+import { UserDBService } from '../database/services/userDbService';
 import { UpdateInfoDto } from './dtos/update-info.dto';
 import { ChangeMyPasswordDto } from './dtos/change-my-password.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -20,7 +20,7 @@ import { ResponseCode, ResponseMessage } from 'src/const';
 import { ApiResponse } from 'src/utils';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { PermissionDBService } from '../database/services/permissionDbService';
+import { PermissionDBService } from '../database/services/permissionDBService';
 import { CurrentUser } from 'src/decorator/current-user.decorator';
 
 @Controller('authentication')
@@ -74,8 +74,10 @@ export class AuthenticationController {
     @Body(new ValidationPipe()) entity: UpdateInfoDto,
     @UploadedFile() file,
   ) {
-    const id = req.user.userId;
-    const ans = await this.userDBService.updateItem(id, entity);
+    const id = req.userId;
+    const update = { full_name: entity.full_name }
+
+    const ans = await this.userDBService.updateItem(id, update);
 
     return ApiResponse(
       res,

@@ -11,10 +11,10 @@ import {
 } from 'src/const';
 import { JwtService } from '@nestjs/jwt';
 import { Permission } from '../schemas/permissions.schema';
-import { PermissionDBService } from './permissionDbService';
+import { PermissionDBService } from './permissionDBService';
 import { SystemAction, SystemFeatures, UserType } from 'src/enums';
 import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
-import { UnitDBService } from './unitDbService';
+import { UnitDBService } from './unitDBService';
 
 @Injectable()
 export class UserDBService extends BaseDBService<User> {

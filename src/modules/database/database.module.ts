@@ -2,19 +2,21 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { User, UserSchema } from './schemas/users.schema';
-import { UserDBService } from './services/userDBService';
+import { UserDBService } from './services/userDbService';
 import { Role, RoleSchema } from './schemas/roles.schema';
-import { RoleDBService } from './services/roleDBService';
+import { RoleDBService } from './services/roleDbService';
 import { Unit, UnitSchema } from './schemas/units.schema';
 import { PermisisonShema, Permission } from './schemas/permissions.schema';
-import { UnitDBService } from './services/unitDbService';
-import { PermissionDBService } from './services/permissionDbService';
+import { UnitDBService } from './services/unitDBService';
+import { PermissionDBService } from './services/permissionDBService';
 import { JwtModule } from '@nestjs/jwt';
 import { appConfig } from 'src/configs/configuration.config';
 import { TroopUnitSchema, TroopUnits } from './schemas/troop-units.schema';
 import { TroopDetail, TroopDetailSchema } from './schemas/troop-detail.schema';
 import { TroopDetailDBService } from './services/troopDetailDBService';
 import { TroopUnitDBService } from './services/troopUnitDBService';
+import { PositionDBService } from './services/positionDBService';
+import { Position, PositionSchema } from './schemas/position.schema';
 import {
   LeaveRegister,
   LeaveRegisterSchema,
@@ -67,6 +69,10 @@ import { DuttySettingDBSerivce } from './services/duttySettingDBService';
         name: DuttySetting.name,
         schema: DuttySettingSchema,
       },
+      {
+        name: Position.name,
+        schema: PositionSchema
+      }
     ]),
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -87,6 +93,7 @@ import { DuttySettingDBSerivce } from './services/duttySettingDBService';
     LeaveRegisterDBService,
     GuardDuttyDBService,
     DuttySettingDBSerivce,
+    PositionDBService
   ],
   exports: [
     UserDBService,
@@ -98,6 +105,7 @@ import { DuttySettingDBSerivce } from './services/duttySettingDBService';
     LeaveRegisterDBService,
     GuardDuttyDBService,
     DuttySettingDBSerivce,
+    PositionDBService
   ],
 })
 export class DatabaseModule {}

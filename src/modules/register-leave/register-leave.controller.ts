@@ -20,12 +20,12 @@ import { CurrentUser } from 'src/decorator/current-user.decorator';
 import { User } from '../database/schemas/users.schema';
 import { ResponseCode, ResponseMessage } from 'src/const';
 import { ApiResponse } from 'src/utils';
-import { LeaveRegister } from '../database/schemas/leave-register.schema';
 import { RegisterLeaveStatus, SystemAction, SystemFeatures } from 'src/enums';
 import {
   ActionsPermission,
   ModulePermission,
 } from 'src/decorator/module-action.decorator';
+import { TimeRange } from 'src/decorator/time-range.decorator';
 
 @Controller('register-leave')
 @UseGuards(PermissionsGuard)
@@ -36,8 +36,16 @@ export class RegisterLeaveController {
   @Get('/list-register')
   @ModulePermission(SystemFeatures.ManagerRegisterLeave)
   @ActionsPermission([SystemAction.UnitApprove, SystemAction.Approve])
-  async getListRegister(@Res() res, @CurrentUser() user: User) {
-    const ans = await this.leaveRegisterDBService.getRegisterChildUnit(user);
+  async getListRegister(
+    @Res() res,
+    @CurrentUser() user: User,
+    @TimeRange() timeRange: { startTime: number; endTime: number },
+  ) {
+    const ans = await this.leaveRegisterDBService.getRegisterChildUnit(
+      user,
+      timeRange.startTime,
+      timeRange.endTime,
+    );
 
     return ApiResponse(
       res,

@@ -45,7 +45,6 @@ export class LeaveRegisterDBService extends BaseDBService<LeaveRegister> {
 
     if (unit) {
       const unitItem = await this.unitDBService.getItemById(unit.toString());
-      console.log({ unitItem, own: user.unit });
       const canUpdate = await this.unitDBService.checkUnitIsDescenants(
         user.unit.toString(),
         unitItem._id.toString(),
@@ -100,7 +99,7 @@ export class LeaveRegisterDBService extends BaseDBService<LeaveRegister> {
     return ans;
   }
 
-  async getRegisterChildUnit(user: User) {
+  async getRegisterChildUnit(user: User, startTime: number, endTime: number) {
     if (!user.unit) return [];
 
     const unit = await this.unitDBService.getItemById(user.unit.toString());
@@ -119,6 +118,10 @@ export class LeaveRegisterDBService extends BaseDBService<LeaveRegister> {
           user: {
             $in: userIds,
           },
+          time_register: {
+            $gte: startTime,
+            $lte: endTime,
+          },
         },
       })
     ).items;
@@ -131,6 +134,10 @@ export class LeaveRegisterDBService extends BaseDBService<LeaveRegister> {
         limit: MAX_ITEM_QUERYS,
         filter: {
           unit_approve: child._id.toString(),
+          time_register: {
+            $gte: startTime,
+            $lte: endTime,
+          },
         },
       });
 

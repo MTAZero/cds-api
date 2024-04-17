@@ -13,6 +13,7 @@ import { UnitsModule } from './modules/units/units.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { TroopReportModule } from './modules/troop-report/troop-report.module';
 import { RegisterLeaveModule } from './modules/register-leave/register-leave.module';
+import { GuardDuttyModule } from './modules/guard-dutty/guard-dutty.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { RegisterLeaveModule } from './modules/register-leave/register-leave.mod
     PermissionsModule,
     TroopReportModule,
     RegisterLeaveModule,
+    GuardDuttyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

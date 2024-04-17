@@ -21,8 +21,3 @@ export class DuttySetting extends Document<any> {
 }
 
 export const DuttySettingSchema = SchemaFactory.createForClass(DuttySetting);
-
-DuttySettingSchema.index({
-  name: 'text',
-  description: 'text',
-});

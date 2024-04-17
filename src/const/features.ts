@@ -7,6 +7,8 @@ export const FEATURES_SYSTEM = [
   SystemFeatures.ManagerPermission,
   SystemFeatures.TroopReports,
   SystemFeatures.ManagerRegisterLeave,
+  SystemFeatures.ManagerGuardDutty,
+  SystemFeatures.ManagerDuttySetting,
 ];
 
 export const ACTIONS_SYSTEM = [

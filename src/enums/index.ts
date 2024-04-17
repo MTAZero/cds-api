@@ -5,6 +5,8 @@ export enum SystemFeatures {
   ManagerPermission = 'ManagerPermissions',
   TroopReports = 'TroopReports',
   ManagerRegisterLeave = 'ManagerRegisterLeave',
+  ManagerGuardDutty = 'ManagerGuardDutty',
+  ManagerDuttySetting = 'ManagerDuttySetting',
 }
 
 export enum SystemAction {

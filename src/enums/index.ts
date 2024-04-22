@@ -5,12 +5,10 @@ export enum SystemFeatures {
   ManagerPermission = 'ManagerPermissions',
   TroopReports = 'TroopReports',
   ManagerRegisterLeave = 'ManagerRegisterLeave',
-<<<<<<< HEAD
   ManagerGuardDutty = 'ManagerGuardDutty',
   ManagerDuttySetting = 'ManagerDuttySetting',
-=======
   ManagerPositions = 'ManagerPositions',
->>>>>>> 1cd943b (finished_position_and_fixed_user)
+  ManagerProgresses = 'ManagerProgresses',
 }
 
 export enum SystemAction {
@@ -68,18 +66,4 @@ export enum Rank {
   TrungTuong = "Trung tướng",
   ThuongTuong = "Thượng tướng",
   DaiTuong = "Đại tướng"
-}
-
-export enum TypePosition {
-  SQCH = "SQCH",
-  SQTCM = "SQTCM",
-  SQTCTT = "SQTCTT",
-  SQCNTT = "SQCNTT",
-  KTVTCM = "KTVTCM",
-  KTVTCTT = "KTVTCTT",
-  KTVCNTT = "KTVCNTT",
-  NVTCM = "NVTCM",
-  NVTCTT = "NVTCTT",
-  NVCNTT = "NVCNTT",
-  NVCMKT = "NVCMKT" 
 }

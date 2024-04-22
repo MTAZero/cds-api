@@ -15,6 +15,7 @@ import { TroopReportModule } from './modules/troop-report/troop-report.module';
 import { RegisterLeaveModule } from './modules/register-leave/register-leave.module';
 import { GuardDuttyModule } from './modules/guard-dutty/guard-dutty.module';
 import { PositionsModule } from './modules/category/positions/positions.module';
+import { ProgressesModule } from './modules/progress/progresses.module';
 
 @Module({
   imports: [
@@ -33,7 +34,8 @@ import { PositionsModule } from './modules/category/positions/positions.module';
     TroopReportModule,
     RegisterLeaveModule,
     GuardDuttyModule,
-    PositionsModule
+    PositionsModule,
+    ProgressesModule
   ],
   controllers: [AppController],
   providers: [AppService],

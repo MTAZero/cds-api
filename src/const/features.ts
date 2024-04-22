@@ -9,6 +9,7 @@ export const FEATURES_SYSTEM = [
   SystemFeatures.ManagerRegisterLeave,
   SystemFeatures.ManagerGuardDutty,
   SystemFeatures.ManagerDuttySetting,
+  SystemFeatures.ManagerProgresses,
 ];
 
 export const ACTIONS_SYSTEM = [

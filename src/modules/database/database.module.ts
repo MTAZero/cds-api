@@ -17,6 +17,9 @@ import { TroopDetailDBService } from './services/troopDetailDBService';
 import { TroopUnitDBService } from './services/troopUnitDBService';
 import { PositionDBService } from './services/positionDBService';
 import { Position, PositionSchema } from './schemas/position.schema';
+import { ProgressDBService } from './services/progressDBService';
+import { Progress, ProgressSchema } from './schemas/progress.schema';
+
 import {
   LeaveRegister,
   LeaveRegisterSchema,
@@ -72,6 +75,10 @@ import { DuttySettingDBSerivce } from './services/duttySettingDBService';
       {
         name: Position.name,
         schema: PositionSchema
+      },
+      {
+        name: Progress.name,
+        schema: ProgressSchema
       }
     ]),
     JwtModule.registerAsync({
@@ -93,7 +100,8 @@ import { DuttySettingDBSerivce } from './services/duttySettingDBService';
     LeaveRegisterDBService,
     GuardDuttyDBService,
     DuttySettingDBSerivce,
-    PositionDBService
+    PositionDBService,
+    ProgressDBService
   ],
   exports: [
     UserDBService,
@@ -105,7 +113,8 @@ import { DuttySettingDBSerivce } from './services/duttySettingDBService';
     LeaveRegisterDBService,
     GuardDuttyDBService,
     DuttySettingDBSerivce,
-    PositionDBService
+    PositionDBService,
+    ProgressDBService
   ],
 })
 export class DatabaseModule {}

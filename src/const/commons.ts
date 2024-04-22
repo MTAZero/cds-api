@@ -1,4 +1,4 @@
-import { TroopStatus, UserType, Rank, TypePosition } from 'src/enums';
+import { TroopStatus, UserType, Rank, TypePosition, DayOfWeek } from 'src/enums';
 
 export const API_VERSION = '1.0';
 export const DEFAULT_PAGE_SIZE = process.env['DEFAULT_PAGE_SIZE']
@@ -62,4 +62,14 @@ export const TYPE_POSITION = [
   TypePosition.NVCNTT,
   TypePosition.NVTCTT,
   TypePosition.NVCMKT
+]
+
+export const DAY_OF_WEEK = [
+  DayOfWeek.ThuHai,
+  DayOfWeek.ThuBa,
+  DayOfWeek.ThuTu,
+  DayOfWeek.ThuNam,
+  DayOfWeek.ThuSau,
+  DayOfWeek.ThuBay,
+  DayOfWeek.ChuNhat
 ]

@@ -9,6 +9,8 @@ export enum SystemFeatures {
   ManagerDuttySetting = 'ManagerDuttySetting',
   ManagerPositions = 'ManagerPositions',
   ManagerProgresses = 'ManagerProgresses',
+  ManagerDocuments = 'ManagerDocuments',
+  ManagerTrainnings = 'ManagerTrainings'
 }
 
 export enum SystemAction {

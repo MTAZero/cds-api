@@ -4,6 +4,7 @@ import { TYPE_POSITION } from 'src/const';
 
 export class ObjectDto {
     @IsNotEmpty()
+    @IsIn(TYPE_POSITION)
     object: string
 
     @IsNotEmpty()

@@ -10,6 +10,10 @@ export const FEATURES_SYSTEM = [
   SystemFeatures.ManagerGuardDutty,
   SystemFeatures.ManagerDuttySetting,
   SystemFeatures.ManagerProgresses,
+  SystemFeatures.ManagerPositions,
+  SystemFeatures.ManagerProgresses,
+  SystemFeatures.ManagerDocuments,
+  SystemFeatures.ManagerTrainnings
 ];
 
 export const ACTIONS_SYSTEM = [

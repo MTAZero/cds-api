@@ -16,6 +16,7 @@ import { RegisterLeaveModule } from './modules/register-leave/register-leave.mod
 import { GuardDuttyModule } from './modules/guard-dutty/guard-dutty.module';
 import { PositionsModule } from './modules/category/positions/positions.module';
 import { ProgressesModule } from './modules/progress/progresses.module';
+import { TrainingModule } from './modules/trainning/training.module';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { ProgressesModule } from './modules/progress/progresses.module';
     RegisterLeaveModule,
     GuardDuttyModule,
     PositionsModule,
-    ProgressesModule
+    ProgressesModule,
+    TrainingModule
   ],
   controllers: [AppController],
   providers: [AppService],

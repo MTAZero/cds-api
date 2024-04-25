@@ -40,26 +40,27 @@ import {
     @Inject(UserDBService)
     userDBService: UserDBService;
 
-    @Get('get-of-week/:unit/:year/:month/:week')
+    @Get('get-of-week')
     @ActionsPermission([SystemAction.View])
     @ModulePermission(SystemFeatures.ManagerProgresses)
     async getProgressOfWeek(
     @Res() res,
     @Req() req,
     @Query() query,
-    @CurrentUser() user,
+    @CurrentUser() user
   ) {
     const pagination: PaginationType = req.pagination;
     const sort = req.sort;
+    let unitProgress = query.unit
     const filter = {
-      week: Number(req.params.week),
-      month: Number(req.params.month),
-      year: Number(req.params.year),
-      unit: req.params.unit
+      week: Number(query.week),
+      month: Number(query.month),
+      year: Number(query.year),
+      unit: unitProgress
     };
     const keyword = query.keyword ? query.keyword : '';
-    console.log(keyword)
-    const data = await this.progressDBService.getProgressOfWeekBelongUnit(user.unit, {
+
+    const data = await this.progressDBService.getProgressOfWeekBelongUnit(user.unit, unitProgress, {
       filter,
       sort,
       skip: pagination.skip,
@@ -83,8 +84,9 @@ import {
     async insertProgress(
       @Body(new ValidationPipe()) entity: CreateProgressDto,
       @Res() res,
+      @CurrentUser() user
     ) {
-      const ans = await this.progressDBService.insertItem(entity);
+      const ans = await this.progressDBService.insertProgress(user.unit, entity);
       return ApiResponse(
         res,
         true,
@@ -101,9 +103,10 @@ import {
       @Body(new ValidationPipe()) entity: UpdateProgressDto,
       @Res() res,
       @Param() params,
+      @CurrentUser() user
     ) {
       const id = params.id;
-      const ans = await this.progressDBService.updateItem(id, entity);
+      const ans = await this.progressDBService.updateProgress(user.unit, id, entity);
       return ApiResponse(
         res,
         true,
@@ -116,9 +119,13 @@ import {
     @Delete('/:id')
     @ActionsPermission([SystemAction.Edit])
     @ModulePermission(SystemFeatures.ManagerProgresses)
-    async removeProgress(@Res() res, @Param() params) {
+    async removeProgress(
+      @Res() res, 
+      @Param() params,
+      @CurrentUser() user,
+  ) {
       const id = params.id;
-      const ans = await this.progressDBService.removeItem(id);
+      const ans = await this.progressDBService.deleteProgress(user.unit, id);
       return ApiResponse(
         res,
         true,
@@ -147,5 +154,23 @@ import {
       );
     }
 
+    @Get('/:id/list-people')
+    @ActionsPermission([SystemAction.View])
+    @ModulePermission(SystemFeatures.ManagerProgresses)
+    async getListPeopleJoin(
+      @Res() res, 
+      @Param() params,
+      @CurrentUser() user
+    ) {
+      const id = params.id;
+      const ans = await this.progressDBService.getListPeopleJoin(user.unit, id);
+      return ApiResponse(
+        res,
+        true,
+        ResponseCode.SUCCESS,
+        ResponseMessage.SUCCESS,
+        ans,
+      );
+    }
   }
   

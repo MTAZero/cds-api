@@ -4,6 +4,7 @@ import { Unit } from './units.schema';
 
 @Schema()
 export class Progress extends Document<any> {
+  
   _id: Types.ObjectId;
 
   @Prop()

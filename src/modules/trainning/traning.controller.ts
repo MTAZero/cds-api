@@ -39,7 +39,7 @@ import {
     @Inject(UserDBService)
     userDBService: UserDBService;
 
-    @Get('get-of-month')
+    @Get('content-of-month')
     @ActionsPermission([SystemAction.View])
     @ModulePermission(SystemFeatures.ManagerTrainnings)
     async getTrainingOfMonth(
@@ -75,6 +75,81 @@ import {
       data,
     );
   }
+
+  @Get('history-of-month')
+    @ActionsPermission([SystemAction.View])
+    @ModulePermission(SystemFeatures.ManagerTrainnings)
+    async getHistoryTrainingOfMonth(
+    @Res() res,
+    @Req() req,
+    @Query() query,
+    @CurrentUser() user
+  ) {
+
+    const pagination: PaginationType = req.pagination;
+    const sort = req.sort;
+    let unitTraining = query.unit
+    const filter = {
+      month: Number(query.month),
+      year: Number(query.year),
+      unit: unitTraining
+    };
+    const keyword = query.keyword ? query.keyword : '';
+
+    const data = await this.trainingDBService.getHistoryTrainingOfMonth(user.unit, unitTraining, {
+      filter,
+      sort,
+      skip: pagination.skip,
+      limit: pagination.limit,
+      textSearch: keyword,
+    });
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      data,
+    );
+  }
+
+  @Get('result-of-month')
+    @ActionsPermission([SystemAction.View])
+    @ModulePermission(SystemFeatures.ManagerTrainnings)
+    async getResultTrainingOfMonth(
+    @Res() res,
+    @Req() req,
+    @Query() query,
+    @CurrentUser() user
+  ) {
+
+    const pagination: PaginationType = req.pagination;
+    const sort = req.sort;
+    let unitTraining = query.unit
+    const filter = {
+      month: Number(query.month),
+      year: Number(query.year),
+      unit: unitTraining
+    };
+    const keyword = query.keyword ? query.keyword : '';
+
+    const data = await this.trainingDBService.getResultTrainingOfMonth(user.unit, unitTraining, {
+      filter,
+      sort,
+      skip: pagination.skip,
+      limit: pagination.limit,
+      textSearch: keyword,
+    });
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      data,
+    );
+  }
+
 
   @Put('/:id')
   @UseInterceptors(FileInterceptor('file'))

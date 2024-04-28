@@ -26,7 +26,7 @@ import { CurrentUser } from 'src/decorator/current-user.decorator';
 import { User } from '../database/schemas/users.schema';
 import { TroopUnitGetDetailReportDto } from './dtos/troop-unit-get-detail';
 import { getTextOfReport } from 'src/utils/troop-report.helper';
-import { UnitDBService } from '../database/services/unitDbService';
+import { UnitDBService } from '../database/services/unitDBService';
 
 @Controller('troop-report')
 @UseGuards(PermissionsGuard)

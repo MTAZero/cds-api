@@ -4,13 +4,13 @@ import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { TroopUnits } from '../schemas/troop-units.schema';
 import { TroopUnitReportDto } from 'src/modules/troop-report/dtos/troop-unit-report';
 import { User } from '../schemas/users.schema';
-import { UserDBService } from './userDBService';
+import { UserDBService } from './userDbService';
 import { TroopStatus, UserType } from 'src/enums';
 import { TroopDetailDBService } from './troopDetailDBService';
 import { convertTimeStampToStartDay } from 'src/utils/time.helper';
 import { ObjectId } from 'mongoose';
 import { TroopUnitGetDetailReportDto } from 'src/modules/troop-report/dtos/troop-unit-get-detail';
-import { UnitDBService } from './unitDbService';
+import { UnitDBService } from './unitDBService';
 import {
   TroopEachType,
   TroopLeftReasonType,

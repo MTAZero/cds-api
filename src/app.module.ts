@@ -14,6 +14,9 @@ import { PermissionsModule } from './modules/permissions/permissions.module';
 import { TroopReportModule } from './modules/troop-report/troop-report.module';
 import { RegisterLeaveModule } from './modules/register-leave/register-leave.module';
 import { GuardDuttyModule } from './modules/guard-dutty/guard-dutty.module';
+import { PositionsModule } from './modules/category/positions/positions.module';
+import { ProgressesModule } from './modules/progress/progresses.module';
+import { TrainingModule } from './modules/trainning/training.module';
 
 @Module({
   imports: [
@@ -32,6 +35,9 @@ import { GuardDuttyModule } from './modules/guard-dutty/guard-dutty.module';
     TroopReportModule,
     RegisterLeaveModule,
     GuardDuttyModule,
+    PositionsModule,
+    ProgressesModule,
+    TrainingModule
   ],
   controllers: [AppController],
   providers: [AppService],

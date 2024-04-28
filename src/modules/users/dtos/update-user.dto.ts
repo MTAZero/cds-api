@@ -5,7 +5,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { LIST_USER_TYPES } from 'src/const';
+import { LIST_USER_TYPES, RANK } from 'src/const';
 
 export class UpdateUserDto {
   @IsString()
@@ -36,4 +36,13 @@ export class UpdateUserDto {
   @IsBoolean()
   @IsOptional()
   isPersonal: boolean;
+  
+  @IsMongoId()
+  @IsOptional()
+  position: string;
+
+  @IsIn(RANK)
+  @IsOptional()
+  rank: string;
+
 }

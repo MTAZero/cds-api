@@ -5,7 +5,7 @@ import {
   IsNotEmpty,
   IsString,
 } from 'class-validator';
-import { LIST_USER_TYPES } from 'src/const';
+import { LIST_USER_TYPES, RANK } from 'src/const';
 
 export class CreateUserDto {
   @IsString()
@@ -36,4 +36,12 @@ export class CreateUserDto {
   @IsBoolean()
   @IsNotEmpty()
   isPersonal: boolean;
+
+  @IsMongoId()
+  @IsNotEmpty()
+  position: string;
+
+  @IsIn(RANK)
+  @IsNotEmpty()
+  rank: string;
 }

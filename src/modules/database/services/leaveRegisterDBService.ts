@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common';
 import { LeaveRegister } from '../schemas/leave-register.schema';
 import { User } from '../schemas/users.schema';
-import { UnitDBService } from './unitDbService';
+import { UnitDBService } from './unitDBService';
 import { MAX_ITEM_QUERYS } from 'src/const';
 import { RegisterLeaveStatus } from 'src/enums';
-import { UserDBService } from './userDBService';
+import { UserDBService } from './userDbService';
 
 @Injectable()
 export class LeaveRegisterDBService extends BaseDBService<LeaveRegister> {

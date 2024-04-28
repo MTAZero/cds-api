@@ -69,3 +69,27 @@ export enum Rank {
   ThuongTuong = "Thượng tướng",
   DaiTuong = "Đại tướng"
 }
+
+export enum TypePosition {
+  SQCH = "SQCH",
+  SQTCM = "SQTCM",
+  SQTCTT = "SQTCTT",
+  SQCNTT = "SQCNTT",
+  KTVTCM = "KTVTCM",
+  KTVTCTT = "KTVTCTT",
+  KTVCNTT = "KTVCNTT",
+  NVTCM = "NVTCM",
+  NVTCTT = "NVTCTT",
+  NVCNTT = "NVCNTT",
+  NVCMKT = "NVCMKT" 
+}
+
+export enum DayOfWeek {
+  ThuHai = "Thứ 2",
+  ThuBa = "Thứ 3",
+  ThuTu = "Thứ 4",
+  ThuNam = "Thứ 5",
+  ThuSau = "Thứ 6",
+  ThuBay = "Thứ 7",
+  ChuNhat = "Chủ nhật"
+}

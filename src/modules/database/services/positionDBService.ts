@@ -16,7 +16,7 @@ export class PositionDBService extends BaseDBService<Position> {
     const cnt = await this.countByFilter({ name: entity.name });
     if(cnt > 0)
         throw new HttpException(
-            ResponseMessage.ALREAY_EXIST,
+            ResponseMessage.ALREADY_EXIST,
             ResponseCode.BAD_REQUEST,
         );
     return await super.insertItem(entity);

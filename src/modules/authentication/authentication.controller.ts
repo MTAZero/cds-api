@@ -66,6 +66,20 @@ export class AuthenticationController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/check-token')
+  async handleCheckToken(@Req() req, @Res() res, @CurrentUser() user) {
+    const ans = await this.userDBService.getFirstItem({ _id: user._id });
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans ? true : false,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Put('/update-info')
   @UseInterceptors(FileInterceptor('file'))
   async handleUpdateInfo(
@@ -75,7 +89,7 @@ export class AuthenticationController {
     @UploadedFile() file,
   ) {
     const id = req.userId;
-    const update = { full_name: entity.full_name }
+    const update = { full_name: entity.full_name };
 
     const ans = await this.userDBService.updateItem(id, update);
 

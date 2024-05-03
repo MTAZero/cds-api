@@ -1,6 +1,11 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { BaseDBService } from './base';
-import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { TroopUnits } from '../schemas/troop-units.schema';
 import { TroopUnitReportDto } from 'src/modules/troop-report/dtos/troop-unit-report';
 import { User } from '../schemas/users.schema';
@@ -8,7 +13,7 @@ import { UserDBService } from './userDbService';
 import { TroopStatus, UserType } from 'src/enums';
 import { TroopDetailDBService } from './troopDetailDBService';
 import { convertTimeStampToStartDay } from 'src/utils/time.helper';
-import { ObjectId } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { TroopUnitGetDetailReportDto } from 'src/modules/troop-report/dtos/troop-unit-get-detail';
 import { UnitDBService } from './unitDBService';
 import {
@@ -17,6 +22,9 @@ import {
   TroopReportType,
 } from 'src/types/troop-report';
 import { LIST_TROOP_STATUS, LIST_USER_TYPES, MAX_ITEM_QUERYS } from 'src/const';
+import { QueryParams } from 'src/interface/i-base-db-service';
+import { Unit } from '../schemas/units.schema';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class TroopUnitDBService extends BaseDBService<TroopUnits> {
@@ -28,6 +36,9 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
 
   @Inject(UnitDBService)
   unitDBService: UnitDBService;
+
+  @InjectModel(User.name)
+  userModel: Model<User>;
 
   constructor(@InjectModel(TroopUnits.name) private readonly entityModel) {
     super(entityModel);
@@ -68,10 +79,11 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
     const promises: Promise<any>[] = [];
     for (let index = 0; index < users.length; index++) {
       let status: TroopStatus = TroopStatus.CoMat;
+      const user = users[index];
 
       try {
         const ind = data.absentTroops.findIndex(
-          (i) => i.user.toString() === users[index]._id.toString(),
+          (i) => i.user.toString() === user._id.toString(),
         );
         if (ind !== -1) status = data.absentTroops[ind].reason;
       } catch {}
@@ -213,11 +225,8 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
     return ans;
   }
 
-  async getUnitReportStatus(unitId: string, time: number) {
+  async getUnitReportStatus(unitUserId: string, unitId: string, time: number) {
     const timeExact = convertTimeStampToStartDay(time);
-
-    // if (this.unitDBService.checkUnitIsDescenants(user.unit.toString(), unitId))
-    //   throw new ForbiddenException();
 
     const unit = await this.unitDBService.getItemById(unitId);
     const childs = await this.unitDBService.getListChild(unitId);
@@ -233,10 +242,12 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
     });
     const isReport = !(count === 0 && countUser > 0);
     ans.isReport = isReport;
+    ans.troop_info = await this.getTroopNumberOfUnit(unitUserId, unitId, time);
 
     const items = [];
     for (let index = 0; index < childs.length; index++) {
       const item = await this.getUnitReportStatus(
+        unitUserId,
         childs[index]._id.toString(),
         time,
       );
@@ -245,5 +256,436 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
     ans.childs = items;
 
     return ans;
+  }
+
+  async getUserTroopStatusOfUnitAndChilds(
+    userUnitId: string,
+    unitId: string,
+    time: number = 0,
+    query: QueryParams,
+  ) {
+    const unit = await this.unitDBService.getItemById(unitId);
+    if (!unit) throw new NotFoundException();
+
+    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(
+      userUnitId,
+      unitId,
+    );
+    if (!checkPermisison) throw new ForbiddenException();
+
+    const timeExact = convertTimeStampToStartDay(time);
+    let { sort, filter } = query;
+    const { textSearch, skip, limit } = query;
+
+    if (textSearch && textSearch !== '')
+      filter = {
+        ...filter,
+        ...{
+          $text: {
+            $search: `"${textSearch}"`,
+          },
+        },
+      };
+
+    sort = {
+      ...sort,
+      ...{
+        _id: 1,
+      },
+    };
+
+    const queryDb: any = [
+      {
+        $match: filter,
+      },
+      {
+        $lookup: {
+          from: 'units',
+          let: {
+            unit: '$unit',
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: '$_id' }, '$$unit'],
+                },
+              },
+            },
+          ],
+          as: 'unit_infos',
+        },
+      },
+      {
+        $set: {
+          unit_info: {
+            $arrayElemAt: ['$unit_infos', 0],
+          },
+        },
+      },
+      {
+        $unset: 'unit_infos',
+      },
+      {
+        $match: {
+          'unit_info.key': {
+            $regex: unitId.toString(),
+            $options: 'i',
+          },
+        },
+      },
+      {
+        $project: {
+          password: 0,
+        },
+      },
+      {
+        $lookup: {
+          from: 'troopdetails',
+          let: {
+            id: '$_id',
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: '$$id' }, '$user'],
+                },
+              },
+            },
+            {
+              $match: {
+                $expr: {
+                  $eq: [
+                    {
+                      $toString: '$time',
+                    },
+                    { $toString: timeExact },
+                  ],
+                },
+              },
+            },
+          ],
+          as: 'troop_info',
+        },
+      },
+      {
+        $set: {
+          troop_info: {
+            $arrayElemAt: ['$troop_info', 0],
+          },
+        },
+      },
+    ];
+
+    const ans = await this.userModel
+      .aggregate([
+        ...queryDb,
+        {
+          $sort: sort,
+        },
+        {
+          $skip: skip,
+        },
+        {
+          $limit: limit,
+        },
+      ])
+      .exec();
+    const res_total = await this.userModel.aggregate([
+      ...queryDb,
+      {
+        $count: 'total',
+      },
+    ]);
+
+    const total = res_total[0] ? res_total[0].total : 0;
+    const pageIndex = skip / limit + 1;
+
+    return {
+      items: ans,
+      total: total,
+      size: limit,
+      page: pageIndex,
+      offset: skip,
+    };
+  }
+
+  async getUserTroopStatusOfUnit(
+    userUnitId: string,
+    unitId: string,
+    time: number = 0,
+    query: QueryParams,
+  ) {
+    const unit = await this.unitDBService.getItemById(unitId);
+    if (!unit) throw new NotFoundException();
+
+    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(
+      userUnitId,
+      unitId,
+    );
+    if (!checkPermisison) throw new ForbiddenException();
+
+    const timeExact = convertTimeStampToStartDay(time);
+    let { sort, filter } = query;
+    const { textSearch, skip, limit } = query;
+
+    if (textSearch && textSearch !== '')
+      filter = {
+        ...filter,
+        ...{
+          $text: {
+            $search: `"${textSearch}"`,
+          },
+        },
+      };
+
+    sort = {
+      ...sort,
+      ...{
+        _id: 1,
+      },
+    };
+
+    const queryDb: any = [
+      {
+        $match: filter,
+      },
+      {
+        $lookup: {
+          from: 'units',
+          let: {
+            unit: '$unit',
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: '$_id' }, '$$unit'],
+                },
+              },
+            },
+          ],
+          as: 'unit_infos',
+        },
+      },
+      {
+        $set: {
+          unit_info: {
+            $arrayElemAt: ['$unit_infos', 0],
+          },
+        },
+      },
+      {
+        $unset: 'unit_infos',
+      },
+      {
+        $match: {
+          unit: unitId,
+        },
+      },
+      {
+        $project: {
+          password: 0,
+        },
+      },
+      {
+        $lookup: {
+          from: 'troopdetails',
+          let: {
+            id: '$_id',
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: '$$id' }, '$user'],
+                },
+              },
+            },
+            {
+              $match: {
+                $expr: {
+                  $eq: [
+                    {
+                      $toString: '$time',
+                    },
+                    { $toString: timeExact },
+                  ],
+                },
+              },
+            },
+          ],
+          as: 'troop_info',
+        },
+      },
+      {
+        $set: {
+          troop_info: {
+            $arrayElemAt: ['$troop_info', 0],
+          },
+        },
+      },
+    ];
+
+    const ans = await this.userModel
+      .aggregate([
+        ...queryDb,
+        {
+          $sort: sort,
+        },
+        {
+          $skip: skip,
+        },
+        {
+          $limit: limit,
+        },
+      ])
+      .exec();
+    const res_total = await this.userModel.aggregate([
+      ...queryDb,
+      {
+        $count: 'total',
+      },
+    ]);
+
+    const total = res_total[0] ? res_total[0].total : 0;
+    const pageIndex = skip / limit + 1;
+
+    return {
+      items: ans,
+      total: total,
+      size: limit,
+      page: pageIndex,
+      offset: skip,
+    };
+  }
+
+  async getTroopNumberOfUnit(
+    userUnitId: string,
+    unitId: string,
+    time: number = 0,
+  ) {
+    const unit = await this.unitDBService.getItemById(unitId);
+    if (!unit) throw new NotFoundException();
+
+    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(
+      userUnitId,
+      unitId,
+    );
+    if (!checkPermisison) throw new ForbiddenException();
+
+    const filter = { isPersonal: true };
+    const timeExact = convertTimeStampToStartDay(time);
+
+    const queryDb: any = [
+      {
+        $match: filter,
+      },
+      {
+        $lookup: {
+          from: 'units',
+          let: {
+            unit: '$unit',
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: '$_id' }, '$$unit'],
+                },
+              },
+            },
+          ],
+          as: 'unit_infos',
+        },
+      },
+      {
+        $set: {
+          unit_info: {
+            $arrayElemAt: ['$unit_infos', 0],
+          },
+        },
+      },
+      {
+        $unset: 'unit_infos',
+      },
+      {
+        $match: {
+          'unit_info.key': {
+            $regex: unitId.toString(),
+            $options: 'i',
+          },
+        },
+      },
+    ];
+
+    // call total
+    const resTotal = await this.userModel.aggregate([
+      ...queryDb,
+      {
+        $count: 'total',
+      },
+    ]);
+    const total = resTotal[0] ? resTotal[0].total : 0;
+
+    // call total leave
+    const resTotalLeave = await this.userModel.aggregate([
+      ...queryDb,
+      {
+        $lookup: {
+          from: 'troopdetails',
+          let: {
+            id: '$_id',
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: '$$id' }, '$user'],
+                },
+              },
+            },
+            {
+              $match: {
+                $expr: {
+                  $eq: [
+                    {
+                      $toString: '$time',
+                    },
+                    { $toString: timeExact },
+                  ],
+                },
+              },
+            },
+          ],
+          as: 'troop_info',
+        },
+      },
+      {
+        $match: {
+          'troop_info.status': {
+            $ne: TroopStatus.CoMat,
+          },
+        },
+      },
+      {
+        $set: {
+          troop_info: {
+            $arrayElemAt: ['$troop_info', 0],
+          },
+        },
+      },
+      {
+        $count: 'total',
+      },
+    ]);
+    const totalLeave = resTotalLeave[0] ? resTotalLeave[0].total : 0;
+
+    return {
+      total: total,
+      totalAttendance: total - totalLeave,
+      totalLeave: totalLeave,
+    };
   }
 }

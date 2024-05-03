@@ -1,10 +1,15 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   ForbiddenException,
+  Get,
   Inject,
   NotFoundException,
+  Param,
   Post,
+  Query,
+  Req,
   Res,
   UseGuards,
   UseInterceptors,
@@ -27,6 +32,9 @@ import { User } from '../database/schemas/users.schema';
 import { TroopUnitGetDetailReportDto } from './dtos/troop-unit-get-detail';
 import { getTextOfReport } from 'src/utils/troop-report.helper';
 import { UnitDBService } from '../database/services/unitDBService';
+import { ObjectId } from 'mongoose';
+import { Paginate } from 'src/decorator/paginate.decorator';
+import { PaginationType } from 'src/middleware';
 
 @Controller('troop-report')
 @UseGuards(PermissionsGuard)
@@ -59,11 +67,133 @@ export class TroopReportController {
     );
   }
 
+  @Get('/unit-tree-troop-detail/:unitId')
+  @UseInterceptors(FileInterceptor('file'))
+  @ModulePermission(SystemFeatures.TroopReports)
+  @ActionsPermission([SystemAction.Report, SystemAction.View])
+  async getUnitTreeTroopDetail(
+    @Res() res,
+    @CurrentUser() user: User,
+    @Query('time') time: string,
+    @Param('unitId') unitId: string,
+    @Paginate() pagination: PaginationType,
+    @Req() req,
+    @Query('keyword') keyword,
+  ) {
+    if (!time) throw new BadRequestException('Time is require');
+
+    const sort = req.sort;
+    const filter = { isPersonal: true };
+    const _keyword = keyword ? keyword : '';
+
+    const _time: number = parseInt(time);
+
+    const ans = await this.troopUnitDBService.getUserTroopStatusOfUnitAndChilds(
+      user.unit.toString(),
+      unitId,
+      _time,
+      {
+        filter,
+        sort,
+        skip: pagination.skip,
+        limit: pagination.limit,
+        textSearch: _keyword,
+      },
+    );
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
+  @Get('/unit-troop-detail/:unitId')
+  @UseInterceptors(FileInterceptor('file'))
+  @ModulePermission(SystemFeatures.TroopReports)
+  @ActionsPermission([SystemAction.Report, SystemAction.View])
+  async getUnitTroopDetail(
+    @Res() res,
+    @CurrentUser() user: User,
+    @Query('time') time: string,
+    @Param('unitId') unitId: string,
+    @Paginate() pagination: PaginationType,
+    @Req() req,
+    @Query('keyword') keyword,
+  ) {
+    if (!time) throw new BadRequestException('Time is require');
+
+    const sort = req.sort;
+    const filter = { isPersonal: true };
+    const _keyword = keyword ? keyword : '';
+
+    const _time: number = parseInt(time);
+
+    const ans = await this.troopUnitDBService.getUserTroopStatusOfUnit(
+      user.unit.toString(),
+      unitId,
+      _time,
+      {
+        filter,
+        sort,
+        skip: pagination.skip,
+        limit: pagination.limit,
+        textSearch: _keyword,
+      },
+    );
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
+  @Get('/current-unit-troop')
+  @UseInterceptors(FileInterceptor('file'))
+  @ModulePermission(SystemFeatures.TroopReports)
+  @ActionsPermission([SystemAction.Report, SystemAction.View])
+  async getCurrentUnitTroop(
+    @Res() res,
+    @CurrentUser() user: User,
+    @Query('time') time: string,
+  ) {
+    if (!user.unit) throw new NotFoundException();
+
+    const _time = parseInt(time);
+    const ans = await this.troopUnitDBService.getReportDetail(
+      user.unit.toString(),
+      {
+        unitId: user.unit,
+        time: _time,
+      },
+    );
+
+    const result = {
+      ...ans,
+      ...{
+        text: getTextOfReport(ans),
+      },
+    };
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      result,
+    );
+  }
+
   @Post('/get-troop')
   @UseInterceptors(FileInterceptor('file'))
   @ModulePermission(SystemFeatures.TroopReports)
   @ActionsPermission([SystemAction.Report, SystemAction.View])
-  async getListUsers(
+  async getTroopStatus(
     @Res() res,
     @Body(new ValidationPipe()) data: TroopUnitGetDetailReportDto,
     @CurrentUser() user: User,
@@ -108,6 +238,7 @@ export class TroopReportController {
       throw new ForbiddenException();
 
     const ans = await this.troopUnitDBService.getUnitReportStatus(
+      user.unit.toString(),
       data.unitId.toString(),
       data.time,
     );

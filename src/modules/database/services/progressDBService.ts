@@ -50,14 +50,14 @@ export class ProgressDBService extends BaseDBService<Progress> {
     const items = ans.items;
 
     const unit = await this.unitDBService.getItemById(items[0].unit)
-
+    var setElement = new Set();
     let updatedItem = await Promise.all(
       items.map( async (item: any) => {
       
         const new_time_train_detail = await Promise.all(
           item.time_train_detail.map( async (x: any) => {
           let temp = await this.positionDBService.getItemById(x.object)
-      
+          setElement.add(temp.name)
           return { object: temp.name, time: x.time }
         }))
 
@@ -65,24 +65,32 @@ export class ProgressDBService extends BaseDBService<Progress> {
           ...item,
           ...{
             time_train_detail: new_time_train_detail,
-            unit: unit.name
+            unit: unit.name,
+            allElements: [...setElement]
           }
         }
         return item
       }) 
     )
-    ans.items = updatedItem
+    ans.items = updatedItem 
     return ans;
   }
 
   async getDetailByID(userUnitID: string ,id: any): Promise<any> {
 
-    const ans = await this.getItemById(id);
-    if(!ans) throw new NotFoundException();
+    const progress = await this.getItemById(id);
+    if(!progress) throw new NotFoundException();
 
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, ans.unit)
+    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, progress.unit)
     if(!checkPermisison) throw new ForbiddenException();
-    
+    const training = await this.trainingDBService.getItemById(id);
+    if(!training) throw new NotFoundException();
+    const ans = {
+      ...progress,
+      ...{
+        evaluation: training.evaluation
+      }
+    }
     return ans;
   }
 
@@ -96,7 +104,7 @@ export class ProgressDBService extends BaseDBService<Progress> {
 
       await this.trainingDBService.insertItem({
         _id: progress._id,
-        progressID: progress._id,
+        progress: progress._id,
         element_join: [],
         week: progress.week,
         month: progress.month,
@@ -173,10 +181,12 @@ export class ProgressDBService extends BaseDBService<Progress> {
       }
     })).items;
 
-    const lstJoiner = [] 
+    const lstJoiner = []
+
     for(let position of elementJoin){
       lstJoiner.push({
         object: position,
+        name_object: (await this.positionDBService.getItemById(position)).name,
         list_people: []
       })
     }
@@ -213,9 +223,22 @@ export class ProgressDBService extends BaseDBService<Progress> {
     const training = await this.trainingDBService.getItemById(progressID);
   
     if(training.element_join.length == 0){
+
       return await this.findListJoiner(unitsId, lstObj)
+    
     } else {
-      return (await this.trainingDBService.getItemById(progressID)).element_join;
+
+      const elementJoin = (await this.trainingDBService.getItemById(progressID)).element_join;
+
+      const elementJoinMap = await Promise.all(elementJoin.map(async(element) => {
+        return {
+          ...element,
+          ...{
+            name_object: (await this.positionDBService.getItemById(element.object)).name
+          }
+        }
+      }))
+      return elementJoinMap;
     }
   }
 }

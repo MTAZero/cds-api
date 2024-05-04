@@ -1,7 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Progress } from '../schemas/progress.schema';
 import { BaseDBService } from './base';
-import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
 import { UnitDBService } from './unitDBService';
 import { Training } from '../schemas/trainnings.schema';
@@ -44,13 +44,16 @@ export class TrainingDBService extends BaseDBService<Training> {
   ];
   
     const lst_map = await this.entityModel.populate(lst_training.items, populateQuery);
-
+    var element = []
     const ans = await Promise.all(lst_map.map(async (item) => {
+      if(item.progress.time_train_detail.length > 0){
 
-      const element = await Promise.all(item.progress.time_train_detail.map( async (x) => {
-        const obj = await this.positionDBService.getItemById(x.object)
-        return obj.name
-      }))
+        element = await Promise.all(item.progress.time_train_detail.map( async (x) => {
+          const obj = await this.positionDBService.getItemById(x.object)
+          return obj.name
+        }))
+
+      }
 
       return {
         _id: item._id,
@@ -103,9 +106,9 @@ export class TrainingDBService extends BaseDBService<Training> {
         sum_people:  item.sum_people,
         sum_joiner: item.sum_joiner,
         sum_time_train: item.progress.sum_time_train,
-        time_train_actual: item.time_train_actual
+        time_train_actual: item.time_train_actual,
+        evaluation: item.evaluation 
       }
-
     })
 
     return {
@@ -172,16 +175,14 @@ export class TrainingDBService extends BaseDBService<Training> {
                 position: user.position,
                 train: [{
                   "date": obj.date, 
-                  "joiner": childObj.joiner
+                  "joined": childObj.joined
                 }]}
-
             } else {
 
               temp[id].train.push({
                 "date": obj.date, 
-                "joiner": childObj.joiner
-              })
-              
+                "joined": childObj.joined
+              })              
             }
           }
         }

@@ -20,9 +20,6 @@ export class User extends Document<any> {
   @Prop()
   isPersonal: boolean;
 
-  @Prop()
-  last_update: number;
-
   @Prop({ type: Types.ObjectId, ref: Unit.name, default: null })
   unit: ObjectId;
 
@@ -40,6 +37,9 @@ export class User extends Document<any> {
 
   @Prop()
   created_date: number;
+
+  @Prop()
+  last_update: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

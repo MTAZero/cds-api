@@ -10,7 +10,8 @@ export enum SystemFeatures {
   ManagerPositions = 'ManagerPositions',
   ManagerProgresses = 'ManagerProgresses',
   ManagerDocuments = 'ManagerDocuments',
-  ManagerTrainnings = 'ManagerTrainings'
+  ManagerTrainnings = 'ManagerTrainings',
+  ManagerPersonalDiarys = 'ManagerPersonalDiarys'
 }
 
 export enum SystemAction {
@@ -81,7 +82,8 @@ export enum TypePosition {
   NVTCM = "NVTCM",
   NVTCTT = "NVTCTT",
   NVCNTT = "NVCNTT",
-  NVCMKT = "NVCMKT" 
+  NVCMKT = "NVCMKT",
+  TL = "TL"
 }
 
 export enum DayOfWeek {
@@ -92,4 +94,8 @@ export enum DayOfWeek {
   ThuSau = "Thứ 6",
   ThuBay = "Thứ 7",
   ChuNhat = "Chủ nhật"
+}
+
+export enum TypeBook {
+  SoTay = "Sổ tay"
 }

@@ -33,7 +33,11 @@ import {
 } from './schemas/dutty-setting.schema';
 import { GuardDuttyDBService } from './services/guardDuttyDBService';
 import { DuttySettingDBSerivce } from './services/duttySettingDBService';
-
+import { 
+  PersonalDiary,
+  PersonalDiarySchema
+ } from './schemas/personal-diarys.schema';
+import { PersonalDiaryDBService } from './services/PersonalDiaryDBService';
 
 
 @Module({
@@ -86,6 +90,10 @@ import { DuttySettingDBSerivce } from './services/duttySettingDBService';
       {
         name: Training.name,
         schema: TrainingSchema
+      },
+      {
+        name: PersonalDiary.name,
+        schema: PersonalDiarySchema
       }
     ]),
     JwtModule.registerAsync({
@@ -109,7 +117,8 @@ import { DuttySettingDBSerivce } from './services/duttySettingDBService';
     DuttySettingDBSerivce,
     PositionDBService,
     ProgressDBService,
-    TrainingDBService
+    TrainingDBService,
+    PersonalDiaryDBService
   ],
   exports: [
     UserDBService,
@@ -123,7 +132,8 @@ import { DuttySettingDBSerivce } from './services/duttySettingDBService';
     DuttySettingDBSerivce,
     PositionDBService,
     ProgressDBService,
-    TrainingDBService
+    TrainingDBService,
+    PersonalDiaryDBService
   ],
 })
 export class DatabaseModule {}

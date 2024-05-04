@@ -17,6 +17,7 @@ import { GuardDuttyModule } from './modules/guard-dutty/guard-dutty.module';
 import { PositionsModule } from './modules/category/positions/positions.module';
 import { ProgressesModule } from './modules/progress/progresses.module';
 import { TrainingModule } from './modules/trainning/training.module';
+import { PersonalDiaryModule } from './modules/personal-diarys/personal-diarys.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { TrainingModule } from './modules/trainning/training.module';
     GuardDuttyModule,
     PositionsModule,
     ProgressesModule,
-    TrainingModule
+    TrainingModule,
+    PersonalDiaryModule
   ],
   controllers: [AppController],
   providers: [AppService],

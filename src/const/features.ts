@@ -13,7 +13,8 @@ export const FEATURES_SYSTEM = [
   SystemFeatures.ManagerPositions,
   SystemFeatures.ManagerProgresses,
   SystemFeatures.ManagerDocuments,
-  SystemFeatures.ManagerTrainnings
+  SystemFeatures.ManagerTrainnings,
+  SystemFeatures.ManagerPersonalDiarys
 ];
 
 export const ACTIONS_SYSTEM = [

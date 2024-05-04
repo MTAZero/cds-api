@@ -376,6 +376,11 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
           },
         },
       },
+      {
+        $addFields: {
+          status: '$troop_info.status',
+        },
+      },
     ];
 
     const ans = await this.userModel
@@ -524,6 +529,11 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
           troop_info: {
             $arrayElemAt: ['$troop_info', 0],
           },
+        },
+      },
+      {
+        $addFields: {
+          status: '$troop_info.status',
         },
       },
     ];

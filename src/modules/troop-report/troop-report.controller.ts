@@ -79,11 +79,29 @@ export class TroopReportController {
     @Paginate() pagination: PaginationType,
     @Req() req,
     @Query('keyword') keyword,
+    @Query('status') status: string,
+    @Query('type') type: string,
   ) {
     if (!time) throw new BadRequestException('Time is require');
 
     const sort = req.sort;
-    const filter = { isPersonal: true };
+    let filter = { isPersonal: true };
+
+    if (status)
+      filter = {
+        ...filter,
+        ...{
+          status,
+        },
+      };
+    if (type)
+      filter = {
+        ...filter,
+        ...{
+          type,
+        },
+      };
+
     const _keyword = keyword ? keyword : '';
 
     const _time: number = parseInt(time);
@@ -122,11 +140,28 @@ export class TroopReportController {
     @Paginate() pagination: PaginationType,
     @Req() req,
     @Query('keyword') keyword,
+    @Query('status') status: string,
+    @Query('type') type: string,
   ) {
     if (!time) throw new BadRequestException('Time is require');
 
     const sort = req.sort;
-    const filter = { isPersonal: true };
+    let filter = { isPersonal: true };
+    if (status)
+      filter = {
+        ...filter,
+        ...{
+          status,
+        },
+      };
+    if (type)
+      filter = {
+        ...filter,
+        ...{
+          type,
+        },
+      };
+
     const _keyword = keyword ? keyword : '';
 
     const _time: number = parseInt(time);

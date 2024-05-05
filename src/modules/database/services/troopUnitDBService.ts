@@ -282,16 +282,6 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
     let { sort, filter } = query;
     const { textSearch, skip, limit } = query;
 
-    if (textSearch && textSearch !== '')
-      filter = {
-        ...filter,
-        ...{
-          $text: {
-            $search: `"${textSearch}"`,
-          },
-        },
-      };
-
     sort = {
       ...sort,
       ...{
@@ -299,10 +289,7 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
       },
     };
 
-    const queryDb: any = [
-      {
-        $match: filter,
-      },
+    let queryDb: any = [
       {
         $lookup: {
           from: 'units',
@@ -386,7 +373,22 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
           status: '$troop_info.status',
         },
       },
+      {
+        $match: filter,
+      },
     ];
+
+    if (textSearch && textSearch !== '')
+      queryDb = [
+        {
+          $match: {
+            $text: {
+              $search: `"${textSearch}"`,
+            },
+          },
+        },
+        ...queryDb,
+      ];
 
     const ans = await this.userModel
       .aggregate([
@@ -441,16 +443,6 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
     let { sort, filter } = query;
     const { textSearch, skip, limit } = query;
 
-    if (textSearch && textSearch !== '')
-      filter = {
-        ...filter,
-        ...{
-          $text: {
-            $search: `"${textSearch}"`,
-          },
-        },
-      };
-
     sort = {
       ...sort,
       ...{
@@ -458,10 +450,7 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
       },
     };
 
-    const queryDb: any = [
-      {
-        $match: filter,
-      },
+    let queryDb: any = [
       {
         $lookup: {
           from: 'units',
@@ -542,7 +531,22 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
           status: '$troop_info.status',
         },
       },
+      {
+        $match: filter,
+      },
     ];
+
+    if (textSearch && textSearch !== '')
+      queryDb = [
+        {
+          $match: {
+            $text: {
+              $search: `"${textSearch}"`,
+            },
+          },
+        },
+        ...queryDb,
+      ];
 
     const ans = await this.userModel
       .aggregate([

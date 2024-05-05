@@ -48,7 +48,7 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
     const res = await this.getFirstItem({
       time: entity.time,
       unit: entity.unit,
-      user_report: entity.user_report,
+      // user_report: entity.user_report,
     });
 
     if (!res) {
@@ -60,6 +60,7 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
     return ans;
   }
 
+  // báo cáo quân số
   async addReportUnit(user: User, data: TroopUnitReportDto) {
     const checkPermisison = await this.unitDBService.checkUnitIsDescenants(
       user.unit.toString(),
@@ -102,6 +103,7 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
     return true;
   }
 
+  // lấy quân số của các đơn vị con để tổng hợp
   async getReportDetail(
     unitId: string,
     data: TroopUnitGetDetailReportDto,
@@ -225,6 +227,7 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
     return ans;
   }
 
+  // lấy tình hình báo cáo quân số của các đơn vị
   async getUnitReportStatus(unitUserId: string, unitId: string, time: number) {
     const timeExact = convertTimeStampToStartDay(time);
 
@@ -240,8 +243,7 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
       unit: unit._id.toString(),
       isPersonal: true,
     });
-    const isReport = !(count === 0 && countUser > 0);
-    ans.isReport = isReport;
+    let isReport = !(count === 0 && countUser > 0);
     ans.troop_info = await this.getTroopNumberOfUnit(unitUserId, unitId, time);
 
     const items = [];
@@ -252,12 +254,15 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
         time,
       );
       items.push(item);
+      if (!item.isReport) isReport = false;
     }
     ans.childs = items;
+    ans.isReport = isReport;
 
     return ans;
   }
 
+  // lấy tình hình quân số của các user thuộc đơn vị con
   async getUserTroopStatusOfUnitAndChilds(
     userUnitId: string,
     unitId: string,
@@ -416,6 +421,7 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
     };
   }
 
+  // lấy tình hình quân số của các user của đơn vị
   async getUserTroopStatusOfUnit(
     userUnitId: string,
     unitId: string,
@@ -571,6 +577,7 @@ export class TroopUnitDBService extends BaseDBService<TroopUnits> {
     };
   }
 
+  // lấy tình hình quân số có mặt của các đơn vị
   async getTroopNumberOfUnit(
     userUnitId: string,
     unitId: string,

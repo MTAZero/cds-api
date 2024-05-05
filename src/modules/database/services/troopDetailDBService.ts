@@ -13,7 +13,7 @@ export class TroopDetailDBService extends BaseDBService<TroopDetail> {
     const res = await this.getFirstItem({
       time: entity.time,
       user: entity.user,
-      report: entity.report,
+      // report: entity.report,
     });
 
     if (!res) {

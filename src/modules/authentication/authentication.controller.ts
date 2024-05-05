@@ -75,7 +75,7 @@ export class AuthenticationController {
       true,
       ResponseCode.SUCCESS,
       ResponseMessage.SUCCESS,
-      ans ? true : false,
+      ans,
     );
   }
 

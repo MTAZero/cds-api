@@ -39,7 +39,7 @@ import { PersonalDiaryModule } from './modules/personal-diarys/personal-diarys.m
     PositionsModule,
     ProgressesModule,
     TrainingModule,
-    PersonalDiaryModule
+    PersonalDiaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

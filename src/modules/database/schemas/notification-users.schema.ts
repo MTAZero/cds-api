@@ -1,17 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, Types } from 'mongoose';
 import { User } from './users.schema';
-import { GuardDutty } from './guard-dutty.schema';
 
 @Schema()
-export class DuttySetting extends Document<any> {
+export class NotificationUser extends Document<any> {
   _id: Types.ObjectId;
 
   @Prop({ type: Types.ObjectId, ref: User.name, default: null })
   user: ObjectId;
 
-  @Prop({ type: Types.ObjectId, ref: GuardDutty.name, default: null })
-  guard_dutty: ObjectId;
+  @Prop()
+  content: string;
+
+  @Prop()
+  status: string;
 
   @Prop()
   last_update: number;
@@ -20,4 +22,8 @@ export class DuttySetting extends Document<any> {
   created_date: number;
 }
 
-export const DuttySettingSchema = SchemaFactory.createForClass(DuttySetting);
+export const NotificationUserSchema = SchemaFactory.createForClass(NotificationUser);
+
+NotificationUserSchema.index({
+  content: 'text',
+});

@@ -26,19 +26,28 @@ import {
   LeaveRegisterSchema,
 } from './schemas/leave-register.schema';
 import { LeaveRegisterDBService } from './services/leaveRegisterDBService';
-import { GuardDutty, GuardDuttySchema } from './schemas/guard-dutty.schema';
 import {
-  DuttySetting,
-  DuttySettingSchema,
-} from './schemas/dutty-setting.schema';
-import { GuardDuttyDBService } from './services/guardDuttyDBService';
-import { DuttySettingDBSerivce } from './services/duttySettingDBService';
-import { 
   PersonalDiary,
-  PersonalDiarySchema
- } from './schemas/personal-diarys.schema';
+  PersonalDiarySchema,
+} from './schemas/personal-diarys.schema';
 import { PersonalDiaryDBService } from './services/PersonalDiaryDBService';
-
+import {
+  NotificationUser,
+  NotificationUserSchema,
+} from './schemas/notification-users.schema';
+import { NotificationUserDBService } from './services/notificationDBService';
+import {
+  GuardDuttyPosition,
+  GuardDuttyPositionSchema,
+} from './schemas/guard-dutty-position.schema';
+import {
+  GuardDuttyGenerate,
+  GuardDuttyGenerateSchema,
+} from './schemas/guard_dutty_generate.schema';
+import { GuardDutty } from './schemas/guard_duttys.schema';
+import { GuardDuttyPositionDBService } from './services/guardDuttyPostionDBService';
+import { GuardDuttyGenerateDBService } from './services/guardDuttyGenerateDBService';
+import { GuardDuttyDBService } from './services/guardDuttyDBService';
 
 @Module({
   imports: [
@@ -72,29 +81,37 @@ import { PersonalDiaryDBService } from './services/PersonalDiaryDBService';
         schema: LeaveRegisterSchema,
       },
       {
-        name: GuardDutty.name,
-        schema: GuardDuttySchema,
-      },
-      {
-        name: DuttySetting.name,
-        schema: DuttySettingSchema,
-      },
-      {
         name: Position.name,
-        schema: PositionSchema
+        schema: PositionSchema,
       },
       {
         name: Progress.name,
-        schema: ProgressSchema
+        schema: ProgressSchema,
       },
       {
         name: Training.name,
-        schema: TrainingSchema
+        schema: TrainingSchema,
       },
       {
         name: PersonalDiary.name,
-        schema: PersonalDiarySchema
-      }
+        schema: PersonalDiarySchema,
+      },
+      {
+        name: NotificationUser.name,
+        schema: NotificationUserSchema,
+      },
+      {
+        name: GuardDuttyPosition.name,
+        schema: GuardDuttyPositionSchema,
+      },
+      {
+        name: GuardDuttyGenerate.name,
+        schema: GuardDuttyGenerateSchema,
+      },
+      {
+        name: GuardDutty.name,
+        schema: GuardDuttyGenerateSchema,
+      },
     ]),
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -113,12 +130,14 @@ import { PersonalDiaryDBService } from './services/PersonalDiaryDBService';
     TroopDetailDBService,
     TroopUnitDBService,
     LeaveRegisterDBService,
-    GuardDuttyDBService,
-    DuttySettingDBSerivce,
     PositionDBService,
     ProgressDBService,
     TrainingDBService,
-    PersonalDiaryDBService
+    PersonalDiaryDBService,
+    NotificationUserDBService,
+    GuardDuttyPositionDBService,
+    GuardDuttyGenerateDBService,
+    GuardDuttyDBService,
   ],
   exports: [
     UserDBService,
@@ -128,12 +147,14 @@ import { PersonalDiaryDBService } from './services/PersonalDiaryDBService';
     TroopDetailDBService,
     TroopUnitDBService,
     LeaveRegisterDBService,
-    GuardDuttyDBService,
-    DuttySettingDBSerivce,
     PositionDBService,
     ProgressDBService,
     TrainingDBService,
-    PersonalDiaryDBService
+    PersonalDiaryDBService,
+    NotificationUserDBService,
+    GuardDuttyPositionDBService,
+    GuardDuttyGenerateDBService,
+    GuardDuttyDBService,
   ],
 })
 export class DatabaseModule {}

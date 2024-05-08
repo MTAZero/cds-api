@@ -28,6 +28,9 @@ export class GuardDutty extends Document<any> {
   unit_default: ObjectId;
 
   @Prop()
+  number: number;
+
+  @Prop()
   note: string;
 
   @Prop({ default: false })

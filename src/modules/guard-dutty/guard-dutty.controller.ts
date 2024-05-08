@@ -27,6 +27,7 @@ import { ApiResponse } from 'src/utils';
 import { GuardDuttyPositionDBService } from '../database/services/guardDuttyPostionDBService';
 import { CreateGuardDuttyPositionDto } from './dtos/create-guard-dutty-position.dto';
 import { UpdateGuardDuttyPositionDto } from './dtos/update-guard-dutty-position.dto';
+import { GuardDuttyDBService } from '../database/services/guardDuttyDBService';
 
 @Controller('guard-dutty')
 @UseGuards(PermissionsGuard)
@@ -34,12 +35,15 @@ export class GuardDuttyController {
   @Inject(GuardDuttyPositionDBService)
   guardDuttyPositionDBService: GuardDuttyPositionDBService;
 
+  @Inject(GuardDuttyDBService)
+  guardDuttyDBService: GuardDuttyDBService;
+
   @Get('/positions')
   @ActionsPermission([SystemAction.View, SystemAction.Edit])
   @ModulePermission(SystemFeatures.ManagerGuardDutty)
   async getListGuardDuttyPosition(@Res() res, @Req() req, @Query() query) {
     const pagination: PaginationType = req.pagination;
-    const sort = req.sort;
+    const sort = { priority_display: -1, last_update: -1 };
     const filter = {};
     const keyword = query.keyword ? query.keyword : '';
 
@@ -119,6 +123,28 @@ export class GuardDuttyController {
   async getDetailGuardDuttyPosition(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.guardDuttyPositionDBService.getItemById(id);
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
+  @Get('/pending/:unitId')
+  @ActionsPermission([SystemAction.View, SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerGuardDutty)
+  async getListGuardDuttyPending(
+    @Res() res,
+    @Param('unitId') unitId: string,
+    @Query('time') time: string,
+  ) {
+    const ans = await this.guardDuttyDBService.getListPendingGuardDuttyMonth(
+      unitId,
+      parseInt(time),
+    );
+
     return ApiResponse(
       res,
       true,

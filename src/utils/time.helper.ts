@@ -87,3 +87,17 @@ export const getNumDaysOfMonth = (month: number, year: number) => {
 
   return numDays;
 };
+
+export const getWeekday = (
+  day: number,
+  month: number,
+  year: number,
+): number => {
+  const date = new Date(year, month - 1, day);
+  const weekday = date.getDay();
+
+  // chủ nhật
+  if (weekday === 0) return 7;
+
+  return weekday;
+};

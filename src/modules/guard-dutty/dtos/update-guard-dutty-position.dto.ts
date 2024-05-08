@@ -23,6 +23,10 @@ export class UpdateGuardDuttyPositionDto {
   @IsOptional()
   number: number;
 
+  @IsNumber()
+  @IsOptional()
+  priority_display: number;
+
   @IsString()
   @IsOptional()
   note: string;

@@ -203,8 +203,9 @@ export class GuardDuttyController {
       if (!unit) throw new NotFoundException();
 
       const canUpdate = await this.unitDBService.checkUnitIsDescenants(
-        item.unit_default,
+        item.unit,
         entity.unit,
+        false,
       );
       if (!canUpdate) throw new ForbiddenException();
 

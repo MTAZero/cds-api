@@ -27,6 +27,9 @@ export class GuardDuttyPosition extends Document<any> {
   @Prop({ default: 1 })
   rate: number;
 
+  @Prop({ default: 0 })
+  priority_display: number;
+
   @Prop()
   last_update: number;
 

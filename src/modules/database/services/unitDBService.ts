@@ -7,9 +7,7 @@ import { MAX_ITEM_QUERYS } from 'src/const';
 
 @Injectable()
 export class UnitDBService extends BaseDBService<Unit> {
-  static getAllDescendants(unitId: string) {
-    throw new Error('Method not implemented.');
-  }
+
   constructor(@InjectModel(Unit.name) private readonly entityModel) {
     super(entityModel);
   }
@@ -105,6 +103,7 @@ export class UnitDBService extends BaseDBService<Unit> {
     const entity: Unit = await this.getItemById(unitChildId);
 
     if (!unit || !entity) return false;
+    if (unitId === unitChildId) return false;
     if (entity.key.toString().includes(unit._id.toString())) return true;
 
     return false;

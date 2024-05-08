@@ -14,6 +14,9 @@ export class GuardDuttyGenerate extends Document<any> {
   time: number;
 
   @Prop()
+  title: string;
+
+  @Prop()
   last_update: number;
 
   @Prop()

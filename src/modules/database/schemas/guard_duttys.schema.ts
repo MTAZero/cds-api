@@ -12,8 +12,8 @@ export class GuardDutty extends Document<any> {
   @Prop({ default: 0 })
   time: number;
 
-  @Prop({ type: Types.ObjectId, ref: GuardDuttyGenerate.name, default: null })
-  guard_dutty_generate: ObjectId;
+  // @Prop({ type: Types.ObjectId, ref: GuardDuttyGenerate.name, default: null })
+  // guard_dutty_generate: ObjectId;
 
   @Prop({ type: Types.ObjectId, ref: GuardDuttyPosition.name, default: null })
   guard_dutty_position: ObjectId;
@@ -27,7 +27,7 @@ export class GuardDutty extends Document<any> {
   @Prop({ type: Types.ObjectId, ref: Unit.name, default: null })
   unit_default: ObjectId;
 
-  @Prop({ default: 1 })
+  @Prop()
   number: number;
 
   @Prop()

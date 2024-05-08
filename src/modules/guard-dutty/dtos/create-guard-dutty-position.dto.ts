@@ -24,6 +24,10 @@ export class CreateGuardDuttyPositionDto {
   @IsNotEmpty()
   number: number;
 
+  @IsNumber()
+  @IsNotEmpty()
+  priority_display: number;
+
   @IsString()
   @IsOptional()
   note: string;

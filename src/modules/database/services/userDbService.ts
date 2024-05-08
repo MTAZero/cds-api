@@ -1,7 +1,13 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../schemas/users.schema';
 import { BaseDBService } from './base';
-import { HttpException, Inject, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import {
   BCRYPT_SALT,
@@ -185,6 +191,100 @@ export class UserDBService extends BaseDBService<User> {
     return ans;
   }
 
+  async getUserOfUnitByScope(
+    userID: string,
+    unitId: string,
+    query: QueryParams,
+  ): Promise<ResponseQuery<any>> {
+    let { filter } = query;
+    const { skip, limit } = query;
+    const pageIndex = skip / limit + 1;
+
+    const res = {
+      items: [],
+      total: 0,
+      size: limit,
+      page: pageIndex,
+      offset: skip,
+    };
+
+    const user = await this.getItemById(userID);
+    if (!user?.unit) return res;
+
+    const unit = await this.unitDBService.getItemById(user.unit);
+    if (!unit) return res;
+
+    const canGet = await this.unitDBService.checkUnitIsDescenants(
+      unit._id.toString(),
+      unitId,
+    );
+    if (!canGet) throw new ForbiddenException();
+
+    filter = {
+      ...filter,
+      ...{
+        unit: unitId,
+      },
+    };
+
+    const ans = await this.getItems({
+      ...query,
+      ...{
+        filter,
+      },
+    });
+    return ans;
+  }
+
+  async getUserOfUnitTreeByScope(
+    userID: string,
+    unitId: string,
+    query: QueryParams,
+  ): Promise<ResponseQuery<any>> {
+    let { filter } = query;
+    const { skip, limit } = query;
+    const pageIndex = skip / limit + 1;
+
+    const res = {
+      items: [],
+      total: 0,
+      size: limit,
+      page: pageIndex,
+      offset: skip,
+    };
+
+    const user = await this.getItemById(userID);
+    if (!user.unit) return res;
+
+    const unit = await this.unitDBService.getItemById(user.unit);
+    if (!unit) return res;
+
+    const canGet = await this.unitDBService.checkUnitIsDescenants(
+      unit._id.toString(),
+      unitId,
+    );
+    if (!canGet) throw new ForbiddenException();
+
+    const units = await this.unitDBService.getAllDescendants(unitId);
+
+    filter = {
+      ...filter,
+      ...{
+        unit: {
+          $in: units.map((i) => i._id.toString()),
+        },
+      },
+    };
+
+    const ans = await this.getItems({
+      ...query,
+      ...{
+        filter,
+      },
+    });
+    return ans;
+  }
+
   async getUsersOfUnit(unit: string): Promise<Array<User>> {
     const requestData = await this.getItems({
       filter: {
@@ -210,5 +310,16 @@ export class UserDBService extends BaseDBService<User> {
     });
 
     return requestData.items;
+  }
+
+  async checkUserInUnit(userId: string, unitId: string) {
+    const user = await this.getItemById(userId);
+    if (!user) throw new NotFoundException();
+
+    const ans = await this.unitDBService.checkUnitIsDescenants(
+      unitId,
+      user.unit.toString(),
+    );
+    return ans;
   }
 }

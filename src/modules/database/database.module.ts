@@ -44,7 +44,7 @@ import {
   GuardDuttyGenerate,
   GuardDuttyGenerateSchema,
 } from './schemas/guard_dutty_generate.schema';
-import { GuardDutty } from './schemas/guard_duttys.schema';
+import { GuardDutty, GuardDuttySchema } from './schemas/guard_duttys.schema';
 import { GuardDuttyPositionDBService } from './services/guardDuttyPostionDBService';
 import { GuardDuttyGenerateDBService } from './services/guardDuttyGenerateDBService';
 import { GuardDuttyDBService } from './services/guardDuttyDBService';
@@ -110,7 +110,7 @@ import { GuardDuttyDBService } from './services/guardDuttyDBService';
       },
       {
         name: GuardDutty.name,
-        schema: GuardDuttyGenerateSchema,
+        schema: GuardDuttySchema,
       },
     ]),
     JwtModule.registerAsync({

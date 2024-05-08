@@ -48,7 +48,7 @@ export class UsersController {
     const sort = req.sort;
     const filter = {};
     const keyword = query.keyword ? query.keyword : '';
-    
+
     const data = await this.userDBService.getItemsByScope(user._id, {
       filter,
       sort,
@@ -56,6 +56,80 @@ export class UsersController {
       limit: pagination.limit,
       textSearch: keyword,
     });
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      data,
+    );
+  }
+
+  @Get('/unit/:unitId')
+  @ActionsPermission([SystemAction.View, SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerUsers)
+  async getListUsersOfUnit(
+    @Res() res,
+    @Req() req,
+    @Query() query,
+    @CurrentUser() user,
+    @Param('unitId') unitId,
+  ) {
+    const pagination: PaginationType = req.pagination;
+    const sort = req.sort;
+    const filter = {
+      isPersonal: true,
+    };
+    const keyword = query.keyword ? query.keyword : '';
+
+    const data = await this.userDBService.getUserOfUnitByScope(
+      user._id,
+      unitId,
+      {
+        filter,
+        sort,
+        skip: pagination.skip,
+        limit: pagination.limit,
+        textSearch: keyword,
+      },
+    );
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      data,
+    );
+  }
+
+  @Get('/unit-tree/:unitId')
+  @ActionsPermission([SystemAction.View, SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerUsers)
+  async getListUsersOfUnitTree(
+    @Res() res,
+    @Req() req,
+    @Query() query,
+    @CurrentUser() user,
+    @Param('unitId') unitId,
+  ) {
+    const pagination: PaginationType = req.pagination;
+    const sort = req.sort;
+    const filter = { isPersonal: true };
+    const keyword = query.keyword ? query.keyword : '';
+
+    const data = await this.userDBService.getUserOfUnitTreeByScope(
+      user._id,
+      unitId,
+      {
+        filter,
+        sort,
+        skip: pagination.skip,
+        limit: pagination.limit,
+        textSearch: keyword,
+      },
+    );
 
     return ApiResponse(
       res,

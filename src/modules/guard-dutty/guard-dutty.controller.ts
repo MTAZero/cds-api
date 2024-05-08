@@ -1,9 +1,12 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   Inject,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -28,6 +31,11 @@ import { GuardDuttyPositionDBService } from '../database/services/guardDuttyPost
 import { CreateGuardDuttyPositionDto } from './dtos/create-guard-dutty-position.dto';
 import { UpdateGuardDuttyPositionDto } from './dtos/update-guard-dutty-position.dto';
 import { GuardDuttyDBService } from '../database/services/guardDuttyDBService';
+import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
+import { UpdateGuardDuttyDto } from './dtos/update-guard-dutty.dto';
+import { UserDBService } from '../database/services/userDbService';
+import { UnitDBService } from '../database/services/unitDBService';
+import { CurrentUser } from 'src/decorator/current-user.decorator';
 
 @Controller('guard-dutty')
 @UseGuards(PermissionsGuard)
@@ -37,6 +45,12 @@ export class GuardDuttyController {
 
   @Inject(GuardDuttyDBService)
   guardDuttyDBService: GuardDuttyDBService;
+
+  @Inject(UserDBService)
+  userDBService: UserDBService;
+
+  @Inject(UnitDBService)
+  unitDBService: UnitDBService;
 
   @Get('/positions')
   @ActionsPermission([SystemAction.View, SystemAction.Edit])
@@ -144,6 +158,112 @@ export class GuardDuttyController {
       unitId,
       parseInt(time),
     );
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
+  @Put('/assign/:id')
+  @UseInterceptors(FileInterceptor('file'))
+  @ActionsPermission([SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerGuardDutty)
+  async assignGuardDutty(
+    @Res() res,
+    @Param('id') id: string,
+    @Body(new ValidationPipe()) entity: UpdateGuardDuttyDto,
+  ) {
+    let ans;
+
+    const item = await this.guardDuttyDBService.getItemById(id);
+    if (!item) throw new NotFoundException();
+
+    if (entity.user) {
+      const user = await this.userDBService.getItemById(entity.user);
+      if (!user) throw new NotFoundException();
+
+      const canUpdate = await this.userDBService.checkUserInUnit(
+        entity.user,
+        item.unit,
+      );
+      if (!canUpdate) throw new ForbiddenException();
+
+      ans = await this.guardDuttyDBService.updateItem(id, {
+        user: entity.user,
+        is_complete: true,
+      });
+    } else {
+      if (!entity.unit) throw new BadRequestException('unit or user required');
+
+      const unit = await this.unitDBService.getItemById(entity.unit);
+      if (!unit) throw new NotFoundException();
+
+      const canUpdate = await this.unitDBService.checkUnitIsDescenants(
+        item.unit_default,
+        entity.unit,
+      );
+      if (!canUpdate) throw new ForbiddenException();
+
+      ans = await this.guardDuttyDBService.updateItem(id, {
+        unit: entity.unit,
+        is_complete: false,
+      });
+    }
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
+  @Get('/unit/:unitId')
+  async getListGuardDuttyOfUnit(
+    @Res() res,
+    @Param('unitId') unitId: string,
+    @Query('time') time: string,
+  ) {
+    if (!time) throw new BadRequestException('Time is required');
+
+    const timeExact = parseInt(time);
+    const ans = await this.guardDuttyDBService.getListGuardDuttyCompleteByUnit(
+      unitId,
+      timeExact,
+    );
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
+  @Get('/personal/:userId')
+  @UseGuards(JwtAuthGuard)
+  async getListGuardDuttyOfUser(
+    @Res() res,
+    @Query('time') time: string,
+    @Param('userId') userId: string,
+  ) {
+    if (!time) throw new BadRequestException('Time is required');
+
+    const user = await this.userDBService.getItemById(userId);
+    if (!user) throw new NotFoundException();
+
+    const timeExact = parseInt(time);
+    const ans =
+      await this.guardDuttyDBService.getListGuardDuttyCompleteByPersonal(
+        userId,
+        timeExact,
+      );
 
     return ApiResponse(
       res,

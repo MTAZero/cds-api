@@ -7,7 +7,6 @@ import { MAX_ITEM_QUERYS } from 'src/const';
 
 @Injectable()
 export class UnitDBService extends BaseDBService<Unit> {
-
   constructor(@InjectModel(Unit.name) private readonly entityModel) {
     super(entityModel);
   }
@@ -98,12 +97,13 @@ export class UnitDBService extends BaseDBService<Unit> {
   async checkUnitIsDescenants(
     unitId: string,
     unitChildId: string,
+    acceptEqual: boolean = true,
   ): Promise<boolean> {
     const unit: Unit = await this.getItemById(unitId);
     const entity: Unit = await this.getItemById(unitChildId);
 
     if (!unit || !entity) return false;
-    if (unitId === unitChildId) return false;
+    if (unitId === unitChildId && !acceptEqual) return false;
     if (entity.key.toString().includes(unit._id.toString())) return true;
 
     return false;

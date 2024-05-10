@@ -113,6 +113,40 @@ export class GuardDuttyDBService extends BaseDBService<GuardDutty> {
         $unset: 'users',
       },
       {
+        $lookup: {
+          from: 'units',
+          let: {
+            unit: '$unit',
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: [{ $toString: '$_id' }, '$$unit'],
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 1,
+                name: 1,
+              },
+            },
+          ],
+          as: 'units',
+        },
+      },
+      {
+        $set: {
+          unit_assign: {
+            $arrayElemAt: ['$units', 0],
+          },
+        },
+      },
+      {
+        $unset: 'units',
+      },
+      {
         $sort: sort,
       },
       {
@@ -175,7 +209,7 @@ export class GuardDuttyDBService extends BaseDBService<GuardDutty> {
         skip: 0,
         limit: MAX_ITEM_QUERYS,
         filter: {
-          unit_default: unitId,
+          unit: unitId,
           time: timeDay,
         },
         sort: {

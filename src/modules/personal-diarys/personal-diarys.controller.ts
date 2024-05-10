@@ -39,7 +39,7 @@ import {
     @Inject(TrainingDBService)
     trainingDBService: TrainingDBService;
 
-  @Get('/:id')
+  @Get('/:trainingID')
     @ActionsPermission([SystemAction.View])
     @ModulePermission(SystemFeatures.ManagerPersonalDiarys)
     async getPersonalDiaryByID(
@@ -48,9 +48,7 @@ import {
     @CurrentUser() user
   ) {
 
-    const id = params.id;
-    
-
+    const id = params.trainingID;
     const ans = await this.personalDiaryDBService.getPersonalBookById(user._id, id);
 
     return ApiResponse(

@@ -130,4 +130,10 @@ export class UnitDBService extends BaseDBService<Unit> {
 
     return false;
   }
+
+  async getAncestorUnit(unitId: string): Promise<Array<string>> {
+    const unit = await this.getItemById(unitId);
+    const lstUnitIDs = unit.key.split('_')
+    return lstUnitIDs; 
+  }
 }

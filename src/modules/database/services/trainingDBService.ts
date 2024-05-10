@@ -32,7 +32,7 @@ export class TrainingDBService extends BaseDBService<Training> {
     query: QueryParams,
   ): Promise<ResponseQuery<any>> {
     
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, unitTraining)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, unitTraining)
     if(!checkPermisison) throw new ForbiddenException();
 
     let lst_training = await this.getItems(query)
@@ -83,7 +83,7 @@ export class TrainingDBService extends BaseDBService<Training> {
     query: QueryParams,
   ): Promise<ResponseQuery<any>> {
     
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, unitTraining)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, unitTraining)
     if(!checkPermisison) throw new ForbiddenException();
 
     let lst_training = await this.getItems(query)
@@ -128,7 +128,7 @@ export class TrainingDBService extends BaseDBService<Training> {
     query: QueryParams,
   ) {
     
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, unitTraining)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, unitTraining)
     if(!checkPermisison) throw new ForbiddenException();
 
     let lst_training = await this.getItems(query)
@@ -205,7 +205,7 @@ export class TrainingDBService extends BaseDBService<Training> {
     const training = await this.getItemById(id)
     if(!training) throw new NotFoundException();
 
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, training.unit)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, training.unit)
     if(!checkPermisison) throw new ForbiddenException();
 
     let sum_people = 0
@@ -228,15 +228,18 @@ export class TrainingDBService extends BaseDBService<Training> {
   async getTrainingOfUser(
     user: any,
   ): Promise<ResponseQuery<any>> {
-  
+    
+    const lstUnitID = await this.unitDBService.getAncestorUnit(user.unit)
+
     const query: QueryParams = {
       skip: 0,
       limit: MAX_ITEM_QUERYS,
       filter: {
-        unit: user.unit
+        unit: {
+          $in: lstUnitID
+        },
       },
     };
-    
 
     let lst_training = await this.getItems(query)
     const populateQuery = [
@@ -249,27 +252,38 @@ export class TrainingDBService extends BaseDBService<Training> {
   ];
   
     const lst_map = await this.entityModel.populate(lst_training.items, populateQuery);
-    var element = []
-    const ans = await Promise.all(lst_map.map(async (item) => {
-      if(item.progress.time_train_detail.length > 0){
+    
+    const lst_filter = lst_map.filter((item) => {
+      
+      if(item.element_join.length > 0){
+        const lstUserID = item.element_join.reduce((acc, obj) =>{
 
-        element = await Promise.all(item.progress.time_train_detail.map( async (x) => {
-          const obj = await this.positionDBService.getItemById(x.object)
-          return obj.name
-        }))
+            const lstUser = obj.list_people.length > 0 ? obj.list_people.filter(people => {
+              if(people._id === user._id.toString() && people.joined === 1)
+                return true;
+            }): []
 
+            return acc + lstUser
+        }, [])
+        return lstUserID.length > 0
       }
+      return false
+    })
 
+    const ans = lst_filter.map((item) => {
       return {
         _id: item._id,
         date: item.progress.date,
         content: item.progress.content,
         train_time_actual: item.time_train_actual,
-        elements:  element,
         sum_joiner: item.sum_joiner,
-        evaluation: item.evaluation
+        evaluation: item.evaluation,
+        week: item.week,
+        month: item.month,
+        year: item.year,
+        unit_charge: item.progress.unit_charge
       }
-    }))
+    })
 
     return {
       items: ans,
@@ -279,5 +293,4 @@ export class TrainingDBService extends BaseDBService<Training> {
       offset: lst_training.offset,
     };
   }
-
 }

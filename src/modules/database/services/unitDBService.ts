@@ -103,7 +103,7 @@ export class UnitDBService extends BaseDBService<Unit> {
     const entity: Unit = await this.getItemById(unitChildId);
 
     if (!unit || !entity) return false;
-    if (unitId === unitChildId && !acceptEqual) return false;
+    if (unitId === unitChildId) return acceptEqual;
     if (entity.key.toString().includes(unit._id.toString())) return true;
 
     return false;

@@ -105,8 +105,8 @@ export class UsersController {
   }
 
   @Get('/unit-tree/:unitId')
-  @ActionsPermission([SystemAction.View, SystemAction.Edit])
-  @ModulePermission(SystemFeatures.ManagerUsers)
+  // @ActionsPermission([SystemAction.View, SystemAction.Edit])
+  // @ModulePermission(SystemFeatures.ManagerUsers)
   async getListUsersOfUnitTree(
     @Res() res,
     @Req() req,

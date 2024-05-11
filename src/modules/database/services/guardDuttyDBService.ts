@@ -37,12 +37,13 @@ export class GuardDuttyDBService extends BaseDBService<GuardDutty> {
         },
       };
 
-    sort = {
-      ...sort,
-      ...{
-        _id: 1,
-      },
-    };
+    if (!sort)
+      sort = {
+        ...sort,
+        ...{
+          _id: 1,
+        },
+      };
 
     const queryDb: any = [
       {
@@ -288,7 +289,7 @@ export class GuardDuttyDBService extends BaseDBService<GuardDutty> {
     const timeObject = getDayMonthAndYear(new Date(exactTime));
     const numDays = getNumDaysOfMonth(timeObject.month, timeObject.year);
 
-    const unitChilds = await this.unitDBService.getListChild(unitId);
+    const unitChilds = await this.unitDBService.getAllDescendants(unitId);
     const unitChildIds = unitChilds.map((i) => i._id.toString());
     unitChildIds.push(unitId);
 

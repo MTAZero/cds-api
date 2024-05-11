@@ -247,6 +247,31 @@ export class GuardDuttyController {
     );
   }
 
+  @Get('/root/:unitId')
+  async getListGuardDuttyOfRootUnit(
+    @Res() res,
+    @Param('unitId') unitId: string,
+    @Query('time') time: string,
+  ) {
+    if (!time) throw new BadRequestException('Time is required');
+
+    const timeExact = parseInt(time);
+    const root = await this.unitDBService.getRootOfUnit(unitId);
+
+    const ans = await this.guardDuttyDBService.getListGuardDuttyCompleteByUnit(
+      root._id.toString(),
+      timeExact,
+    );
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
   @Get('/personal/:userId')
   @UseGuards(JwtAuthGuard)
   async getListGuardDuttyOfUser(

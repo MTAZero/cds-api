@@ -1,6 +1,6 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { BaseDBService } from './base';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Unit } from '../schemas/units.schema';
 import { QueryParams } from 'src/interface/i-base-db-service';
 import { MAX_ITEM_QUERYS } from 'src/const';
@@ -107,5 +107,13 @@ export class UnitDBService extends BaseDBService<Unit> {
     if (entity.key.toString().includes(unit._id.toString())) return true;
 
     return false;
+  }
+
+  async getRootOfUnit(unitId: string) {
+    const unit: Unit = await this.getItemById(unitId);
+    if (!unit) throw new NotFoundException();
+
+    if (!unit.parent) return unit;
+    return this.getRootOfUnit(unit.parent.toString());
   }
 }

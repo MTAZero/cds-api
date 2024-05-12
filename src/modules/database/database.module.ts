@@ -48,6 +48,16 @@ import { GuardDutty, GuardDuttySchema } from './schemas/guard_duttys.schema';
 import { GuardDuttyPositionDBService } from './services/guardDuttyPostionDBService';
 import { GuardDuttyGenerateDBService } from './services/guardDuttyGenerateDBService';
 import { GuardDuttyDBService } from './services/guardDuttyDBService';
+import {
+  WorkCalendar,
+  WorkCalendarSchema,
+} from './schemas/work-calendar.schema';
+import {
+  WorkCalendarAssign,
+  WorkCalendarAssignSchema,
+} from './schemas/work-calendar-assign.schema';
+import { WorkCalendarDBService } from './services/workCalendarDBService';
+import { WorkCalendarAssignDBService } from './services/workCalendarAssignDBService';
 
 @Module({
   imports: [
@@ -112,6 +122,14 @@ import { GuardDuttyDBService } from './services/guardDuttyDBService';
         name: GuardDutty.name,
         schema: GuardDuttySchema,
       },
+      {
+        name: WorkCalendar.name,
+        schema: WorkCalendarSchema,
+      },
+      {
+        name: WorkCalendarAssign.name,
+        schema: WorkCalendarAssignSchema,
+      },
     ]),
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -138,6 +156,8 @@ import { GuardDuttyDBService } from './services/guardDuttyDBService';
     GuardDuttyPositionDBService,
     GuardDuttyGenerateDBService,
     GuardDuttyDBService,
+    WorkCalendarDBService,
+    WorkCalendarAssignDBService,
   ],
   exports: [
     UserDBService,
@@ -155,6 +175,8 @@ import { GuardDuttyDBService } from './services/guardDuttyDBService';
     GuardDuttyPositionDBService,
     GuardDuttyGenerateDBService,
     GuardDuttyDBService,
+    WorkCalendarDBService,
+    WorkCalendarAssignDBService,
   ],
 })
 export class DatabaseModule {}

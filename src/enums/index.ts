@@ -12,6 +12,7 @@ export enum SystemFeatures {
   ManagerDocuments = 'ManagerDocuments',
   ManagerTrainnings = 'ManagerTrainings',
   ManagerPersonalDiarys = 'ManagerPersonalDiarys',
+  WorkCalendar = 'WorkCalendar',
 }
 
 export enum SystemAction {

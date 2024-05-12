@@ -18,6 +18,7 @@ import { PositionsModule } from './modules/category/positions/positions.module';
 import { ProgressesModule } from './modules/progress/progresses.module';
 import { TrainingModule } from './modules/trainning/training.module';
 import { PersonalDiaryModule } from './modules/personal-diarys/personal-diarys.module';
+import { WorkCalendarModule } from './modules/work-calendar/work-calendar.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { PersonalDiaryModule } from './modules/personal-diarys/personal-diarys.m
     ProgressesModule,
     TrainingModule,
     PersonalDiaryModule,
+    WorkCalendarModule,
   ],
   controllers: [AppController],
   providers: [AppService],

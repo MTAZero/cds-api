@@ -1,4 +1,11 @@
-import { TroopStatus, UserType, Rank, TypePosition, DayOfWeek, TypeBook } from 'src/enums';
+import {
+  TroopStatus,
+  UserType,
+  Rank,
+  TypePosition,
+  DayOfWeek,
+  TypeBook,
+} from 'src/enums';
 
 export const API_VERSION = '1.0';
 export const DEFAULT_PAGE_SIZE = process.env['DEFAULT_PAGE_SIZE']
@@ -29,6 +36,11 @@ export const LIST_USER_TYPES = [
 ];
 
 export const RANK = [
+  Rank.BinhNhi,
+  Rank.BinhNhat,
+  Rank.HaSi,
+  Rank.TrungSi,
+  Rank.ThuongSi,
   Rank.ThieuUyCN,
   Rank.TrungUyCN,
   Rank.ThuongUyCN,
@@ -47,8 +59,8 @@ export const RANK = [
   Rank.ThieuTuong,
   Rank.TrungTuong,
   Rank.ThuongTuong,
-  Rank.DaiTuong
-]
+  Rank.DaiTuong,
+];
 
 export const TYPE_POSITION = [
   TypePosition.SQCH,
@@ -62,8 +74,8 @@ export const TYPE_POSITION = [
   TypePosition.NVCNTT,
   TypePosition.NVTCTT,
   TypePosition.NVCMKT,
-  TypePosition.TL
-]
+  TypePosition.TL,
+];
 
 export const DAY_OF_WEEK = [
   DayOfWeek.ThuHai,
@@ -72,9 +84,7 @@ export const DAY_OF_WEEK = [
   DayOfWeek.ThuNam,
   DayOfWeek.ThuSau,
   DayOfWeek.ThuBay,
-  DayOfWeek.ChuNhat
-]
+  DayOfWeek.ChuNhat,
+];
 
-export const TYPE_BOOK = [
-  TypeBook.SoTay
-]
+export const TYPE_BOOK = [TypeBook.SoTay];

@@ -11,7 +11,7 @@ export enum SystemFeatures {
   ManagerProgresses = 'ManagerProgresses',
   ManagerDocuments = 'ManagerDocuments',
   ManagerTrainnings = 'ManagerTrainings',
-  ManagerPersonalDiarys = 'ManagerPersonalDiarys'
+  ManagerPersonalDiarys = 'ManagerPersonalDiarys',
 }
 
 export enum SystemAction {
@@ -50,52 +50,57 @@ export enum RegisterLeaveStatus {
 }
 
 export enum Rank {
-  ThieuUyCN = "Thiếu úy CN",
-  TrungUyCN = "Trung úy CN",
-  ThuongUyCN = "Thượng úy CN",
-  DaiUyCN = "Đại úy CN",
-  ThieuTaCN = "Thiếu tá CN",
-  TrungTaCN = "Trung tá CN",
-  ThuongTaCN = "Thượng tá CN",
-  ThieuUy = "Thiếu úy",
-  TrungUy = "Trung úy",
-  ThuongUy = "Thượng úy",
-  DaiUy = "Đại úy",
-  ThieuTa = "Thiếu tá",
-  TrungTa = "Trung tá",
-  ThuongTa = "Thượng tá",
-  DaiTa = "Đại tá",
-  ThieuTuong = "Thiếu tướng",
-  TrungTuong = "Trung tướng",
-  ThuongTuong = "Thượng tướng",
-  DaiTuong = "Đại tướng"
+  BinhNhi = 'Binh nhì',
+  BinhNhat = 'Binh nhất',
+  HaSi = 'Hạ sĩ',
+  TrungSi = 'Trung sĩ',
+  ThuongSi = 'Thượng sĩ',
+  ThieuUyCN = 'Thiếu úy CN',
+  TrungUyCN = 'Trung úy CN',
+  ThuongUyCN = 'Thượng úy CN',
+  DaiUyCN = 'Đại úy CN',
+  ThieuTaCN = 'Thiếu tá CN',
+  TrungTaCN = 'Trung tá CN',
+  ThuongTaCN = 'Thượng tá CN',
+  ThieuUy = 'Thiếu úy',
+  TrungUy = 'Trung úy',
+  ThuongUy = 'Thượng úy',
+  DaiUy = 'Đại úy',
+  ThieuTa = 'Thiếu tá',
+  TrungTa = 'Trung tá',
+  ThuongTa = 'Thượng tá',
+  DaiTa = 'Đại tá',
+  ThieuTuong = 'Thiếu tướng',
+  TrungTuong = 'Trung tướng',
+  ThuongTuong = 'Thượng tướng',
+  DaiTuong = 'Đại tướng',
 }
 
 export enum TypePosition {
-  SQCH = "SQCH",
-  SQTCM = "SQTCM",
-  SQTCTT = "SQTCTT",
-  SQCNTT = "SQCNTT",
-  KTVTCM = "KTVTCM",
-  KTVTCTT = "KTVTCTT",
-  KTVCNTT = "KTVCNTT",
-  NVTCM = "NVTCM",
-  NVTCTT = "NVTCTT",
-  NVCNTT = "NVCNTT",
-  NVCMKT = "NVCMKT",
-  TL = "TL"
+  SQCH = 'SQCH',
+  SQTCM = 'SQTCM',
+  SQTCTT = 'SQTCTT',
+  SQCNTT = 'SQCNTT',
+  KTVTCM = 'KTVTCM',
+  KTVTCTT = 'KTVTCTT',
+  KTVCNTT = 'KTVCNTT',
+  NVTCM = 'NVTCM',
+  NVTCTT = 'NVTCTT',
+  NVCNTT = 'NVCNTT',
+  NVCMKT = 'NVCMKT',
+  TL = 'TL',
 }
 
 export enum DayOfWeek {
-  ThuHai = "Thứ 2",
-  ThuBa = "Thứ 3",
-  ThuTu = "Thứ 4",
-  ThuNam = "Thứ 5",
-  ThuSau = "Thứ 6",
-  ThuBay = "Thứ 7",
-  ChuNhat = "Chủ nhật"
+  ThuHai = 'Thứ 2',
+  ThuBa = 'Thứ 3',
+  ThuTu = 'Thứ 4',
+  ThuNam = 'Thứ 5',
+  ThuSau = 'Thứ 6',
+  ThuBay = 'Thứ 7',
+  ChuNhat = 'Chủ nhật',
 }
 
 export enum TypeBook {
-  SoTay = "Sổ tay"
+  SoTay = 'Sổ tay',
 }

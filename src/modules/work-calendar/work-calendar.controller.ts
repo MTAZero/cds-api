@@ -147,14 +147,24 @@ export class WorkCalendarController {
   @Get('/user/:userId')
   async getWorkCalendarOfUser(
     @Res() res,
-    @Query('startTime') startTime: number,
-    @Query('endTime') endTime: number,
+    @Query('startTime') startTime: string,
+    @Query('endTime') endTime: string,
     @Param('userId') userId: string,
   ) {
+    let start = 0,
+      end = 1000000000000000;
+
+    try {
+      if (startTime && endTime) {
+        start = parseInt(startTime);
+        end = parseInt(endTime);
+      }
+    } catch {}
+
     const ans = await this.workCalendarDBService.getCalendarOfUser(
       userId,
-      startTime,
-      endTime,
+      start,
+      end,
     );
     return ApiResponse(
       res,
@@ -168,14 +178,24 @@ export class WorkCalendarController {
   @Get('/unit/:unitId')
   async getWorkCalendarOfUnit(
     @Res() res,
-    @Query('startTime') startTime: number,
-    @Query('endTime') endTime: number,
+    @Query('startTime') startTime: string,
+    @Query('endTime') endTime: string,
     @Param('unitId') unitId: string,
   ) {
+    let start = 0,
+      end = 1000000000000000;
+
+    try {
+      if (startTime && endTime) {
+        start = parseInt(startTime);
+        end = parseInt(endTime);
+      }
+    } catch {}
+
     const ans = await this.workCalendarDBService.getCalendarOfUnit(
       unitId,
-      startTime,
-      endTime,
+      start,
+      end,
     );
     return ApiResponse(
       res,

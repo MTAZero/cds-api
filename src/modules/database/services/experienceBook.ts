@@ -1,63 +1,75 @@
-// import { InjectModel } from '@nestjs/mongoose';
-// import { PersonalDiary } from '../schemas/personal-diarys.schema';
-// import { BaseDBService } from './base';
-// import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-// import { UnitDBService } from './unitDBService';
-// import { PositionDBService } from './positionDBService';
-// import { UserDBService } from './userDbService';
-// import { ExperienceBook } from '../schemas/experience-book.schem';
+import { InjectModel } from '@nestjs/mongoose';
+import { BaseDBService } from './base';
+import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { UnitDBService } from './unitDBService';
+import { PositionDBService } from './positionDBService';
+import { ExperienceBook } from '../schemas/experience-book.schema';
+import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
 
-// @Injectable()
-// export class ExperienceBookDBService extends BaseDBService<ExperienceBook> {
+@Injectable()
+export class ExperienceBookDBService extends BaseDBService<ExperienceBook> {
 
-//   @Inject(UnitDBService)
-//   unitDBService: UnitDBService;
+  @Inject(UnitDBService)
+  unitDBService: UnitDBService;
  
-//   @Inject(PositionDBService)
-//   positionDBService: PositionDBService;
+  @Inject(PositionDBService)
+  positionDBService: PositionDBService;
 
-//   constructor(@InjectModel(ExperienceBook.name) private readonly entityModel) {
-//     super(entityModel);
-//   }
+  constructor(@InjectModel(ExperienceBook.name) private readonly entityModel) {
+    super(entityModel);
+  }
 
-//   async getExperienceBookById(
-//     unitUserID: string,
-//     id: string,
-//   ): Promise<ExperienceBook> {
+  async getListExperienceBook(
+    userUnitID: string,
+    bookUnitID: string,
+    query: QueryParams
+  ): Promise<ResponseQuery<any>> {
+
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, bookUnitID)
+    if(!checkPermisison) throw new ForbiddenException();
+
+    const ans = await this.getItems(query)
+    return ans;
+  }
+
+  async getExperienceBookById(
+    userUnitID: string,
+    id: string,
+  ): Promise<ExperienceBook> {
     
-//     const experienceBook = await this.getItemById(id);
-//     if(!experienceBook) throw new NotFoundException();
+    const experienceBook = await this.getItemById(id);
+    if(!experienceBook) throw new NotFoundException();
 
-//     const checkPermission = await this.unitDBService.checkUnitIsDescenants(unitUserID, experienceBook.unit)        
-//     if(!checkPermission) throw new ForbiddenException();
+    const checkPermission = await this.unitDBService.checkUnitPermission(userUnitID, experienceBook.unit)        
+    if(!checkPermission) throw new ForbiddenException();
+    const unitName = await this.unitDBService.getItemById(experienceBook.unit);
+    const ans = {
+      ...experienceBook,
+      ...{
+        unitName: unitName   
+      }
+    }
+    return ans;
+  }
 
-//     return experienceBook;
-//   }
+  async createExprienceBook(userUnitID: string, entity: any): Promise<any> {
 
-//   async createPersonalBook(user: any, entity: any): Promise<any> {
+    const checkPermission = await this.unitDBService.checkUnitPermission(userUnitID, entity.unit)
     
-//     const progress = await this.progressDBService.getItemById(entity.training)
-    
-//     if(!progress) throw new NotFoundException();
-//     if(progress.time_train_detail.length === 0) throw new ForbiddenException();
+    if(!checkPermission) throw new ForbiddenException();
 
-//     const objectTrainOfProgress = progress.time_train_detail.map( (item: { object: any; }) => item.object.toString())
-  
-//     if(objectTrainOfProgress.includes(user.position.toString())) 
-//     {
-//       entity.user = user._id;
-//       return await this.insertItem(entity)
-//     }
-//     throw new ForbiddenException()
-//   }
+    const experienceBook = await this.insertItem(entity)
+    return experienceBook;
+  }
 
-//   async updatePersonalBook(userID: string, id: string, entity: any): Promise<any> {
+  async updateExperienceBook(userUnitID: string, id: string, entity: any): Promise<any> {
    
-//     const personalBook = await this.getItemById(id)
-//     if(!personalBook) throw new NotFoundException();
+    const experienceBook = await this.getItemById(id);
+    if(!experienceBook) throw new NotFoundException();
 
-//     if(personalBook.user.toString() !== userID.toString()) throw new ForbiddenException();
+    const checkPermission = await this.unitDBService.checkUnitPermission(userUnitID, experienceBook.unit)        
+    if(!checkPermission) throw new ForbiddenException();
 
-//     return await this.updateItem(id, entity)
-//   }
-// }
+    return await this.updateItem(id, entity)
+  }
+}

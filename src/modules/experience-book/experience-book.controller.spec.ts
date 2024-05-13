@@ -1,18 +1,18 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { PersonalDiaryController } from './experience-book.controller';
+import { Test, TestingModule } from '@nestjs/testing';
+import { ExperienceController } from './experience-book.controller';
 
-// describe('PersonalDiaryController', () => {
-//   let controller: PersonalDiaryController;
+describe('ExperienceController', () => {
+  let controller: ExperienceController;
 
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       controllers: [PersonalDiaryController],
-//     }).compile();
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [ExperienceController],
+    }).compile();
 
-//     controller = module.get<PersonalDiaryController>(PersonalDiaryController);
-//   });
+    controller = module.get<ExperienceController>(ExperienceController);
+  });
 
-//   it('should be defined', () => {
-//     expect(controller).toBeDefined();
-//   });
-// });
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
+  });
+});

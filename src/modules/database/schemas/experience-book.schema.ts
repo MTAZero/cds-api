@@ -11,6 +11,9 @@ export class ExperienceBook extends Document<any> {
   unit: string
 
   @Prop()
+  year: Number;
+
+  @Prop()
   month: Number;
 
   @Prop()

@@ -1,0 +1,275 @@
+[{
+  "_id": {
+    "$oid": "661aa3a3885d02a690769546"
+  },
+  "name": "System Admin",
+  "description": "Quản trị viên",
+  "last_update": 1713021902048,
+  "created_date": 1713021859581,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "661aa3fd885d02a690769558"
+  },
+  "name": "User",
+  "description": "Người dùng hệ thống",
+  "last_update": 1713021949133,
+  "created_date": 1713021949133,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "661aa5cd48eecad2f1aab2ca"
+  },
+  "name": "Chỉ huy Đội",
+  "last_update": 1713022413146,
+  "created_date": 1713022413146,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "661aa5d248eecad2f1aab2cc"
+  },
+  "name": "Chỉ huy Cụm",
+  "last_update": 1713022418870,
+  "created_date": 1713022418870,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "661aa5dc48eecad2f1aab2ce"
+  },
+  "name": "Chỉ huy Trung tâm",
+  "last_update": 1713022428199,
+  "created_date": 1713022428199,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "661aa5e348eecad2f1aab2d0"
+  },
+  "name": "Phòng tham mưu",
+  "last_update": 1713022435185,
+  "created_date": 1713022435185,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "661aa5f448eecad2f1aab2d2"
+  },
+  "name": "Trực ban tác chiến",
+  "last_update": 1713022452101,
+  "created_date": 1713022452101,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "661adb34a7be85eac202a7e1"
+  },
+  "name": "Sĩ quan TCTT",
+  "last_update": 1713036084249,
+  "created_date": 1713036084249,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66351f6d5f36c599232463b2"
+  },
+  "name": "Sĩ quan CNTT",
+  "last_update": 1714757485819,
+  "created_date": 1714757485819,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66351f775f36c599232463b8"
+  },
+  "name": "Sĩ quan TCM",
+  "last_update": 1714757495921,
+  "created_date": 1714757495921,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66351f825f36c599232463c8"
+  },
+  "name": "KTV TCM",
+  "last_update": 1714757506294,
+  "created_date": 1714757506294,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66351fd75f36c599232463ce"
+  },
+  "name": "KTV TCTT",
+  "last_update": 1714757591933,
+  "created_date": 1714757591933,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66351fdf5f36c599232463d4"
+  },
+  "name": "KTV CNTT",
+  "last_update": 1714757599307,
+  "created_date": 1714757599307,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "663520125f36c599232463da"
+  },
+  "name": "NV CNTT",
+  "last_update": 1714757650207,
+  "created_date": 1714757650207,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "663520195f36c599232463e0"
+  },
+  "name": "NV TCM",
+  "last_update": 1714757657689,
+  "created_date": 1714757657689,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "663520265f36c599232463e6"
+  },
+  "name": "NV TCTT",
+  "last_update": 1714757670571,
+  "created_date": 1714757670571,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "663520455f36c599232463ec"
+  },
+  "name": "NV CMKT",
+  "last_update": 1714757701877,
+  "created_date": 1714757701877,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66357ef77fd1b85b72544c0f"
+  },
+  "name": "Chỉ huy Phòng HC-KT",
+  "last_update": 1714781943551,
+  "created_date": 1714781943551,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66357f057fd1b85b72544c15"
+  },
+  "name": "Chỉ huy Phòng CT",
+  "last_update": 1714781957329,
+  "created_date": 1714781957329,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66357f137fd1b85b72544c1b"
+  },
+  "name": "Chỉ huy Ban TC",
+  "last_update": 1714781971168,
+  "created_date": 1714781971168,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66357f257fd1b85b72544c27"
+  },
+  "name": "Phòng HC-KT",
+  "last_update": 1714781989756,
+  "created_date": 1714781989756,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66357f2e7fd1b85b72544c2d"
+  },
+  "name": "Phòng CT",
+  "last_update": 1714781998018,
+  "created_date": 1714781998018,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66357f3d7fd1b85b72544c33"
+  },
+  "name": "Chỉ huy Phòng TM",
+  "last_update": 1714782013468,
+  "created_date": 1714782013468,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66387d958204cfde1e504e3e"
+  },
+  "name": "Chỉ huy Phòng TM",
+  "last_update": 1714978197997,
+  "created_date": 1714978197997,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66387dcb8204cfde1e504e44"
+  },
+  "name": "TBNV",
+  "last_update": 1714978251617,
+  "created_date": 1714978251617,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66387de98204cfde1e504e4a"
+  },
+  "name": "Ban Tài chính",
+  "last_update": 1714978281260,
+  "created_date": 1714978281260,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66387e578204cfde1e504e56"
+  },
+  "name": "Phòng chính trị",
+  "last_update": 1714978391508,
+  "created_date": 1714978391508,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66389574e50a61aa15b934de"
+  },
+  "name": "Trạm máy chủ",
+  "last_update": 1714984308548,
+  "created_date": 1714984308548,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "66389799e50a61aa15b935c7"
+  },
+  "name": "Tiểu đội thông tin",
+  "last_update": 1714984857303,
+  "created_date": 1714984857303,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "663897a1e50a61aa15b935cd"
+  },
+  "name": "Tiểu đội vệ binh",
+  "last_update": 1714984865467,
+  "created_date": 1714984865467,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "663897cee50a61aa15b935d3"
+  },
+  "name": "Tiểu đội xe",
+  "last_update": 1714984910434,
+  "created_date": 1714984910434,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "663897e1e50a61aa15b935d9"
+  },
+  "name": "Bếp ăn",
+  "last_update": 1714984929335,
+  "created_date": 1714984929335,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "663897ece50a61aa15b935df"
+  },
+  "name": "Tổ quân y",
+  "last_update": 1714984940614,
+  "created_date": 1714984940614,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "663897fbe50a61aa15b935e5"
+  },
+  "name": "Trạm BĐKT",
+  "last_update": 1714984955342,
+  "created_date": 1714984955342,
+  "__v": 0
+}]

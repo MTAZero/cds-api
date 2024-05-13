@@ -7,6 +7,8 @@ import { UnitDBService } from './unitDBService';
 import { Training } from '../schemas/trainnings.schema';
 import { PositionDBService } from './positionDBService';
 import { UserDBService } from './userDbService';
+import { MAX_ITEM_QUERYS, ResponseMessage } from 'src/const';
+
 
 @Injectable()
 export class TrainingDBService extends BaseDBService<Training> {
@@ -195,7 +197,6 @@ export class TrainingDBService extends BaseDBService<Training> {
     return ans
   }
 
-
   async updateTraining(
     userUnitID: string,
     id: string,
@@ -222,6 +223,61 @@ export class TrainingDBService extends BaseDBService<Training> {
     entity.sum_people = sum_people
     entity.sum_joiner = sum_joiner
     return await this.updateItem(id, entity)
+  }
+
+  async getTrainingOfUser(
+    user: any,
+  ): Promise<ResponseQuery<any>> {
+  
+    const query: QueryParams = {
+      skip: 0,
+      limit: MAX_ITEM_QUERYS,
+      filter: {
+        unit: user.unit
+      },
+    };
+    
+
+    let lst_training = await this.getItems(query)
+    const populateQuery = [
+      {
+          path: "progress",
+      }, 
+      {
+          path: "unit",
+      }
+  ];
+  
+    const lst_map = await this.entityModel.populate(lst_training.items, populateQuery);
+    var element = []
+    const ans = await Promise.all(lst_map.map(async (item) => {
+      if(item.progress.time_train_detail.length > 0){
+
+        element = await Promise.all(item.progress.time_train_detail.map( async (x) => {
+          const obj = await this.positionDBService.getItemById(x.object)
+          return obj.name
+        }))
+
+      }
+
+      return {
+        _id: item._id,
+        date: item.progress.date,
+        content: item.progress.content,
+        train_time_actual: item.time_train_actual,
+        elements:  element,
+        sum_joiner: item.sum_joiner,
+        evaluation: item.evaluation
+      }
+    }))
+
+    return {
+      items: ans,
+      total: lst_training.total,
+      size: lst_training.size,
+      page: lst_training.page,
+      offset: lst_training.offset,
+    };
   }
 
 }

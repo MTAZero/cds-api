@@ -16,6 +16,7 @@ export const FEATURES_SYSTEM = [
   SystemFeatures.ManagerTrainnings,
   SystemFeatures.ManagerPersonalDiarys,
   SystemFeatures.WorkCalendar,
+  SystemFeatures.ManagerExperiences
 ];
 
 export const ACTIONS_SYSTEM = [

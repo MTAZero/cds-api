@@ -36,7 +36,7 @@ export class PersonalDiaryDBService extends BaseDBService<PersonalDiary> {
     const personalBook = await this.getItemById(id);
 
     if(!personalBook) throw new NotFoundException();
-    if(personalBook.user.toString() !== userID.toString()) throw new ForbiddenException();
+    //if(personalBook.user.toString() !== userID.toString()) throw new ForbiddenException();
     
     const populateQuery = [
       {
@@ -52,6 +52,13 @@ export class PersonalDiaryDBService extends BaseDBService<PersonalDiary> {
   ];
   
     const personalBook_map = await this.entityModel.populate(personalBook, populateQuery);
+    const lstPeople = personalBook_map.training.element_join.reduce(
+      (acc, current) =>  acc.list_people + current.list_people, []
+    )
+    
+    // const lstPeopleID = lstPeople.map((person: any) => {
+      
+    // })
     return personalBook_map
   }
 

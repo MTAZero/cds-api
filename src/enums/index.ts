@@ -13,6 +13,7 @@ export enum SystemFeatures {
   ManagerTrainnings = 'ManagerTrainings',
   ManagerPersonalDiarys = 'ManagerPersonalDiarys',
   WorkCalendar = 'WorkCalendar',
+  ManagerExperiences = 'ManagerExperiences',
 }
 
 export enum SystemAction {
@@ -90,6 +91,8 @@ export enum TypePosition {
   NVCNTT = 'NVCNTT',
   NVCMKT = 'NVCMKT',
   TL = 'TL',
+  TBTC = "TBTC",
+  TBNV = "TBNV"
 }
 
 export enum DayOfWeek {

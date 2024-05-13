@@ -39,6 +39,7 @@ export class UserDBService extends BaseDBService<User> {
 
   async insertItem(entity: any): Promise<any> {
     const cnt = await this.countByFilter({ username: entity.username });
+    
     if (cnt > 0)
       throw new HttpException(
         ResponseMessage.ALREADY_EXIST,

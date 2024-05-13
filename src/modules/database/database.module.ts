@@ -64,6 +64,8 @@ import { cWards, cWards_schema } from './schemas/c_wards';
 import { ProvincesDBService } from './services/cProvincesDBService';
 import { DistrictDBService } from './services/cDistrictsDBService';
 import { WardsDBService } from './services/cWardsDBServicets';
+import { ExperienceBook, ExperienceBookSchema } from './schemas/experience-book.schema';
+import { ExperienceBookDBService } from './services/experienceBook';
 
 @Module({
   imports: [

@@ -18,6 +18,8 @@ import { PositionsModule } from './modules/category/positions/positions.module';
 import { ProgressesModule } from './modules/progress/progresses.module';
 import { TrainingModule } from './modules/trainning/training.module';
 import { PersonalDiaryModule } from './modules/personal-diarys/personal-diarys.module';
+import { ExperienceController } from './modules/experience-book/experience-book.controller';
+import { ExperienceModule } from './modules/experience-book/experience-book.module';
 import { WorkCalendarModule } from './modules/work-calendar/work-calendar.module';
 import { AdministrativeUnitsModule } from './modules/administrative-units/administrative-units.module';
 

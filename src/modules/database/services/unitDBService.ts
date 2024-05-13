@@ -116,4 +116,18 @@ export class UnitDBService extends BaseDBService<Unit> {
     if (!unit.parent) return unit;
     return this.getRootOfUnit(unit.parent.toString());
   }
+
+  async checkUnitPermission(
+    unitId: string,
+    unitChildId: string,
+  ): Promise<boolean> {
+    const unit: Unit = await this.getItemById(unitId);
+    const entity: Unit = await this.getItemById(unitChildId);
+
+    if (!unit || !entity) return false;
+    if (unitId === unitChildId) return true;
+    if (entity.key.toString().includes(unit._id.toString())) return true;
+
+    return false;
+  }
 }

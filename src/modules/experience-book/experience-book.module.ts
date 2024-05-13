@@ -1,9 +1,9 @@
-// import { Module } from '@nestjs/common';
-// import { PersonalDiaryController } from './experience-book.controller';
-// import { DatabaseModule } from '../database/database.module';
+import { Module } from '@nestjs/common';
+import { ExperienceController } from './experience-book.controller';
+import { DatabaseModule } from '../database/database.module';
 
-// @Module({
-//   imports: [DatabaseModule],
-//   controllers: [PersonalDiaryController]
-// })
-// export class PersonalDiaryModule {}
+@Module({
+  imports: [DatabaseModule],
+  controllers: [ExperienceController]
+})
+export class ExperienceModule {}

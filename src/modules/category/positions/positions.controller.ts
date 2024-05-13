@@ -37,7 +37,7 @@ import {
   
     @Get('/')
     @ActionsPermission([SystemAction.View, SystemAction.Edit])
-    @ModulePermission(SystemFeatures.ManagerProgresses)
+    @ModulePermission(SystemFeatures.ManagerPositions)
     async getListPosition(@Res() res, @Req() req, @Query() query) {
       const pagination: PaginationType = req.pagination;
       const sort = req.sort;
@@ -64,7 +64,7 @@ import {
     @Post('')
     @UseInterceptors(FileInterceptor('file'))
     @ActionsPermission([SystemAction.Edit])
-    @ModulePermission(SystemFeatures.ManagerProgresses)
+    @ModulePermission(SystemFeatures.ManagerPositions)
     async insertPosition(
       @Body(new ValidationPipe()) entity: CreatePositionDto,
       @Res() res,
@@ -82,7 +82,7 @@ import {
     @Put('/:id')
     @UseInterceptors(FileInterceptor('file'))
     @ActionsPermission([SystemAction.Edit])
-    @ModulePermission(SystemFeatures.ManagerProgresses)
+    @ModulePermission(SystemFeatures.ManagerPositions)
     async updatePosition(
       @Body(new ValidationPipe()) entity: UpdatePositionDto,
       @Res() res,
@@ -101,10 +101,25 @@ import {
   
     @Delete('/:id')
     @ActionsPermission([SystemAction.Edit])
-    @ModulePermission(SystemFeatures.ManagerProgresses)
+    @ModulePermission(SystemFeatures.ManagerPositions)
     async removePosition(@Res() res, @Param() params) {
       const id = params.id;
       const ans = await this.positionDBService.removeItem(id);
+      return ApiResponse(
+        res,
+        true,
+        ResponseCode.SUCCESS,
+        ResponseMessage.SUCCESS,
+        ans,
+      );
+    }
+
+    @Get('/:id')
+    @ActionsPermission([SystemAction.View])
+    @ModulePermission(SystemFeatures.ManagerPositions)
+    async getDetailPosition(@Res() res, @Param() params) {
+      const id = params.id;
+      const ans = await this.positionDBService.getItemById(id);
       return ApiResponse(
         res,
         true,

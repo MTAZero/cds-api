@@ -28,12 +28,16 @@ import {
   import { PersonalDiaryDBService } from '../database/services/PersonalDiaryDBService';
   import { CreatePersonalDiaryDto } from './dtos/create-personal-diary.dto';
   import { UpdatePersonalDiaryDto } from './dtos/update-personal-diary.dto';
+  import { TrainingDBService } from '../database/services/trainingDBService';
 
   @Controller('personal-diary')
   @UseGuards(PermissionsGuard)
   export class PersonalDiaryController {
     @Inject(PersonalDiaryDBService)
     personalDiaryDBService: PersonalDiaryDBService;
+
+    @Inject(TrainingDBService)
+    trainingDBService: TrainingDBService;
 
   @Get('/:id')
     @ActionsPermission([SystemAction.View])
@@ -45,6 +49,7 @@ import {
   ) {
 
     const id = params.id;
+    
 
     const ans = await this.personalDiaryDBService.getPersonalBookById(user._id, id);
 
@@ -95,6 +100,27 @@ import {
       ResponseCode.SUCCESS,
       ResponseMessage.SUCCESS,
       ans,
+    );
+  }
+
+  @Get('user/list-trainings')
+  @ActionsPermission([SystemAction.View])
+  @ModulePermission(SystemFeatures.ManagerPersonalDiarys)
+  async getTrainingOfUser(
+  @Res() res,
+  @Req() req,
+  @Query() query,
+  @CurrentUser() user
+) {
+
+    const data = await this.trainingDBService.getTrainingOfUser(user)
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      data,
     );
   }
 }

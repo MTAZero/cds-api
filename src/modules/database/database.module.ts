@@ -30,7 +30,7 @@ import {
   PersonalDiary,
   PersonalDiarySchema,
 } from './schemas/personal-diarys.schema';
-import { PersonalDiaryDBService } from './services/PersonalDiaryDBService';
+import { PersonalDiaryDBService } from './services/personalDiaryDBService';
 import {
   NotificationUser,
   NotificationUserSchema,
@@ -59,7 +59,9 @@ import {
 import { WorkCalendarDBService } from './services/workCalendarDBService';
 import { WorkCalendarAssignDBService } from './services/workCalendarAssignDBService';
 import { ExperienceBook, ExperienceBookSchema } from './schemas/experience-book.schema';
-import { ExperienceBookDBService } from './services/experienceBook';
+import { ExperienceBookDBService } from './services/experienceBookDBService';
+import { RelatedDocument, RelatedDocumentSchema } from './schemas/related-documents.schema';
+import { RelatedDocumentDBService } from './services/relatedDocumentDBService';
 
 @Module({
   imports: [
@@ -124,6 +126,14 @@ import { ExperienceBookDBService } from './services/experienceBook';
         name: GuardDutty.name,
         schema: GuardDuttySchema,
       },
+      {
+        name: ExperienceBook.name,
+        schema: ExperienceBookSchema
+      },
+      {
+        name: RelatedDocument.name,
+        schema: RelatedDocumentSchema
+      }
     ]),
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -150,6 +160,8 @@ import { ExperienceBookDBService } from './services/experienceBook';
     GuardDuttyPositionDBService,
     GuardDuttyGenerateDBService,
     GuardDuttyDBService,
+    ExperienceBookDBService,
+    RelatedDocumentDBService
   ],
   exports: [
     UserDBService,
@@ -167,6 +179,8 @@ import { ExperienceBookDBService } from './services/experienceBook';
     GuardDuttyPositionDBService,
     GuardDuttyGenerateDBService,
     GuardDuttyDBService,
+    ExperienceBookDBService,
+    RelatedDocumentDBService
   ],
 })
 export class DatabaseModule {}

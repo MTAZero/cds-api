@@ -25,7 +25,7 @@ import {
   } from 'src/decorator/module-action.decorator';
   import { SystemAction, SystemFeatures } from 'src/enums';
   import { CurrentUser } from 'src/decorator/current-user.decorator';
-  import { PersonalDiaryDBService } from '../database/services/PersonalDiaryDBService';
+  import { PersonalDiaryDBService } from '../database/services/personalDiaryDBService';
   import { CreatePersonalDiaryDto } from './dtos/create-personal-diary.dto';
   import { UpdatePersonalDiaryDto } from './dtos/update-personal-diary.dto';
   import { TrainingDBService } from '../database/services/trainingDBService';

@@ -10,12 +10,13 @@ import {
     Query,
     Req,
     Res,
+    UploadedFile,
     UseGuards,
     UseInterceptors,
     ValidationPipe,
   } from '@nestjs/common';
   import { FileInterceptor } from '@nestjs/platform-express';
-  import { ResponseCode, ResponseMessage } from 'src/const';
+  import { ResponseCode, ResponseMessage, uploadFileOption } from 'src/const';
   import { ApiResponse } from 'src/utils';
   import { ProgressDBService } from '../database/services/progressDBService';
   import { PaginationType } from 'src/middleware';
@@ -79,13 +80,23 @@ import {
 
   
     @Post('')
+    @UseInterceptors(FileInterceptor('file', uploadFileOption))
     @ActionsPermission([SystemAction.Edit])
     @ModulePermission(SystemFeatures.ManagerProgresses)
     async insertProgress(
       @Body(new ValidationPipe()) entity: CreateProgressDto,
       @Res() res,
-      @CurrentUser() user
+      @CurrentUser() user,
+      @UploadedFile() file
     ) {
+
+      entity = {
+        ...entity,
+        ...{
+          url: file ? file.filename : null
+        }
+      }
+
       const ans = await this.progressDBService.insertProgress(user.unit, entity);
       return ApiResponse(
         res,
@@ -97,15 +108,24 @@ import {
     }
   
     @Put('/:id')
+    @UseInterceptors(FileInterceptor('file', uploadFileOption))
     @ActionsPermission([SystemAction.Edit])
     @ModulePermission(SystemFeatures.ManagerProgresses)
     async updateProgress(
       @Body(new ValidationPipe()) entity: UpdateProgressDto,
       @Res() res,
       @Param() params,
-      @CurrentUser() user
+      @CurrentUser() user,
+      @UploadedFile() file
     ) {
       const id = params.id;
+
+      entity = {
+        ...entity,
+        ...{
+          url: file ? file.filename : null
+        }
+      }
       const ans = await this.progressDBService.updateProgress(user.unit, id, entity);
       return ApiResponse(
         res,

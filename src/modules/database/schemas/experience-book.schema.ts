@@ -35,7 +35,7 @@ export class ExperienceBook extends Document<any> {
   evaluation: string;
 
   @Prop()
-  dutyNextweek: string;
+  dutyNextWeek: string;
 
   @Prop()
   sign: string

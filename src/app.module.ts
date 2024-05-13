@@ -20,7 +20,6 @@ import { TrainingModule } from './modules/trainning/training.module';
 import { PersonalDiaryModule } from './modules/personal-diarys/personal-diarys.module';
 import { ExperienceController } from './modules/experience-book/experience-book.controller';
 import { ExperienceModule } from './modules/experience-book/experience-book.module';
-import { WorkCalendarModule } from './modules/work-calendar/work-calendar.module';
 
 @Module({
   imports: [
@@ -43,6 +42,7 @@ import { WorkCalendarModule } from './modules/work-calendar/work-calendar.module
     ProgressesModule,
     TrainingModule,
     PersonalDiaryModule,
+    ExperienceModule
   ],
   controllers: [AppController],
   providers: [AppService],

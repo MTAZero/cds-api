@@ -43,6 +43,7 @@ export class ExperienceBookDBService extends BaseDBService<ExperienceBook> {
     const checkPermission = await this.unitDBService.checkUnitPermission(userUnitID, experienceBook.unit)        
     if(!checkPermission) throw new ForbiddenException();
     const unitName = (await this.unitDBService.getItemById(experienceBook.unit)).name;
+    
     const ans = {
       ...experienceBook,
       ...{

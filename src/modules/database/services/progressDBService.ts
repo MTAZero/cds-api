@@ -7,7 +7,6 @@ import { UnitDBService } from './unitDBService';
 import { TrainingDBService } from './trainingDBService';
 import { UserDBService } from './userDbService';
 import { MAX_ITEM_QUERYS } from 'src/const';
-import { promises } from 'dns';
 import { PositionDBService } from './positionDBService';
 
 @Injectable()
@@ -89,7 +88,8 @@ export class ProgressDBService extends BaseDBService<Progress> {
     const ans = {
       ...progress,
       ...{
-        evaluation: training.evaluation
+        evaluation: training.evaluation,
+        time_train_actual: training.time_train_actual
       }
     }
     return ans;

@@ -24,6 +24,7 @@ export class PersonalDiaryDBService extends BaseDBService<PersonalDiary> {
   @Inject(ProgressDBService)
   progressDBService: ProgressDBService;
   
+  
   constructor(@InjectModel(PersonalDiary.name) private readonly entityModel) {
     super(entityModel);
   }
@@ -42,7 +43,21 @@ export class PersonalDiaryDBService extends BaseDBService<PersonalDiary> {
       },
     };
     const personalBook = (await this.getItems(query)).items;
-    if (personalBook.length === 0) return null;
+    if (personalBook.length === 0){
+      const progress = await this.progressDBService.getItemById(trainingID)
+      
+      const ans = {
+        date: progress.date,
+        dayOfWeek: progress.dayOfWeek,
+        unit_charge: progress.unit_charge,
+        location: progress.location,
+        guaranteed_material: progress.guaranteed_material,
+        unit: (await this.unitDBService.getItemById(progress.unit)).name,
+        content: progress.content,
+        created: false
+      }
+      return ans
+    }
     
     const populateQuery = [
       {
@@ -72,7 +87,8 @@ export class PersonalDiaryDBService extends BaseDBService<PersonalDiary> {
       location: personalBook_map.training.progress.location,
       guaranteed_material: personalBook_map.training.progress.guaranteed_material,
       unit: (await this.unitDBService.getItemById(personalBook_map.training.progress.unit)).name,
-      content: personalBook_map.training.progress.content
+      content: personalBook_map.training.progress.content,
+      created: true
     }
     return ans
   }

@@ -328,4 +328,17 @@ export class UserDBService extends BaseDBService<User> {
     );
     return ans;
   }
+
+  async getItemByUsername(username: string){
+    const requestData = await this.getItems({
+      filter: {
+        username: username
+      },
+      skip: 0,
+      limit: MAX_ITEM_QUERYS,
+    });
+
+    const user = requestData.items.length !== 0 ? requestData.items[0] : null;
+    return user; 
+  }
 }

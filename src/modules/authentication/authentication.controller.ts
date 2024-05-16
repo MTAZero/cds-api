@@ -23,6 +23,9 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { PermissionDBService } from '../database/services/permissionDBService';
 import { CurrentUser } from 'src/decorator/current-user.decorator';
 import { User } from '../database/schemas/users.schema';
+import { CallSSO } from './dtos/call-sso';
+import { SSODBService } from '../database/services/SSODBService';
+
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -31,6 +34,28 @@ export class AuthenticationController {
 
   @Inject(PermissionDBService)
   permissionDBService: PermissionDBService;
+
+  @Inject(SSODBService)
+  ssoDBService: SSODBService;
+
+  @Post('/login-sso')
+  async loginWithSSO(
+    @Req() req,
+    @Res() res,
+    @Body(new ValidationPipe()) entity: CallSSO
+  ){
+    console.log(1)
+    const result = await this.ssoDBService.loginWithSSO(entity);
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      result,
+    );
+     
+  }
 
   @UseGuards(LocalAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
@@ -126,4 +151,5 @@ export class AuthenticationController {
       result,
     );
   }
+
 }

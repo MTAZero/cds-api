@@ -68,6 +68,7 @@ import { ExperienceBook, ExperienceBookSchema } from './schemas/experience-book.
 import { ExperienceBookDBService } from './services/experienceBookDBService';
 import { RelatedDocument, RelatedDocumentSchema } from './schemas/related-documents.schema';
 import { RelatedDocumentDBService } from './services/relatedDocumentDBService';
+import { SSODBService } from './services/SSODBService';
 
 @Module({
   imports: [
@@ -192,7 +193,8 @@ import { RelatedDocumentDBService } from './services/relatedDocumentDBService';
     DistrictDBService,
     WardsDBService,
     ExperienceBookDBService,
-    RelatedDocumentDBService
+    RelatedDocumentDBService,
+    SSODBService
   ],
   exports: [
     UserDBService,
@@ -216,7 +218,8 @@ import { RelatedDocumentDBService } from './services/relatedDocumentDBService';
     DistrictDBService,
     WardsDBService,
     ExperienceBookDBService,
-    RelatedDocumentDBService
+    RelatedDocumentDBService,
+    SSODBService
   ],
 })
 export class DatabaseModule {}

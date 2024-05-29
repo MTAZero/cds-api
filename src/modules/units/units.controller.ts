@@ -98,6 +98,7 @@ export class UnitsController {
   async getDetailUnit(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.unitDBService.getItemById(id);
+    
     return ApiResponse(
       res,
       true,
@@ -108,8 +109,8 @@ export class UnitsController {
   }
 
   @Get('/child/:id')
-  // @ActionsPermission([SystemAction.Edit, SystemAction.View])
-  // @ModulePermission(SystemFeatures.ManagerUnits)
+  @ActionsPermission([SystemAction.Edit, SystemAction.View])
+  @ModulePermission(SystemFeatures.ManagerUnits)
   async getListChild(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.unitDBService.getListChild(id);

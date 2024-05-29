@@ -44,7 +44,6 @@ export class AuthenticationController {
     @Res() res,
     @Body(new ValidationPipe()) entity: CallSSO
   ){
-    console.log(1)
     const result = await this.ssoDBService.loginWithSSO(entity);
 
     return ApiResponse(

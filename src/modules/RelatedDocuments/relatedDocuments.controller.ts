@@ -117,5 +117,20 @@ import {
       ans,
     );
   }
+
+  @Delete('/:id')
+  @ActionsPermission([SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerUnits)
+  async removeDocument(@Res() res, @Param() params) {
+    const id = params.id;
+    const ans = await this.relatedDocumentService.removeFile(id);
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
 }
   

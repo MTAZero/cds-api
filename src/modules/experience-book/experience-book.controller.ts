@@ -70,7 +70,7 @@ import {
   @Get('/:id')
   @ActionsPermission([SystemAction.View])
   @ModulePermission(SystemFeatures.ManagerExperiences)
-  async getPersonalDiaryByID(
+  async getExperienceBookById(
     @Res() res,
     @Param() params,
     @CurrentUser() user
@@ -113,7 +113,7 @@ import {
   @UseInterceptors(FileInterceptor('file'))
   @ActionsPermission([SystemAction.Edit])
   @ModulePermission(SystemFeatures.ManagerExperiences)
-  async updatePersonalDiary(
+  async updateExperienceBook(
     @Body(new ValidationPipe()) entity: UpdateExperienceBookDto,
     @Res() res,
     @Param() params,

@@ -1,13 +1,7 @@
-import { InjectModel } from '@nestjs/mongoose';
-import { PersonalDiary } from '../schemas/personal-diarys.schema';
-import { BaseDBService } from './base';
-import { BadRequestException, ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
+import { BadRequestException, ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { UnitDBService } from './unitDBService';
 import { PositionDBService } from './positionDBService';
 import { UserDBService } from './userDbService';
-import { ProgressDBService } from './progressDBService';
-import { MAX_ITEM_QUERYS } from 'src/const';
 import axios from 'axios';
 import * as https from 'https'
 
@@ -28,7 +22,7 @@ export class SSODBService {
   {
     const response = await axios.request({
         method: "POST",
-        url: `https://xacthuc.bqp/oauth2/token`,
+        url: `${process.env.SSO_URL}/oauth2/token`,
         params: entity,
         headers: {
             'Content-Type':  'application/x-www-form-urlencoded',
@@ -41,6 +35,7 @@ export class SSODBService {
     );
     if(response.data){
         const accessToken = response.data.access_token ? response.data.access_token : null
+        const idToken = response.data.id_token ? response.data.id_token : null
         if(!accessToken)
             throw new ForbiddenException();
         
@@ -49,7 +44,7 @@ export class SSODBService {
                 Authorization: `Bearer ${accessToken}`
             },
             method: "POST",
-            url: `https://xacthuc.bqp/oauth2/userinfo`,
+            url: `${process.env.SSO_URL}/oauth2/userinfo`,
             httpsAgent: new https.Agent({  
                 rejectUnauthorized: false
             })
@@ -59,10 +54,18 @@ export class SSODBService {
             const mail = responseContinue.data.sub
             const user = await this.userDBService.getItemByUsername(mail)
             
-            if(!user) throw new ForbiddenException();
+            if(!user) return {
+                access_token: null,
+                id_token: idToken
+            }
 
             const ans = await this.userDBService.signTokenByUser(user)
-            return ans
+            return {
+                ...ans,
+                ...{
+                    id_token: idToken
+                }
+            }
         }
         throw new BadRequestException()
     }

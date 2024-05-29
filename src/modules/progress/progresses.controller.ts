@@ -78,7 +78,6 @@ import {
     );
   }
 
-  
     @Post('')
     @UseInterceptors(FileInterceptor('file', uploadFileOption))
     @ActionsPermission([SystemAction.Edit])
@@ -90,14 +89,25 @@ import {
       @UploadedFile() file
     ) {
 
-      entity = {
+      let obj = {
         ...entity,
+        ...{
+          week: Number(entity.week),
+          month: Number(entity.month),
+          year: Number(entity.year),
+          sum_time_train: Number(entity.sum_time_train),
+          time_train_detail: JSON.parse(entity.time_train_detail)
+        }
+      }
+
+      obj = {
+        ...obj,
         ...{
           url: file ? file.filename : null
         }
       }
 
-      const ans = await this.progressDBService.insertProgress(user.unit, entity);
+      const ans = await this.progressDBService.insertProgress(user.unit, obj);
       return ApiResponse(
         res,
         true,
@@ -119,14 +129,26 @@ import {
       @UploadedFile() file
     ) {
       const id = params.id;
-
-      entity = {
+      
+      let obj = {
         ...entity,
+        ...{
+          week: Number(entity.week),
+          month: Number(entity.month),
+          year: Number(entity.year),
+          sum_time_train: Number(entity.sum_time_train),
+          time_train_detail: JSON.parse(entity.time_train_detail)
+        }
+      }
+
+      obj = {
+        ...obj,
         ...{
           url: file ? file.filename : null
         }
       }
-      const ans = await this.progressDBService.updateProgress(user.unit, id, entity);
+
+      const ans = await this.progressDBService.updateProgress(user.unit, id, obj);
       return ApiResponse(
         res,
         true,
@@ -158,12 +180,13 @@ import {
     @Get('/:id')
     @ActionsPermission([SystemAction.View])
     @ModulePermission(SystemFeatures.ManagerProgresses)
-    async getDetailUnit(
+    async getDetailProgress(
       @Res() res, 
       @Param() params,
       @CurrentUser() user
     ) {
       const id = params.id;
+
       const ans = await this.progressDBService.getDetailByID(user.unit, id);
       return ApiResponse(
         res,
@@ -184,6 +207,26 @@ import {
     ) {
       const id = params.id;
       const ans = await this.progressDBService.getListPeopleJoin(user.unit, id);
+      return ApiResponse(
+        res,
+        true,
+        ResponseCode.SUCCESS,
+        ResponseMessage.SUCCESS,
+        ans,
+      );
+    }
+
+    @Get('/file/:id')
+    @ActionsPermission([SystemAction.View])
+    @ModulePermission(SystemFeatures.ManagerProgresses)
+    async getFile(
+      @Res() res, 
+      @Param() params,
+      @CurrentUser() user
+    ) {
+      const id = params.id;
+
+      const ans = await this.progressDBService.getContentFile(id, user.unit);
       return ApiResponse(
         res,
         true,

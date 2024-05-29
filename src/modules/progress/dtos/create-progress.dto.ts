@@ -23,30 +23,30 @@ export class CreateProgressDto {
   @IsNotEmpty()
   date: string
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  week: Number
+  week: string
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  month: Number
+  month: string
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  year: Number
+  year: string
 
   @IsString()
   @IsNotEmpty()
   content: string
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  sum_time_train: Number
+  sum_time_train: string
 
   @IsNotEmpty()
-  @ValidateNested({ each: true })
-  @Type(() => ObjectDto )
-  time_train_detail: ObjectDto[]
+  // @ValidateNested({ each: true })
+  // @Type(() => ObjectDto )
+  time_train_detail: string
 
   @IsString()
   @IsNotEmpty()

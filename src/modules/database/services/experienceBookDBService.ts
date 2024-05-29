@@ -36,12 +36,13 @@ export class ExperienceBookDBService extends BaseDBService<ExperienceBook> {
     userUnitID: string,
     id: string,
   ): Promise<ExperienceBook> {
-    
+
     const experienceBook = await this.getItemById(id);
     if(!experienceBook) throw new NotFoundException();
 
     const checkPermission = await this.unitDBService.checkUnitPermission(userUnitID, experienceBook.unit)        
     if(!checkPermission) throw new ForbiddenException();
+
     const unitName = (await this.unitDBService.getItemById(experienceBook.unit)).name;
     
     const ans = {
@@ -64,7 +65,7 @@ export class ExperienceBookDBService extends BaseDBService<ExperienceBook> {
   }
 
   async updateExperienceBook(userUnitID: string, id: string, entity: any): Promise<any> {
-   
+
     const experienceBook = await this.getItemById(id);
     if(!experienceBook) throw new NotFoundException();
 

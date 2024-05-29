@@ -8,6 +8,8 @@ import { TrainingDBService } from './trainingDBService';
 import { UserDBService } from './userDbService';
 import { MAX_ITEM_QUERYS } from 'src/const';
 import { PositionDBService } from './positionDBService';
+import { readFileSync } from 'fs';
+import { archiveConfig } from './../../../configs/configuration.config';
 
 @Injectable()
 export class ProgressDBService extends BaseDBService<Progress> {
@@ -46,6 +48,7 @@ export class ProgressDBService extends BaseDBService<Progress> {
         filter,
       },
     });
+
     if(!ans) throw new NotFoundException();
     const items = ans.items;
 
@@ -61,14 +64,31 @@ export class ProgressDBService extends BaseDBService<Progress> {
           return { object: temp.name, time: x.time }
         }))
 
-        item = {
-          ...item,
-          ...{
-            time_train_detail: new_time_train_detail,
-            unit: unit.name,
-            allElements: [...setElement]
+
+        if(item.time_train_detail.length > 0){
+
+          item = {
+            ...item,
+            ...{
+              time_train_detail: new_time_train_detail,
+              unit: unit.name,
+              allElements: [...setElement]
+            }
           }
+          
+        } else {
+
+          item = {
+            ...item,
+            ...{
+              time_train_detail: [],
+              unit: unit.name,
+              allElements: [...setElement]
+            }
+          }
+
         }
+       
         return item
       }) 
     )
@@ -84,6 +104,7 @@ export class ProgressDBService extends BaseDBService<Progress> {
     const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, progress.unit)
     if(!checkPermisison) throw new ForbiddenException();
     const training = await this.trainingDBService.getItemById(id);
+
     if(!training) throw new NotFoundException();
     const ans = {
       ...progress,
@@ -99,8 +120,8 @@ export class ProgressDBService extends BaseDBService<Progress> {
 
     const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, entity.unit)
     if(!checkPermisison) throw new ForbiddenException();
-
     const progress =  await this.insertItem(entity);
+  
     if(progress){
 
       await this.trainingDBService.insertItem({
@@ -242,5 +263,21 @@ export class ProgressDBService extends BaseDBService<Progress> {
       }))
       return elementJoinMap;
     }
+  }
+
+  async getContentFile(id: string, userUnitID: string): Promise<any> {
+
+    const progress = await this.getItemById(id);
+    if(!progress) throw new NotFoundException();
+
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, progress.unit)
+    if(!checkPermisison) throw new ForbiddenException();
+
+    const uploadFolder = archiveConfig().folder_saved;
+
+    const file = readFileSync(uploadFolder + progress.url);
+    const encodeFile = file.toString('base64');
+
+    return encodeFile;
   }
 }

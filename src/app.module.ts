@@ -2,7 +2,7 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { appConfig, databaseConfig } from './configs/configuration.config';
+import { appConfig, archiveConfig, databaseConfig } from './configs/configuration.config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DatabaseModule } from './modules/database/database.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
@@ -22,15 +22,19 @@ import { ExperienceModule } from './modules/experience-book/experience-book.modu
 import { WorkCalendarModule } from './modules/work-calendar/work-calendar.module';
 import { AdministrativeUnitsModule } from './modules/administrative-units/administrative-units.module';
 import { RelatedDocumentModule } from './modules/RelatedDocuments/relatedDocuments.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.env'],
       isGlobal: true,
-      load: [databaseConfig, appConfig],
+      load: [databaseConfig, appConfig, archiveConfig ],
     }),
     MongooseModule.forRoot(databaseConfig().uri),
+    ServeStaticModule.forRoot({
+      rootPath: archiveConfig().folder_saved,
+    }),
     DatabaseModule,
     AuthenticationModule,
     UsersModule,
@@ -58,3 +62,4 @@ export class AppModule {
     consumer.apply(SortMiddleware).forRoutes('/');
   }
 }
+

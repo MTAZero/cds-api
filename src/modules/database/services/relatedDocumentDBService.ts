@@ -1,11 +1,12 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { BaseDBService } from './base';
-import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UnitDBService } from './unitDBService';
 import { PositionDBService } from './positionDBService';
 import { RelatedDocument } from '../schemas/related-documents.schema';
 import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
-import { readFileSync } from 'fs'
+import { readFileSync, rmSync   } from 'fs'
+import { archiveConfig } from './../../../configs/configuration.config';
 
 @Injectable()
 export class RelatedDocumentDBService extends BaseDBService<RelatedDocument> {
@@ -55,11 +56,27 @@ export class RelatedDocumentDBService extends BaseDBService<RelatedDocument> {
 
     const document = await this.getItemById(id);
     if(!document) throw new NotFoundException();
-    const uploadFolder = "files/";
+    const uploadFolder = archiveConfig().folder_saved;
 
     const file = readFileSync(uploadFolder + document.url);
     const encodeFile = file.toString('base64');
 
     return encodeFile;
+  }
+
+  async removeFile(id: string): Promise<any> {
+    const document = await this.getItemById(id);
+    if(!document) throw new NotFoundException();
+
+    const ans = await this.removeItem(id)
+    if(!ans) throw new BadRequestException();
+    console.log(ans);
+    try {
+      rmSync( archiveConfig().folder_saved + document.url, {
+        force: true
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
 }

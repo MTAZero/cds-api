@@ -121,6 +121,7 @@ export class UnitDBService extends BaseDBService<Unit> {
     unitId: string,
     unitChildId: string,
   ): Promise<boolean> {
+
     const unit: Unit = await this.getItemById(unitId);
     const entity: Unit = await this.getItemById(unitChildId);
 
@@ -132,7 +133,7 @@ export class UnitDBService extends BaseDBService<Unit> {
   }
 
   async getAncestorUnit(unitId: string): Promise<Array<string>> {
-    const unit = await this.getItemById(unitId);
+    const unit: Unit = await this.getItemById(unitId);
     const lstUnitIDs = unit.key.split('_')
     return lstUnitIDs; 
   }

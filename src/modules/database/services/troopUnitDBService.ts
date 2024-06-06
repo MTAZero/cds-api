@@ -10,7 +10,7 @@ import { TroopUnits } from '../schemas/troop-units.schema';
 import { TroopUnitReportDto } from 'src/modules/troop-report/dtos/troop-unit-report';
 import { User } from '../schemas/users.schema';
 import { UserDBService } from './userDbService';
-import { TroopStatus, UserType } from 'src/enums';
+import { TroopStatus } from 'src/enums';
 import { TroopDetailDBService } from './troopDetailDBService';
 import { convertTimeStampToStartDay } from 'src/utils/time.helper';
 import { Model, ObjectId } from 'mongoose';
@@ -23,8 +23,6 @@ import {
 } from 'src/types/troop-report';
 import { LIST_TROOP_STATUS, LIST_USER_TYPES, MAX_ITEM_QUERYS } from 'src/const';
 import { QueryParams } from 'src/interface/i-base-db-service';
-import { Unit } from '../schemas/units.schema';
-import { Types } from 'mongoose';
 
 @Injectable()
 export class TroopUnitDBService extends BaseDBService<TroopUnits> {

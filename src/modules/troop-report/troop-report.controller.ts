@@ -35,6 +35,8 @@ import { UnitDBService } from '../database/services/unitDBService';
 import { ObjectId } from 'mongoose';
 import { Paginate } from 'src/decorator/paginate.decorator';
 import { PaginationType } from 'src/middleware';
+import { PersonalReportDto } from './dtos/personal-report';
+import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 
 @Controller('troop-report')
 @UseGuards(PermissionsGuard)
@@ -47,6 +49,57 @@ export class TroopReportController {
 
   @Inject(UnitDBService)
   unitDBService: UnitDBService;
+
+  // báo quân số cá nhân
+  @Post('/personal-report')
+  @UseInterceptors(FileInterceptor('file'))
+  @UseGuards(JwtAuthGuard)
+  async personalReportTroop(
+    @Body(new ValidationPipe()) data: PersonalReportDto,
+    @Res() res,
+    @CurrentUser() user: User,
+  ) {
+    const ans = await this.troopDetailDBService.personalReport(
+      user,
+      data.time,
+      data.status,
+    );
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
+  // lấy tình hình quân số của cá nhân trong tháng
+  @Get('/list-personal-report')
+  @UseInterceptors(FileInterceptor('file'))
+  @UseGuards(JwtAuthGuard)
+  async listPersonalReport(
+    @Res() res,
+    @Query('time') time: string,
+    @CurrentUser() user: User,
+  ) {
+    if (!time) throw new BadRequestException('Time is required');
+
+    const timeExact = parseInt(time);
+    const ans =
+      await this.troopDetailDBService.getListPersonalTroopReportPersonal(
+        user._id.toString(),
+        timeExact,
+      );
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
 
   @Post('')
   @UseInterceptors(FileInterceptor('file'))

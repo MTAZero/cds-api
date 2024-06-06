@@ -35,7 +35,6 @@ import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 import { UpdateGuardDuttyDto } from './dtos/update-guard-dutty.dto';
 import { UserDBService } from '../database/services/userDbService';
 import { UnitDBService } from '../database/services/unitDBService';
-import { CurrentUser } from 'src/decorator/current-user.decorator';
 
 @Controller('guard-dutty')
 @UseGuards(PermissionsGuard)

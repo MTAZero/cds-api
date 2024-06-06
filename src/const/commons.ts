@@ -28,6 +28,19 @@ export const LIST_TROOP_STATUS = [
   TroopStatus.DiHoc,
 ];
 
+export const LIST_TROOP_STATUS_FULL = [
+  TroopStatus.CoMat,
+  TroopStatus.NghiPhep,
+  TroopStatus.NghiOm,
+  TroopStatus.DiVien,
+  TroopStatus.TranhThu,
+  TroopStatus.NghiCuoiTuan,
+  TroopStatus.CongTac,
+  TroopStatus.ChinhSach,
+  TroopStatus.Khac,
+  TroopStatus.DiHoc,
+];
+
 export const LIST_USER_TYPES = [
   UserType.SQ,
   UserType.QNCN,

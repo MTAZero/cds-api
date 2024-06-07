@@ -100,7 +100,12 @@ export class UserDBService extends BaseDBService<User> {
     old_password = '',
     new_password = '',
   ): Promise<boolean> {
-    const user = await this.getItemById(id);
+    const dataRequest = await this.entityModel
+      .find({ _id: id })
+      .limit(1)
+      .lean()
+      .exec();
+    const user = dataRequest[0];
     if (!user) throw new HttpException('Not Found', ResponseCode.ERROR);
 
     const res = await bcrypt.compare(old_password, user.password);

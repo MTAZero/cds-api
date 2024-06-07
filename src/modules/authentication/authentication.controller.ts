@@ -22,6 +22,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { PermissionDBService } from '../database/services/permissionDBService';
 import { CurrentUser } from 'src/decorator/current-user.decorator';
+import { User } from '../database/schemas/users.schema';
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -109,11 +110,10 @@ export class AuthenticationController {
     @Req() req,
     @Res() res,
     @Body(new ValidationPipe()) entity: ChangeMyPasswordDto,
+    @CurrentUser() user: User,
   ) {
-    const id = req.user.userId;
-
     const result = await this.userDBService.changePassword(
-      id,
+      user._id.toString(),
       entity.password,
       entity.new_password,
     );

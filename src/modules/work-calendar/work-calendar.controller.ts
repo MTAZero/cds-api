@@ -29,6 +29,8 @@ import { CreateWorkCalendarDto } from './dto/create-work-calendar.dto';
 import { UpdateWorkCalendarDto } from './dto/update-work-calendar.dto';
 import { PermissionsGuard } from '../authentication/guards/permission.guard';
 import { WorkCalendarAssignDBService } from '../database/services/workCalendarAssignDBService';
+import { User } from '../database/schemas/users.schema';
+import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 
 @Controller('work-calendar')
 @UseGuards(PermissionsGuard)
@@ -129,21 +131,6 @@ export class WorkCalendarController {
     );
   }
 
-  @Get('/:id')
-  @ActionsPermission([SystemAction.View, SystemAction.Edit])
-  @ModulePermission(SystemFeatures.WorkCalendar)
-  async detail(@Res() res, @Param() params) {
-    const id = params.id;
-    const ans = await this.workCalendarDBService.getItemById(id);
-    return ApiResponse(
-      res,
-      true,
-      ResponseCode.SUCCESS,
-      ResponseMessage.SUCCESS,
-      ans,
-    );
-  }
-
   @Get('/user/:userId')
   async getWorkCalendarOfUser(
     @Res() res,
@@ -197,6 +184,55 @@ export class WorkCalendarController {
       start,
       end,
     );
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
+  @Get('/my-calendar')
+  @UseGuards(JwtAuthGuard)
+  async getWorkCalendarOfUserOrUnit(
+    @Res() res,
+    @Query('startTime') startTime: string,
+    @Query('endTime') endTime: string,
+    @CurrentUser() user: User,
+  ) {
+    let start = 0,
+      end = 1000000000000000;
+
+    try {
+      if (startTime && endTime) {
+        start = parseInt(startTime);
+        end = parseInt(endTime);
+      }
+    } catch {}
+
+    const ans = await this.workCalendarDBService.getCalendarOfUserOrUnit(
+      user._id.toString(),
+      user.unit.toString(),
+      start,
+      end,
+    );
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
+  @Get('/:id')
+  @ActionsPermission([SystemAction.View, SystemAction.Edit])
+  @ModulePermission(SystemFeatures.WorkCalendar)
+  async detail(@Res() res, @Param() params) {
+    const id = params.id;
+    const ans = await this.workCalendarDBService.getItemById(id);
     return ApiResponse(
       res,
       true,

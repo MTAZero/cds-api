@@ -3,6 +3,7 @@ import { BaseDBService } from './base';
 import { Injectable } from '@nestjs/common';
 import { WorkCalendar } from '../schemas/work-calendar.schema';
 import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
+import { pipeline } from 'stream';
 
 @Injectable()
 export class WorkCalendarDBService extends BaseDBService<WorkCalendar> {
@@ -38,15 +39,51 @@ export class WorkCalendarDBService extends BaseDBService<WorkCalendar> {
       {
         $lookup: {
           from: 'workcalendarassigns',
-          let: {
-            id: '$_id',
-          },
+          let: { id: '$_id' },
           pipeline: [
             {
               $match: {
                 $expr: {
                   $eq: [{ $toString: '$work_calendar' }, { $toString: '$$id' }],
                 },
+              },
+            },
+            {
+              $lookup: {
+                from: 'users',
+                let: { userId: { $toString: '$user' } },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: '$_id' }, '$$userId'],
+                      },
+                    },
+                  },
+                ],
+                as: 'userInfo',
+              },
+            },
+            {
+              $lookup: {
+                from: 'units',
+                let: { unitId: { $toString: '$unit' } },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: '$_id' }, '$$unitId'],
+                      },
+                    },
+                  },
+                ],
+                as: 'unitInfo',
+              },
+            },
+            {
+              $addFields: {
+                userInfo: { $arrayElemAt: ['$userInfo', 0] },
+                unitInfo: { $arrayElemAt: ['$unitInfo', 0] },
               },
             },
           ],
@@ -108,9 +145,7 @@ export class WorkCalendarDBService extends BaseDBService<WorkCalendar> {
       {
         $lookup: {
           from: 'workcalendarassigns',
-          let: {
-            id: '$_id',
-          },
+          let: { id: '$_id' },
           pipeline: [
             {
               $match: {
@@ -122,15 +157,53 @@ export class WorkCalendarDBService extends BaseDBService<WorkCalendar> {
             {
               $match: {
                 $expr: {
-                  $eq: ['$isUnit', false],
+                  $and: [
+                    {
+                      $eq: ['$isUnit', false],
+                    },
+                    {
+                      $eq: [{ $toString: '$user' }, userId],
+                    },
+                  ],
                 },
               },
             },
             {
-              $match: {
-                $expr: {
-                  $eq: [{ $toString: '$user' }, userId],
-                },
+              $lookup: {
+                from: 'users',
+                let: { userId: { $toString: '$user' } },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: '$_id' }, '$$userId'],
+                      },
+                    },
+                  },
+                ],
+                as: 'userInfo',
+              },
+            },
+            {
+              $lookup: {
+                from: 'units',
+                let: { unitId: { $toString: '$unit' } },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: '$_id' }, '$$unitId'],
+                      },
+                    },
+                  },
+                ],
+                as: 'unitInfo',
+              },
+            },
+            {
+              $addFields: {
+                userInfo: { $arrayElemAt: ['$userInfo', 0] },
+                unitInfo: { $arrayElemAt: ['$unitInfo', 0] },
               },
             },
           ],
@@ -149,15 +222,30 @@ export class WorkCalendarDBService extends BaseDBService<WorkCalendar> {
           },
         },
       },
+    ];
+
+    const ans = await this.entityModel.aggregate(queryDb).exec();
+    return ans;
+  }
+
+  async getCalendarOfUnit(
+    unitId: string,
+    startTime: number = 0,
+    endTime: number = 100000000000000000,
+  ) {
+    const queryDb: any = [
       {
-        $unset: 'assigns',
+        $match: {
+          time_start: {
+            $gte: startTime,
+            $lte: endTime,
+          },
+        },
       },
       {
         $lookup: {
           from: 'workcalendarassigns',
-          let: {
-            id: '$_id',
-          },
+          let: { id: '$_id' },
           pipeline: [
             {
               $match: {
@@ -166,8 +254,72 @@ export class WorkCalendarDBService extends BaseDBService<WorkCalendar> {
                 },
               },
             },
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    {
+                      $eq: ['$isUnit', true],
+                    },
+                    {
+                      $eq: [{ $toString: '$unit' }, unitId],
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              $lookup: {
+                from: 'users',
+                let: { userId: { $toString: '$user' } },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: '$_id' }, '$$userId'],
+                      },
+                    },
+                  },
+                ],
+                as: 'userInfo',
+              },
+            },
+            {
+              $lookup: {
+                from: 'units',
+                let: { unitId: { $toString: '$unit' } },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: '$_id' }, '$$unitId'],
+                      },
+                    },
+                  },
+                ],
+                as: 'unitInfo',
+              },
+            },
+            {
+              $addFields: {
+                userInfo: { $arrayElemAt: ['$userInfo', 0] },
+                unitInfo: { $arrayElemAt: ['$unitInfo', 0] },
+              },
+            },
           ],
           as: 'assigns',
+        },
+      },
+      {
+        $match: {
+          $expr: {
+            $ne: [
+              0,
+              {
+                $size: '$assigns',
+              },
+            ],
+          },
         },
       },
     ];
@@ -176,7 +328,8 @@ export class WorkCalendarDBService extends BaseDBService<WorkCalendar> {
     return ans;
   }
 
-  async getCalendarOfUnit(
+  async getCalendarOfUserOrUnit(
+    userId: string,
     unitId: string,
     startTime: number = 0,
     endTime: number = 100000000000000000,
@@ -207,15 +360,67 @@ export class WorkCalendarDBService extends BaseDBService<WorkCalendar> {
             {
               $match: {
                 $expr: {
-                  $eq: ['$isUnit', true],
+                  $or: [
+                    {
+                      $and: [
+                        {
+                          $eq: ['$isUnit', false],
+                        },
+                        {
+                          $eq: [{ $toString: '$user' }, userId],
+                        },
+                      ],
+                    },
+                    {
+                      $and: [
+                        {
+                          $eq: ['$isUnit', true],
+                        },
+                        {
+                          $eq: [{ $toString: '$unit' }, unitId],
+                        },
+                      ],
+                    },
+                  ],
                 },
               },
             },
             {
-              $match: {
-                $expr: {
-                  $eq: [{ $toString: '$unit' }, unitId],
-                },
+              $lookup: {
+                from: 'users',
+                let: { userId: { $toString: '$user' } },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: '$_id' }, '$$userId'],
+                      },
+                    },
+                  },
+                ],
+                as: 'userInfo',
+              },
+            },
+            {
+              $lookup: {
+                from: 'units',
+                let: { unitId: { $toString: '$unit' } },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [{ $toString: '$_id' }, '$$unitId'],
+                      },
+                    },
+                  },
+                ],
+                as: 'unitInfo',
+              },
+            },
+            {
+              $addFields: {
+                userInfo: { $arrayElemAt: ['$userInfo', 0] },
+                unitInfo: { $arrayElemAt: ['$unitInfo', 0] },
               },
             },
           ],
@@ -232,27 +437,6 @@ export class WorkCalendarDBService extends BaseDBService<WorkCalendar> {
               },
             ],
           },
-        },
-      },
-      {
-        $unset: 'assigns',
-      },
-      {
-        $lookup: {
-          from: 'workcalendarassigns',
-          let: {
-            id: '$_id',
-          },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: [{ $toString: '$work_calendar' }, { $toString: '$$id' }],
-                },
-              },
-            },
-          ],
-          as: 'assigns',
         },
       },
     ];

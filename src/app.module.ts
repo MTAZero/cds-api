@@ -19,6 +19,7 @@ import { ProgressesModule } from './modules/progress/progresses.module';
 import { TrainingModule } from './modules/trainning/training.module';
 import { PersonalDiaryModule } from './modules/personal-diarys/personal-diarys.module';
 import { WorkCalendarModule } from './modules/work-calendar/work-calendar.module';
+import { AdministrativeUnitsModule } from './modules/administrative-units/administrative-units.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { WorkCalendarModule } from './modules/work-calendar/work-calendar.module
     TrainingModule,
     PersonalDiaryModule,
     WorkCalendarModule,
+    AdministrativeUnitsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

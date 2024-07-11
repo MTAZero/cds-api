@@ -58,6 +58,12 @@ import {
 } from './schemas/work-calendar-assign.schema';
 import { WorkCalendarDBService } from './services/workCalendarDBService';
 import { WorkCalendarAssignDBService } from './services/workCalendarAssignDBService';
+import { cProvinces, cProvinces_schema } from './schemas/c_provinces';
+import { cDistricts, cDistricts_schema } from './schemas/c_districts';
+import { cWards, cWards_schema } from './schemas/c_wards';
+import { ProvincesDBService } from './services/cProvincesDBService';
+import { DistrictDBService } from './services/cDistrictsDBService';
+import { WardsDBService } from './services/cWardsDBServicets';
 
 @Module({
   imports: [
@@ -130,6 +136,18 @@ import { WorkCalendarAssignDBService } from './services/workCalendarAssignDBServ
         name: WorkCalendarAssign.name,
         schema: WorkCalendarAssignSchema,
       },
+      {
+        name: cProvinces.name,
+        schema: cProvinces_schema,
+      },
+      {
+        name: cDistricts.name,
+        schema: cDistricts_schema,
+      },
+      {
+        name: cWards.name,
+        schema: cWards_schema,
+      },
     ]),
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -158,6 +176,9 @@ import { WorkCalendarAssignDBService } from './services/workCalendarAssignDBServ
     GuardDuttyDBService,
     WorkCalendarDBService,
     WorkCalendarAssignDBService,
+    ProvincesDBService,
+    DistrictDBService,
+    WardsDBService,
   ],
   exports: [
     UserDBService,
@@ -177,6 +198,9 @@ import { WorkCalendarAssignDBService } from './services/workCalendarAssignDBServ
     GuardDuttyDBService,
     WorkCalendarDBService,
     WorkCalendarAssignDBService,
+    ProvincesDBService,
+    DistrictDBService,
+    WardsDBService,
   ],
 })
 export class DatabaseModule {}

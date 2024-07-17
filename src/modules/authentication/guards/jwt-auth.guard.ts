@@ -2,7 +2,7 @@ import { Inject, UnauthorizedException } from '@nestjs/common';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { UserDBService } from 'src/modules/database/services/userDbService';
+import { UserDBService } from 'src/modules/database/services/userDBService';
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   @Inject(UserDBService)

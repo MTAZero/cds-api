@@ -29,7 +29,7 @@ import {
   } from 'src/decorator/module-action.decorator';
   import { SystemAction, SystemFeatures } from 'src/enums';
   import { CurrentUser } from 'src/decorator/current-user.decorator';
-  import { UserDBService } from '../database/services/userDbService';
+  import { UserDBService } from '../database/services/userDBService';
 
   
   @Controller('progresses')

@@ -1,41 +1,84 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class UpdateRegisterVehicleDto {
+export class UpdateVehicleCommandDto {
 
-  @IsString()
   @IsOptional()
-  driver: string;
-
   @IsString()
+  orderNumber: string;
+
   @IsOptional()
-  rank: string;
-
   @IsString()
+  commandDateCreated: string;
+
   @IsOptional()
-  license: string;
-
   @IsString()
-  @IsNotEmpty()
-  contentUse: string;
+  baseFromDate: string;
 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  location: string;
+  baseToDate: string;
 
+  @IsOptional()
+  @IsString()
+  vehicle: string;
+
+  @IsOptional()
+  @IsString()
+  mission: string;
+
+  @IsOptional()
+  @IsString()
+  unitWorkGo: string;
+
+  @IsOptional()
+  @IsString()
+  quantityGo: string;
+
+  @IsOptional()
+  @IsString()
+  fromLocationGo: string;
+
+  @IsOptional()
+  @IsString()
+  toLocationGo: string;
+
+  @IsOptional()
+  @IsString()
+  distanceGo: string;
+
+  @IsOptional()
+  @IsString()
+  numberTripGo: string;
+
+  @IsOptional()
+  @IsString()
+  unitWorkBack: string;
+
+  @IsOptional()
+  @IsString()
+  quantityBack: string;
+
+  @IsOptional()
+  @IsString()
+  fromLocationBack: string;
+
+  @IsOptional()
+  @IsString()
+  toLocationBack: string;
+
+  @IsOptional()
+  @IsString()
+  distanceBack: string;
+
+  @IsOptional()
+  @IsString()
+  numberTripBack: string;
+
+  @IsOptional()
+  @IsString()
+  extra: string;
+
+  @IsOptional()
   @IsNumber()
-  @IsNotEmpty()
-  fromTime: number;
-  
-  @IsNumber()
-  @IsNotEmpty()
-  toTime: number;
-
-  @IsString()
-  @IsOptional()
-  distance: string;
-
-  @IsString()
-  @IsNotEmpty()
-  unit: string;
-
+  performDateTime: number;
 }

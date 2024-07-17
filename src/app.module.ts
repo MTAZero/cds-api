@@ -25,6 +25,16 @@ import { RelatedDocumentModule } from './modules/RelatedDocuments/relatedDocumen
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ManagerVehicleModule } from './modules/manager-vehicle/managerVehicle.module';
 import { RegisterVehicleModule } from './modules/register-vehicle/registerVehicle.module';
+import { VehicleCommandModule } from './modules/vehicle command/vehicleCommand.module';
+import { DeliveryBillModule } from './modules/delivery-bill/deliveryBill.module';
+import { MeetingBookModule } from './modules/meeting-book/meeting-book.module';
+import { ManagerFuelModule } from './modules/manager-fuel/managerFuel.module';
+import { ManagerTaskModule } from './modules/manager-task/managerVehicle.module';
+import { ManagerWorkAddressModule } from './modules/manager-work-address/managerWorkAddress.module';
+import { StatisticDocumentModule } from './modules/statistic-document/statisticDocument.module';
+import { ManagerTrackDisciplineModule } from './modules/track-discipline/trackDiscipline.module';
+import { ManagerTrackWorkModule } from './modules/track-work/trackWork.module';
+import { AccessControlModule } from './modules/access control/AccessControl.module';
 
 @Module({
   imports: [
@@ -55,7 +65,17 @@ import { RegisterVehicleModule } from './modules/register-vehicle/registerVehicl
     ExperienceModule,
     RelatedDocumentModule,
     ManagerVehicleModule,
-    RegisterVehicleModule
+    RegisterVehicleModule,
+    VehicleCommandModule,
+    DeliveryBillModule,
+    MeetingBookModule,
+    ManagerFuelModule,
+    ManagerTaskModule,
+    ManagerWorkAddressModule,
+    StatisticDocumentModule,
+    ManagerTrackDisciplineModule,
+    ManagerTrackWorkModule,
+    AccessControlModule
   ],
   controllers: [AppController],
   providers: [AppService],

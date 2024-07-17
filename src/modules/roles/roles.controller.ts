@@ -14,7 +14,7 @@ import {
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
-import { RoleDBService } from '../database/services/roleDbService';
+import { RoleDBService } from '../database/services/roleDBService';
 import { CreateRoleDto } from './dtos/create-role.dto';
 import { UpdateRoleDto } from './dtos/update-role.dto';
 import { FileInterceptor } from '@nestjs/platform-express';

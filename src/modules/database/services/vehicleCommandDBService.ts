@@ -4,7 +4,7 @@ import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nest
 import { VehicleCommand } from '../schemas/vehicleCommand.schema';
 import { UnitDBService } from './unitDBService';
 import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
-import { convertTimeStampToDateTime } from 'src/utils/time.helper';
+
 
 @Injectable()
 export class VehicleCommandDBService extends BaseDBService<VehicleCommand> {
@@ -16,14 +16,14 @@ export class VehicleCommandDBService extends BaseDBService<VehicleCommand> {
     super(entityModel);
   }
 
-  async getRegisterVehicleBelongUnit(
+  async getVehicleCommandBelongPerfomDate(
     query: QueryParams,
   ): Promise<ResponseQuery<any>> {
     let { filter } = query;
     const { skip, limit } = query;
     const pageIndex = skip / limit + 1;
 
-    let lstRegisterVehicle = await this.getItems({
+    let lstVehicleComand = await this.getItems({
       ...query,
       ...{
         filter,
@@ -32,21 +32,20 @@ export class VehicleCommandDBService extends BaseDBService<VehicleCommand> {
 
     const populateQuery = [
       {
-          path: "unit",
+        path: "vehicle"
       }
   ];
   
-    const lst = await this.entityModel.populate(lstRegisterVehicle.items, populateQuery);
+    const lst = await this.entityModel.populate(lstVehicleComand.items, populateQuery);
 
     const ans = lst.map(
       (item) => {
         return {
           ...item,
           ...{
-            unit: item.unit._id,
-            unitName: item.unit.name,
-            fromTime: convertTimeStampToDateTime(item.fromTime),
-            toTime: convertTimeStampToDateTime(item.toTime)
+            typeVehicle: item.vehicle.typeVehicle,
+            label: item.vehicle.name,
+            license: item.vehicle.license,
           }
         }
       }
@@ -66,8 +65,8 @@ export class VehicleCommandDBService extends BaseDBService<VehicleCommand> {
 
   async remove(id: string): Promise<any> {
     
-    const registerVehicle = await this.getItemById(id);
-    if(!registerVehicle) throw new NotFoundException();
+    const commandVehicle = await this.getItemById(id);
+    if(!commandVehicle) throw new NotFoundException();
 
     return await this.removeItem(id);
   }
@@ -77,13 +76,22 @@ export class VehicleCommandDBService extends BaseDBService<VehicleCommand> {
     const commandVehicle = await this.getItemById(id);
     if(!commandVehicle) throw new NotFoundException();
 
-    const ans = {
-      ...commandVehicle,
-      vehicleBelongUnit_name: (await this.unitDBService.getItemById(commandVehicle.vehicleBelongUnit)).name,
-      unitWork_name:  (await this.unitDBService.getItemById(commandVehicle.unitWork)).name,
-      date: convertTimeStampToDateTime(commandVehicle.date)
-    };
+    const populateQuery = [
+      {
+        path: "vehicle",
+      }
+  ];
+  
+    const commandVehicleExtra = await this.entityModel.populate(commandVehicle, populateQuery);
 
+    const ans = {
+      ...commandVehicleExtra,
+      ...{
+        typeVehicle: commandVehicleExtra.vehicle.typeVehicle,
+        label: commandVehicleExtra.vehicle.name,
+        license: commandVehicleExtra.vehicle.license
+      }
+    };
     return ans;
   }
 }

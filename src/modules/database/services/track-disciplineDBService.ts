@@ -48,7 +48,11 @@ export class ManagerTrackDisciplineDBService extends BaseDBService<TrackDiscipli
 
     const ans = lst.map(
       (item) => {
+<<<<<<< HEAD
         
+=======
+        console.log(item.personId)
+>>>>>>> c6a8207 (finish_book)
         return {
           ...item,
           ...{
@@ -60,6 +64,10 @@ export class ManagerTrackDisciplineDBService extends BaseDBService<TrackDiscipli
         }
       }
     )
+<<<<<<< HEAD
+=======
+
+>>>>>>> c6a8207 (finish_book)
     return ans;
   }
   

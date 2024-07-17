@@ -6,7 +6,7 @@ import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
 import { UnitDBService } from './unitDBService';
 import { Training } from '../schemas/trainnings.schema';
 import { PositionDBService } from './positionDBService';
-import { UserDBService } from './userDbService';
+import { UserDBService } from './userDBService';
 import { MAX_ITEM_QUERYS, ResponseMessage } from 'src/const';
 
 

@@ -1,7 +1,7 @@
 import { BadRequestException, ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { UnitDBService } from './unitDBService';
 import { PositionDBService } from './positionDBService';
-import { UserDBService } from './userDbService';
+import { UserDBService } from './userDBService';
 import axios from 'axios';
 import * as https from 'https'
 

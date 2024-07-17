@@ -70,7 +70,7 @@ export class RelatedDocumentDBService extends BaseDBService<RelatedDocument> {
 
     const ans = await this.removeItem(id)
     if(!ans) throw new BadRequestException();
-    console.log(ans);
+  
     try {
       rmSync( archiveConfig().folder_saved + document.url, {
         force: true

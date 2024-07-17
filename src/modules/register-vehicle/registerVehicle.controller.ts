@@ -14,7 +14,7 @@ import {
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
-import { RegisterVehicleDBService } from '../database/services/registerVehicleDbService';
+import { RegisterVehicleDBService } from '../database/services/registerVehicleDBService';
 import { CreateRegisterVehicleDto } from './dtos/create-register-vehicle.dto';
 import { UpdateRegisterVehicleDto } from './dtos/update-register-vehicle.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -179,7 +179,7 @@ export class RegisterVehicleController {
   @Delete('/:id')
   @ActionsPermission([SystemAction.Edit])
   @ModulePermission(SystemFeatures.RegisterVehicle)
-  async removeRole(
+  async removeRegisterVehicle(
     @Res() res, 
     @Param() params,
     @CurrentUser() user

@@ -5,7 +5,7 @@ import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nest
 import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
 import { UnitDBService } from './unitDBService';
 import { TrainingDBService } from './trainingDBService';
-import { UserDBService } from './userDbService';
+import { UserDBService } from './userDBService';
 import { MAX_ITEM_QUERYS } from 'src/const';
 import { PositionDBService } from './positionDBService';
 import { readFileSync } from 'fs';

@@ -9,7 +9,7 @@ import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { request } from 'express';
 import { SystemAction, SystemFeatures } from 'src/enums';
-import { UserDBService } from 'src/modules/database/services/userDbService';
+import { UserDBService } from 'src/modules/database/services/userDBService';
 
 @Injectable()
 export class PermissionsGuard extends AuthGuard('jwt') {

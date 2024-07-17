@@ -1,41 +1,73 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types, ObjectId } from 'mongoose';
-import { Unit } from './units.schema';
-
+import { ManagerVehicle } from './manager-vehicle.schema';
 
 @Schema()
 export class VehicleCommand extends Document<any> {
   _id: ObjectId;
 
   @Prop()
-  typeVehicle: string;
+  orderNumber: string;
 
   @Prop()
-  label: string;
+  commandDateCreated: Date;
 
   @Prop()
-  license: string;
+  baseFromDate: Date;
 
   @Prop()
-  vehicleBelongUnit: string;
+  baseToDate: Date;
+
+  @Prop({ type: Types.ObjectId, ref: ManagerVehicle.name, default: null })
+  vehicle: ObjectId;
 
   @Prop()
-  unitWork: string;
+  mission: string;
 
   @Prop()
-  contentUse: string;
+  unitWorkGo: string;
 
   @Prop()
-  fromLocation: string;
+  quantityGo: string;
 
   @Prop()
-  toLocation: string;
+  fromLocationGo: string;
 
   @Prop()
-  distance: string;
+  toLocationGo: string;
 
   @Prop()
-  date: Date;
+  distanceGo: string;
+
+  @Prop()
+  numberTripGo: string;
+
+  @Prop()
+  unitWorkBack: string;
+
+  @Prop()
+  quantityBack: string;
+
+  @Prop()
+  fromLocationBack: string;
+
+  @Prop()
+  toLocationBack: string;
+
+  @Prop()
+  distanceBack: string;
+
+  @Prop()
+  numberTripBack: string;
+
+  @Prop()
+  extra: string;
+
+  @Prop()
+  performDateTime: number;
+
+  @Prop()
+  state: string 
 
   @Prop()
   last_update: number;
@@ -47,8 +79,6 @@ export class VehicleCommand extends Document<any> {
 export const VehicleCommandSchema = SchemaFactory.createForClass(VehicleCommand);
 
 VehicleCommandSchema.index({
-  name: 'text',
-  license: 'text',
   fromLocation: 'text',
   toLocation: 'text',
   date: 'text'

@@ -26,7 +26,7 @@ import {
   ModulePermission,
 } from 'src/decorator/module-action.decorator';
 import { SystemAction, SystemFeatures } from 'src/enums';
-import { ManagerVehicleDBService } from '../database/services/managerVehicleDbService';
+import { ManagerVehicleDBService } from '../database/services/managerVehicleDBService';
 
 @Controller('manager-vehicle')
 @UseGuards(PermissionsGuard)

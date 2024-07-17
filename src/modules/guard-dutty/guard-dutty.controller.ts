@@ -33,7 +33,7 @@ import { UpdateGuardDuttyPositionDto } from './dtos/update-guard-dutty-position.
 import { GuardDuttyDBService } from '../database/services/guardDuttyDBService';
 import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 import { UpdateGuardDuttyDto } from './dtos/update-guard-dutty.dto';
-import { UserDBService } from '../database/services/userDbService';
+import { UserDBService } from '../database/services/userDBService';
 import { UnitDBService } from '../database/services/unitDBService';
 
 @Controller('guard-dutty')

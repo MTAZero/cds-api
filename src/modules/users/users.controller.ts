@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { ResponseCode, ResponseMessage } from 'src/const';
 import { ApiResponse } from 'src/utils';
-import { UserDBService } from '../database/services/userDbService';
+import { UserDBService } from '../database/services/userDBService';
 import { PaginationType } from 'src/middleware';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateUserDto } from './dtos/create-user.dto';

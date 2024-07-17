@@ -44,6 +44,9 @@ export class Progress extends Document<any> {
   unit: ObjectId;
 
   @Prop()
+  url: string;
+
+  @Prop()
   from_date: Date
 
   @Prop()

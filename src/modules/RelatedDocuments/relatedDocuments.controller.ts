@@ -10,6 +10,7 @@ import {
     Query,
     Req,
     Res,
+    UploadedFile,
     UseGuards,
     UseInterceptors,
     ValidationPipe,
@@ -25,20 +26,20 @@ import {
   } from 'src/decorator/module-action.decorator';
   import { SystemAction, SystemFeatures } from 'src/enums';
   import { CurrentUser } from 'src/decorator/current-user.decorator';
-  import { CreateExperienceBookDto } from './dtos/create-experience-book.dto';
-  import { UpdateExperienceBookDto} from './dtos/update-experience-book.dto';
-  import { ExperienceBookDBService } from '../database/services/experienceBookDBService';
+  import { CreateRelatedDocumentDto } from './dtos/create-document.dto';
+  import { RelatedDocumentDBService } from '../database/services/relatedDocumentDBService';
+  import { uploadFileOption } from 'src/const';
 
-  @Controller('experience-book')
+  @Controller('document')
   @UseGuards(PermissionsGuard)
-  export class ExperienceController {
-    @Inject(ExperienceBookDBService)
-    experienceBookService: ExperienceBookDBService;
+  export class RelatedDocumentController {
+    @Inject(RelatedDocumentDBService)
+    relatedDocumentService: RelatedDocumentDBService;
 
   @Get('/')
   @ActionsPermission([SystemAction.View])
-  @ModulePermission(SystemFeatures.ManagerExperiences)
-  async getListExperienceBook(
+  @ModulePermission(SystemFeatures.ManagerDocuments)
+  async getListDocuments(
     @Res() res, 
     @Req() req, 
     @Query() query,
@@ -48,9 +49,8 @@ import {
     const sort = req.sort;
     const filter = {};
     const keyword = query.keyword ? query.keyword : '';
-    const bookUnitID = query.unit ? query.unit : '';
 
-    const data = await this.experienceBookService.getListExperienceBook(user.unit, bookUnitID,{
+    const data = await this.relatedDocumentService.getListDocuments({
       filter,
       sort,
       skip: pagination.skip,
@@ -69,8 +69,8 @@ import {
 
   @Get('/:id')
   @ActionsPermission([SystemAction.View])
-  @ModulePermission(SystemFeatures.ManagerExperiences)
-  async getPersonalDiaryByID(
+  @ModulePermission(SystemFeatures.ManagerDocuments)
+  async getDocumentByID(
     @Res() res,
     @Param() params,
     @CurrentUser() user
@@ -78,8 +78,7 @@ import {
 
     const id = params.id;
     
-    const ans = await this.experienceBookService.getExperienceBookById(user.unit, id);
-
+    const ans = await this.relatedDocumentService.getContentDocument(id);
     return ApiResponse(
       res,
       true,
@@ -90,37 +89,26 @@ import {
   }
 
   @Post('')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', uploadFileOption))
   @ActionsPermission([SystemAction.Edit])
-  @ModulePermission(SystemFeatures.ManagerExperiences)
-  async insertExperienceBook(
-    @Body(new ValidationPipe()) entity: CreateExperienceBookDto,
+  @ModulePermission(SystemFeatures.ManagerDocuments)
+  async insertDocument(
+    @Body(new ValidationPipe()) entity: CreateRelatedDocumentDto,
     @Res() res,
-    @CurrentUser() user
+    @CurrentUser() user,
+    @UploadedFile() file,
 ) {
-    const ans = await this.experienceBookService.createExprienceBook(user.unit, entity)
-    return ApiResponse(
-      res,
-      true,
-      ResponseCode.SUCCESS,
-      ResponseMessage.SUCCESS,
-      ans,
-    );
+    const userID = user._id;
 
-  }
+    let document = {
+      user: userID,
+      name: entity.name,
+      type: entity.type,
+      url: file ? file.filename : null
+    }
 
-  @Put('/:id')
-  @UseInterceptors(FileInterceptor('file'))
-  @ActionsPermission([SystemAction.Edit])
-  @ModulePermission(SystemFeatures.ManagerExperiences)
-  async updatePersonalDiary(
-    @Body(new ValidationPipe()) entity: UpdateExperienceBookDto,
-    @Res() res,
-    @Param() params,
-    @CurrentUser() user
-  ) {
-    const id = params.id;
-    const ans = await this.experienceBookService.updateExperienceBook(user.unit, id, entity)
+    const ans = await this.relatedDocumentService.insertItem(document);
+
     return ApiResponse(
       res,
       true,

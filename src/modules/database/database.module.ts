@@ -30,7 +30,7 @@ import {
   PersonalDiary,
   PersonalDiarySchema,
 } from './schemas/personal-diarys.schema';
-import { PersonalDiaryDBService } from './services/PersonalDiaryDBService';
+import { PersonalDiaryDBService } from './services/personalDiaryDBService';
 import {
   NotificationUser,
   NotificationUserSchema,
@@ -65,7 +65,9 @@ import { ProvincesDBService } from './services/cProvincesDBService';
 import { DistrictDBService } from './services/cDistrictsDBService';
 import { WardsDBService } from './services/cWardsDBServicets';
 import { ExperienceBook, ExperienceBookSchema } from './schemas/experience-book.schema';
-import { ExperienceBookDBService } from './services/experienceBook';
+import { ExperienceBookDBService } from './services/experienceBookDBService';
+import { RelatedDocument, RelatedDocumentSchema } from './schemas/related-documents.schema';
+import { RelatedDocumentDBService } from './services/relatedDocumentDBService';
 
 @Module({
   imports: [
@@ -150,6 +152,14 @@ import { ExperienceBookDBService } from './services/experienceBook';
         name: cWards.name,
         schema: cWards_schema,
       },
+      {
+        name: ExperienceBook.name,
+        schema: ExperienceBookSchema
+      },
+      {
+        name: RelatedDocument.name,
+        schema: RelatedDocumentSchema
+      }
     ]),
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -181,6 +191,8 @@ import { ExperienceBookDBService } from './services/experienceBook';
     ProvincesDBService,
     DistrictDBService,
     WardsDBService,
+    ExperienceBookDBService,
+    RelatedDocumentDBService
   ],
   exports: [
     UserDBService,
@@ -203,6 +215,8 @@ import { ExperienceBookDBService } from './services/experienceBook';
     ProvincesDBService,
     DistrictDBService,
     WardsDBService,
+    ExperienceBookDBService,
+    RelatedDocumentDBService
   ],
 })
 export class DatabaseModule {}

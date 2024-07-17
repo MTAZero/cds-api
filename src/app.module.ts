@@ -46,6 +46,7 @@ import { AdministrativeUnitsModule } from './modules/administrative-units/admini
     PersonalDiaryModule,
     WorkCalendarModule,
     AdministrativeUnitsModule,
+    ExperienceModule
   ],
   controllers: [AppController],
   providers: [AppService],

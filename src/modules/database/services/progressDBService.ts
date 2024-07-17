@@ -38,7 +38,7 @@ export class ProgressDBService extends BaseDBService<Progress> {
     const { skip, limit } = query;
     const pageIndex = skip / limit + 1;
 
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, unitProgress)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, unitProgress)
     if(!checkPermisison) throw new ForbiddenException();
 
     const ans = await this.getItems({
@@ -47,6 +47,7 @@ export class ProgressDBService extends BaseDBService<Progress> {
         filter,
       },
     });
+    if(!ans) throw new NotFoundException();
     const items = ans.items;
 
     const unit = await this.unitDBService.getItemById(items[0].unit)
@@ -81,7 +82,7 @@ export class ProgressDBService extends BaseDBService<Progress> {
     const progress = await this.getItemById(id);
     if(!progress) throw new NotFoundException();
 
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, progress.unit)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, progress.unit)
     if(!checkPermisison) throw new ForbiddenException();
     const training = await this.trainingDBService.getItemById(id);
     if(!training) throw new NotFoundException();
@@ -96,7 +97,7 @@ export class ProgressDBService extends BaseDBService<Progress> {
 
   async insertProgress(userUnitID: string, entity: any): Promise<any> {
 
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, entity.unit)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, entity.unit)
     if(!checkPermisison) throw new ForbiddenException();
 
     const progress =  await this.insertItem(entity);
@@ -109,7 +110,7 @@ export class ProgressDBService extends BaseDBService<Progress> {
         week: progress.week,
         month: progress.month,
         year: progress.year,
-        unit: progress.unit
+        unit: progress.unit,
       });
     }
     return progress;
@@ -120,7 +121,7 @@ export class ProgressDBService extends BaseDBService<Progress> {
     const progress = await this.getItemById(progressID);
     if(!progress) throw new NotFoundException();
    
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, progress.unit)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, progress.unit)
     if(!checkPermisison) throw new ForbiddenException();
 
     const progressUpdated =  await this.updateItem(progressID, entity);
@@ -159,8 +160,9 @@ export class ProgressDBService extends BaseDBService<Progress> {
   async deleteProgress(userUnitID: string, progressID: string): Promise<any> {
 
     const ans = await this.getItemById(progressID);
+    if(!ans) throw new NotFoundException();
 
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, ans.unit)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, ans.unit)
     if(!checkPermisison) throw new ForbiddenException();
     await this.trainingDBService.removeItem(progressID);
     return await this.removeItem(progressID); 
@@ -210,7 +212,7 @@ export class ProgressDBService extends BaseDBService<Progress> {
     const progress = await this.getItemById(progressID);
     if(!progress) throw new NotFoundException();
 
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, progress.unit);
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, progress.unit);
     if(!checkPermisison) throw new ForbiddenException();
 
     const lstObj = progress.time_train_detail.map((item:any) => {

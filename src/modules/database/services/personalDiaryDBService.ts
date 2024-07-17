@@ -4,10 +4,10 @@ import { BaseDBService } from './base';
 import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
 import { UnitDBService } from './unitDBService';
-import { Training } from '../schemas/trainnings.schema';
 import { PositionDBService } from './positionDBService';
-import { UserDBService } from './userDbService';
+import { UserDBService } from './userDBService';
 import { ProgressDBService } from './progressDBService';
+import { MAX_ITEM_QUERYS } from 'src/const';
 
 @Injectable()
 export class PersonalDiaryDBService extends BaseDBService<PersonalDiary> {
@@ -24,19 +24,40 @@ export class PersonalDiaryDBService extends BaseDBService<PersonalDiary> {
   @Inject(ProgressDBService)
   progressDBService: ProgressDBService;
   
+  
   constructor(@InjectModel(PersonalDiary.name) private readonly entityModel) {
     super(entityModel);
   }
 
   async getPersonalBookById(
     userID: string,
-    id: string,
-  ): Promise<PersonalDiary> {
+    trainingID: string,
+  ): Promise<any> {
     
-    const personalBook = await this.getItemById(id);
-
-    if(!personalBook) throw new NotFoundException();
-    if(personalBook.user.toString() !== userID.toString()) throw new ForbiddenException();
+    const query: QueryParams = {
+      skip: 0,
+      limit: MAX_ITEM_QUERYS,
+      filter: {
+        training: trainingID,
+        user: userID
+      },
+    };
+    const personalBook = (await this.getItems(query)).items;
+    if (personalBook.length === 0){
+      const progress = await this.progressDBService.getItemById(trainingID)
+      
+      const ans = {
+        date: progress.date,
+        dayOfWeek: progress.dayOfWeek,
+        unit_charge: progress.unit_charge,
+        location: progress.location,
+        guaranteed_material: progress.guaranteed_material,
+        unit: (await this.unitDBService.getItemById(progress.unit)).name,
+        content: progress.content,
+        created: false
+      }
+      return ans
+    }
     
     const populateQuery = [
       {
@@ -51,8 +72,25 @@ export class PersonalDiaryDBService extends BaseDBService<PersonalDiary> {
       }
   ];
   
-    const personalBook_map = await this.entityModel.populate(personalBook, populateQuery);
-    return personalBook_map
+    const personalBook_map = await this.entityModel.populate(personalBook[0], populateQuery);
+    
+    const ans = {
+      _id: personalBook_map._id,
+      type: personalBook_map.type,
+      note: personalBook_map.note,
+      year: personalBook_map.training.year,
+      month: personalBook_map.training.month,
+      week: personalBook_map.training.week,
+      date: personalBook_map.training.progress.date,
+      dayOfWeek: personalBook_map.training.progress.dayOfWeek,
+      unit_charge: personalBook_map.training.progress.unit_charge,
+      location: personalBook_map.training.progress.location,
+      guaranteed_material: personalBook_map.training.progress.guaranteed_material,
+      unit: (await this.unitDBService.getItemById(personalBook_map.training.progress.unit)).name,
+      content: personalBook_map.training.progress.content,
+      created: true
+    }
+    return ans
   }
 
   async createPersonalBook(user: any, entity: any): Promise<any> {

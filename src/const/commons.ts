@@ -88,7 +88,9 @@ export const TYPE_POSITION = [
   TypePosition.NVTCTT,
   TypePosition.NVCMKT,
   TypePosition.TL,
-];
+  TypePosition.TBTC,
+  TypePosition.TBNV
+]
 
 export const DAY_OF_WEEK = [
   DayOfWeek.ThuHai,

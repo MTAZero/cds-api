@@ -1,9 +1,10 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { BaseDBService } from './base';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Unit } from '../schemas/units.schema';
 import { QueryParams } from 'src/interface/i-base-db-service';
 import { MAX_ITEM_QUERYS } from 'src/const';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class UnitDBService extends BaseDBService<Unit> {
@@ -20,6 +21,14 @@ export class UnitDBService extends BaseDBService<Unit> {
     } else item.key = item._id;
 
     return await super.updateItem(item._id, item);
+  }
+
+  async updateItem(id: string , entity: any): Promise<any> {
+
+    const item = await super.getItemById(id);
+    if(!item) throw new NotFoundException();
+
+    return await super.updateItem(item._id, entity);
   }
 
   async removeItem(id: any): Promise<boolean> {
@@ -78,7 +87,7 @@ export class UnitDBService extends BaseDBService<Unit> {
       },
     };
   }
-
+ 
   async getAllDescendants(id: string): Promise<Array<Unit>> {
     const unit = await this.getItemById(id);
 
@@ -115,5 +124,26 @@ export class UnitDBService extends BaseDBService<Unit> {
 
     if (!unit.parent) return unit;
     return this.getRootOfUnit(unit.parent.toString());
+  }
+
+  async checkUnitPermission(
+    unitId: string,
+    unitChildId: string,
+  ): Promise<boolean> {
+
+    const unit: Unit = await this.getItemById(unitId);
+    const entity: Unit = await this.getItemById(unitChildId);
+
+    if (!unit || !entity) return false;
+    if (unitId === unitChildId) return true;
+    if (entity.key.toString().includes(unit._id.toString())) return true;
+
+    return false;
+  }
+
+  async getAncestorUnit(unitId: string): Promise<Array<string>> {
+    const unit: Unit = await this.getItemById(unitId);
+    const lstUnitIDs = unit.key.split('_')
+    return lstUnitIDs; 
   }
 }

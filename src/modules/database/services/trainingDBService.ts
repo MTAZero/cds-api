@@ -6,7 +6,9 @@ import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
 import { UnitDBService } from './unitDBService';
 import { Training } from '../schemas/trainnings.schema';
 import { PositionDBService } from './positionDBService';
-import { UserDBService } from './userDbService';
+import { UserDBService } from './userDBService';
+import { MAX_ITEM_QUERYS, ResponseMessage } from 'src/const';
+
 
 @Injectable()
 export class TrainingDBService extends BaseDBService<Training> {
@@ -30,7 +32,7 @@ export class TrainingDBService extends BaseDBService<Training> {
     query: QueryParams,
   ): Promise<ResponseQuery<any>> {
     
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, unitTraining)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, unitTraining)
     if(!checkPermisison) throw new ForbiddenException();
 
     let lst_training = await this.getItems(query)
@@ -81,7 +83,7 @@ export class TrainingDBService extends BaseDBService<Training> {
     query: QueryParams,
   ): Promise<ResponseQuery<any>> {
     
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, unitTraining)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, unitTraining)
     if(!checkPermisison) throw new ForbiddenException();
 
     let lst_training = await this.getItems(query)
@@ -126,7 +128,7 @@ export class TrainingDBService extends BaseDBService<Training> {
     query: QueryParams,
   ) {
     
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, unitTraining)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, unitTraining)
     if(!checkPermisison) throw new ForbiddenException();
 
     let lst_training = await this.getItems(query)
@@ -195,7 +197,6 @@ export class TrainingDBService extends BaseDBService<Training> {
     return ans
   }
 
-
   async updateTraining(
     userUnitID: string,
     id: string,
@@ -204,7 +205,7 @@ export class TrainingDBService extends BaseDBService<Training> {
     const training = await this.getItemById(id)
     if(!training) throw new NotFoundException();
 
-    const checkPermisison = await this.unitDBService.checkUnitIsDescenants(userUnitID, training.unit)
+    const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, training.unit)
     if(!checkPermisison) throw new ForbiddenException();
 
     let sum_people = 0
@@ -224,4 +225,72 @@ export class TrainingDBService extends BaseDBService<Training> {
     return await this.updateItem(id, entity)
   }
 
+  async getTrainingOfUser(
+    user: any,
+  ): Promise<ResponseQuery<any>> {
+    
+    const lstUnitID = await this.unitDBService.getAncestorUnit(user.unit)
+
+    const query: QueryParams = {
+      skip: 0,
+      limit: MAX_ITEM_QUERYS,
+      filter: {
+        unit: {
+          $in: lstUnitID
+        },
+      },
+    };
+
+    let lst_training = await this.getItems(query)
+    const populateQuery = [
+      {
+          path: "progress",
+      }, 
+      {
+          path: "unit",
+      }
+  ];
+  
+    const lst_map = await this.entityModel.populate(lst_training.items, populateQuery);
+    
+    const lst_filter = lst_map.filter((item) => {
+      
+      if(item.element_join.length > 0){
+        const lstUserID = item.element_join.reduce((acc, obj) =>{
+
+            const lstUser = obj.list_people.length > 0 ? obj.list_people.filter(people => {
+              if(people._id === user._id.toString() && people.joined === 1)
+                return true;
+            }): []
+
+            return acc + lstUser
+        }, [])
+        return lstUserID.length > 0
+      }
+      return false
+    })
+
+    const ans = lst_filter.map((item) => {
+      return {
+        _id: item._id,
+        date: item.progress.date,
+        content: item.progress.content,
+        train_time_actual: item.time_train_actual,
+        sum_joiner: item.sum_joiner,
+        evaluation: item.evaluation,
+        week: item.week,
+        month: item.month,
+        year: item.year,
+        unit_charge: item.progress.unit_charge
+      }
+    })
+
+    return {
+      items: ans,
+      total: lst_training.total,
+      size: lst_training.size,
+      page: lst_training.page,
+      offset: lst_training.offset,
+    };
+  }
 }

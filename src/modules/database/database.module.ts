@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { User, UserSchema } from './schemas/users.schema';
-import { UserDBService } from './services/userDbService';
+import { UserDBService } from './services/userDBService';
 import { Role, RoleSchema } from './schemas/roles.schema';
-import { RoleDBService } from './services/roleDbService';
+import { RoleDBService } from './services/roleDBService';
 import { Unit, UnitSchema } from './schemas/units.schema';
 import { PermisisonShema, Permission } from './schemas/permissions.schema';
 import { UnitDBService } from './services/unitDBService';
@@ -30,7 +30,7 @@ import {
   PersonalDiary,
   PersonalDiarySchema,
 } from './schemas/personal-diarys.schema';
-import { PersonalDiaryDBService } from './services/PersonalDiaryDBService';
+import { PersonalDiaryDBService } from './services/personalDiaryDBService';
 import {
   NotificationUser,
   NotificationUserSchema,
@@ -64,6 +64,35 @@ import { cWards, cWards_schema } from './schemas/c_wards';
 import { ProvincesDBService } from './services/cProvincesDBService';
 import { DistrictDBService } from './services/cDistrictsDBService';
 import { WardsDBService } from './services/cWardsDBServicets';
+import { ExperienceBook, ExperienceBookSchema } from './schemas/experience-book.schema';
+import { ExperienceBookDBService } from './services/experienceBookDBService';
+import { RelatedDocument, RelatedDocumentSchema } from './schemas/related-documents.schema';
+import { RelatedDocumentDBService } from './services/relatedDocumentDBService';
+import { SSODBService } from './services/SSODBService';
+import { ManagerVehicle, ManagerVehicleSchema } from './schemas/manager-vehicle.schema';
+import { ManagerVehicleDBService } from './services/managerVehicleDBService';
+import { RegisterVehicle, RegisterVehicleSchema } from './schemas/register-vehicle.schema';
+import { RegisterVehicleDBService } from './services/registerVehicleDBService';
+import { VehicleCommand, VehicleCommandSchema } from './schemas/vehicleCommand.schema';
+import { VehicleCommandDBService } from './services/vehicleCommandDBService';
+import { DeliveryBill, DeliveryBillSchema } from './schemas/delivery-bill.schema';
+import { DeliveryBillDBService } from './services/deliveryBillDbService';
+import { MeetingBook, MeetingBookSchema } from './schemas/meeting-book.schema';
+import { MeetingBookDBService } from './services/meetingBookDBService';
+import { ManagerWorkAddress, ManagerWorkAddressSchema } from './schemas/manager-work-address.schema';
+import { ManagerFuel, ManagerFuelSchema } from './schemas/manager-fuel.schema';
+import { ManagerTask, ManagerTaskSchema } from './schemas/manager-task.schema';
+import { ManagerFuelDBService } from './services/managerFuelDBService';
+import { ManagerWorkAddressDBService } from './services/managerWorkAddressDBService';
+import { ManagerTaskDBService } from './services/managerTaskDBService';
+import { TrackWorkBookDBService } from './services/track-workDBService';
+import { ManagerTrackDisciplineDBService } from './services/track-disciplineDBService';
+import { StatisticDocumentBookDBService } from './services/statistic-documentDBService';
+import { TrackWorkBook, TrackWorkBookSchema } from './schemas/track-work-book.schema';
+import { TrackDisciplineBook, TrackDisciplineBookSchema } from './schemas/track-discipline-book.schema';
+import { StatisticDocumentBook, StatisticDocumentBookSchema } from './schemas/statistic-document-book.schema';
+import { AccessControl, AccessControlSchema } from './schemas/access-control.schema';
+import { AccessControlDBService } from './services/accessControlDBService';
 
 @Module({
   imports: [
@@ -148,6 +177,62 @@ import { WardsDBService } from './services/cWardsDBServicets';
         name: cWards.name,
         schema: cWards_schema,
       },
+      {
+        name: ExperienceBook.name,
+        schema: ExperienceBookSchema
+      },
+      {
+        name: RelatedDocument.name,
+        schema: RelatedDocumentSchema
+      },
+      {
+        name: ManagerVehicle.name,
+        schema: ManagerVehicleSchema
+      }, 
+      {
+        name: RegisterVehicle.name,
+        schema: RegisterVehicleSchema
+      },
+      {
+        name: VehicleCommand.name,
+        schema: VehicleCommandSchema
+      },
+      {
+        name: DeliveryBill.name,
+        schema: DeliveryBillSchema
+      },
+      {
+        name: MeetingBook.name,
+        schema: MeetingBookSchema
+      },
+      {
+        name: ManagerWorkAddress.name,
+        schema: ManagerWorkAddressSchema
+      },
+      {
+        name: ManagerFuel.name,
+        schema: ManagerFuelSchema
+      },
+      {
+        name: ManagerTask.name,
+        schema: ManagerTaskSchema
+      },
+      {
+        name: TrackWorkBook.name,
+        schema: TrackWorkBookSchema
+      },
+      {
+        name: TrackDisciplineBook.name,
+        schema: TrackDisciplineBookSchema
+      },
+      {
+        name: StatisticDocumentBook.name,
+        schema: StatisticDocumentBookSchema
+      },
+      {
+        name: AccessControl.name,
+        schema: AccessControlSchema
+      }
     ]),
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -179,6 +264,21 @@ import { WardsDBService } from './services/cWardsDBServicets';
     ProvincesDBService,
     DistrictDBService,
     WardsDBService,
+    ExperienceBookDBService,
+    RelatedDocumentDBService,
+    SSODBService,
+    ManagerVehicleDBService,
+    RegisterVehicleDBService,
+    VehicleCommandDBService,
+    DeliveryBillDBService,
+    MeetingBookDBService,
+    ManagerFuelDBService,
+    ManagerWorkAddressDBService,
+    ManagerTaskDBService,
+    ManagerTrackDisciplineDBService,
+    TrackWorkBookDBService,
+    StatisticDocumentBookDBService,
+    AccessControlDBService
   ],
   exports: [
     UserDBService,
@@ -201,6 +301,21 @@ import { WardsDBService } from './services/cWardsDBServicets';
     ProvincesDBService,
     DistrictDBService,
     WardsDBService,
+    ExperienceBookDBService,
+    RelatedDocumentDBService,
+    SSODBService,
+    ManagerVehicleDBService,
+    RegisterVehicleDBService,
+    VehicleCommandDBService,
+    DeliveryBillDBService,
+    MeetingBookDBService,
+    ManagerWorkAddressDBService,
+    ManagerFuelDBService,
+    ManagerTaskDBService,
+    ManagerTrackDisciplineDBService,
+    TrackWorkBookDBService,
+    StatisticDocumentBookDBService,
+    AccessControlDBService
   ],
 })
 export class DatabaseModule {}

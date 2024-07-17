@@ -35,7 +35,7 @@ export class CreateUserDto {
 
   @IsBoolean()
   @IsNotEmpty()
-  isPersonal: boolean;
+  isPersonal: string;
 
   @IsMongoId()
   @IsNotEmpty()

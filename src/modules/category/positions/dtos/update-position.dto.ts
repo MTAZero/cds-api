@@ -7,7 +7,7 @@ export class UpdatePositionDto {
   name: string;
 
   @IsString()
-  @IsIn(TYPE_POSITION)
+  //@IsIn(TYPE_POSITION)
   @IsOptional()
   type: string;
 }

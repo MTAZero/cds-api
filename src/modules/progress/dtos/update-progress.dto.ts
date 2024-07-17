@@ -23,30 +23,30 @@ export class UpdateProgressDto {
   @IsOptional()
   date: string
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  week: Number
+  week: string
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  month: Number
+  month: string
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  year: Number
+  year: string
 
   @IsString()
   @IsOptional()
   content: string
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  sum_time_train: Number
+  sum_time_train: string
 
-  @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => ObjectDto )
-  time_train_detail: ObjectDto[]
+  @IsNotEmpty()
+  // @ValidateNested({ each: true })
+  // @Type(() => ObjectDto )
+  time_train_detail: string
 
   @IsString()
   @IsOptional()

@@ -13,6 +13,19 @@ export enum SystemFeatures {
   ManagerTrainnings = 'ManagerTrainings',
   ManagerPersonalDiarys = 'ManagerPersonalDiarys',
   WorkCalendar = 'WorkCalendar',
+  ManagerExperiences = 'ManagerExperiences',
+  ManagerVehicle = 'ManagerVehicle',
+  RegisterVehicle = 'RegisterVehicle',
+  VehicleCommand = 'VehicleCommand',
+  DeliveryBill = 'DeliveryBill',
+  MeetingBook = 'MeetingBook',
+  ManagerFuel = 'ManagerFuel',
+  ManagerTask = 'ManagerTask',
+  ManagerWorkAddress = 'ManagerWorkAddress',
+  ManagerTrackDiscipline = 'ManagerTrackDiscipline',
+  StatisticDocument = 'StatisticDocument',
+  ManagerTrackWork = 'ManagerTrackWork',
+  AccessControl = 'AccessControl',
 }
 
 export enum SystemAction {
@@ -90,6 +103,8 @@ export enum TypePosition {
   NVCNTT = 'NVCNTT',
   NVCMKT = 'NVCMKT',
   TL = 'TL',
+  TBTC = "TBTC",
+  TBNV = "TBNV"
 }
 
 export enum DayOfWeek {
@@ -105,3 +120,10 @@ export enum DayOfWeek {
 export enum TypeBook {
   SoTay = 'Sổ tay',
 }
+
+export enum TypeLevelUnit {
+  Doi = "01",
+  Cum = "02",
+  TrungTam = "03" 
+}
+

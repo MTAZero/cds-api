@@ -26,6 +26,7 @@ import {
   ModulePermission,
 } from 'src/decorator/module-action.decorator';
 import { SystemAction, SystemFeatures } from 'src/enums';
+import { UpdateUnitDto } from './dtos/update-unit.dto';
 
 @Controller('units')
 @UseGuards(PermissionsGuard)
@@ -34,7 +35,7 @@ export class UnitsController {
   unitDBService: UnitDBService;
 
   @Get('/')
-  @ActionsPermission([SystemAction.Edit, SystemAction.View])
+  @ActionsPermission([SystemAction.View])
   @ModulePermission(SystemFeatures.ManagerUnits)
   async getListUnits(@Res() res, @Req() req, @Query() query) {
     const pagination: PaginationType = req.pagination;
@@ -77,6 +78,27 @@ export class UnitsController {
     );
   }
 
+  @Put('/:id')
+  @UseInterceptors(FileInterceptor('file'))
+  @ActionsPermission([SystemAction.Edit])
+  @ModulePermission(SystemFeatures.ManagerUnits)
+  async updateUnit(
+    @Body(new ValidationPipe()) entity: UpdateUnitDto,
+    @Res() res,
+    @Param() params
+  ) {
+    const id = params.id;
+
+    const ans = await this.unitDBService.updateItem(id, entity);
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
   @Delete('/:id')
   @ActionsPermission([SystemAction.Edit])
   @ModulePermission(SystemFeatures.ManagerUnits)
@@ -93,11 +115,12 @@ export class UnitsController {
   }
 
   @Get('/:id')
-  @ActionsPermission([SystemAction.Edit, SystemAction.View])
+  @ActionsPermission([SystemAction.View])
   @ModulePermission(SystemFeatures.ManagerUnits)
   async getDetailUnit(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.unitDBService.getItemById(id);
+    
     return ApiResponse(
       res,
       true,
@@ -108,8 +131,8 @@ export class UnitsController {
   }
 
   @Get('/child/:id')
-  // @ActionsPermission([SystemAction.Edit, SystemAction.View])
-  // @ModulePermission(SystemFeatures.ManagerUnits)
+  @ActionsPermission([SystemAction.View])
+  @ModulePermission(SystemFeatures.ManagerUnits)
   async getListChild(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.unitDBService.getListChild(id);
@@ -123,7 +146,7 @@ export class UnitsController {
   }
 
   @Get('/descendants/:id')
-  @ActionsPermission([SystemAction.Edit, SystemAction.View])
+  @ActionsPermission([SystemAction.View])
   @ModulePermission(SystemFeatures.ManagerUnits)
   async getDescendantsUnit(@Res() res, @Param() params) {
     const id = params.id;

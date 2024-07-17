@@ -12,7 +12,7 @@ import { User } from '../schemas/users.schema';
 import { UnitDBService } from './unitDBService';
 import { MAX_ITEM_QUERYS } from 'src/const';
 import { RegisterLeaveStatus } from 'src/enums';
-import { UserDBService } from './userDbService';
+import { UserDBService } from './userDBService';
 
 @Injectable()
 export class LeaveRegisterDBService extends BaseDBService<LeaveRegister> {

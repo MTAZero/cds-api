@@ -12,7 +12,7 @@ import { archiveConfig } from './../../../configs/configuration.config';
 export class RelatedDocumentDBService extends BaseDBService<RelatedDocument> {
 
   @Inject(UnitDBService)
-  unitDBService: UnitDBService;
+  unitDBService: UnitDBService;z
  
   @Inject(PositionDBService)
   positionDBService: PositionDBService;

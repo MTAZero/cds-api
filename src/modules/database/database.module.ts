@@ -69,6 +69,11 @@ import { ExperienceBookDBService } from './services/experienceBookDBService';
 import { RelatedDocument, RelatedDocumentSchema } from './schemas/related-documents.schema';
 import { RelatedDocumentDBService } from './services/relatedDocumentDBService';
 import { SSODBService } from './services/SSODBService';
+import { ManagerVehicle, ManagerVehicleSchema } from './schemas/manager-vehicle.schema';
+import { ManagerVehicleDBService } from './services/managerVehicleDbService';
+import { RegisterVehicle, RegisterVehicleSchema } from './schemas/register-vehicle.schema';
+import { RegisterVehicleModule } from '../register-vehicle/registerVehicle.module';
+import { RegisterVehicleDBService } from './services/registerVehicleDbService';
 
 @Module({
   imports: [
@@ -160,6 +165,14 @@ import { SSODBService } from './services/SSODBService';
       {
         name: RelatedDocument.name,
         schema: RelatedDocumentSchema
+      },
+      {
+        name: ManagerVehicle.name,
+        schema: ManagerVehicleSchema
+      }, 
+      {
+        name: RegisterVehicle.name,
+        schema: RegisterVehicleSchema
       }
     ]),
     JwtModule.registerAsync({
@@ -194,7 +207,9 @@ import { SSODBService } from './services/SSODBService';
     WardsDBService,
     ExperienceBookDBService,
     RelatedDocumentDBService,
-    SSODBService
+    SSODBService,
+    ManagerVehicleDBService,
+    RegisterVehicleDBService
   ],
   exports: [
     UserDBService,
@@ -219,7 +234,9 @@ import { SSODBService } from './services/SSODBService';
     WardsDBService,
     ExperienceBookDBService,
     RelatedDocumentDBService,
-    SSODBService
+    SSODBService,
+    ManagerVehicleDBService,
+    RegisterVehicleDBService
   ],
 })
 export class DatabaseModule {}

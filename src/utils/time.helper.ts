@@ -101,3 +101,28 @@ export const getWeekday = (
 
   return weekday;
 };
+
+export const convertTimeStampToDateTime = (timestamp: number): string => {
+  
+  const date = new Date(timestamp*1000);
+
+  const day = "0" + date.getDate();
+
+  const month = "0" + date.getMonth();
+
+  const year = date.getFullYear();
+  // Hours part from the timestamp
+  const hours = "0" + date.getHours();
+
+  // Minutes part from the timestamp
+  const minutes = "0" + date.getMinutes();
+
+  // Seconds part from the timestamp
+  const seconds = "0" + date.getSeconds();
+
+  // Will display time in 10:30:23 format
+  const formatedDateTime = hours.substring(hours.length - 2) + ':' + minutes.substring(minutes.length - 2) 
+  + ':' + seconds.substring(seconds.length - 2) + ' ' + day.substring(day.length - 2) + '/' + month.substring(month.length - 2) + '/' + year;
+
+  return formatedDateTime;
+};

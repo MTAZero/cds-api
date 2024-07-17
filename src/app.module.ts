@@ -23,6 +23,8 @@ import { WorkCalendarModule } from './modules/work-calendar/work-calendar.module
 import { AdministrativeUnitsModule } from './modules/administrative-units/administrative-units.module';
 import { RelatedDocumentModule } from './modules/RelatedDocuments/relatedDocuments.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { ManagerVehicleModule } from './modules/manager-vehicle/managerVehicle.module';
+import { RegisterVehicleModule } from './modules/register-vehicle/registerVehicle.module';
 
 @Module({
   imports: [
@@ -51,7 +53,9 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     WorkCalendarModule,
     AdministrativeUnitsModule,
     ExperienceModule,
-    RelatedDocumentModule
+    RelatedDocumentModule,
+    ManagerVehicleModule,
+    RegisterVehicleModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -64,7 +64,6 @@ export class ProgressDBService extends BaseDBService<Progress> {
           return { object: temp.name, time: x.time }
         }))
 
-
         if(item.time_train_detail.length > 0){
 
           item = {

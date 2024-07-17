@@ -14,6 +14,8 @@ export enum SystemFeatures {
   ManagerPersonalDiarys = 'ManagerPersonalDiarys',
   WorkCalendar = 'WorkCalendar',
   ManagerExperiences = 'ManagerExperiences',
+  ManagerVehicle = 'ManagerVehicle',
+  RegisterVehicle = 'RegisterVehicle',
 }
 
 export enum SystemAction {
@@ -108,3 +110,4 @@ export enum DayOfWeek {
 export enum TypeBook {
   SoTay = 'Sổ tay',
 }
+

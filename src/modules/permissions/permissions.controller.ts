@@ -33,7 +33,7 @@ export class PermissionsController {
   permisisonDBService: PermissionDBService;
 
   @Get('/')
-  @ActionsPermission([SystemAction.Edit, SystemAction.View])
+  @ActionsPermission([SystemAction.View])
   @ModulePermission(SystemFeatures.ManagerRoles)
   async getListPermissions(@Res() res, @Req() req, @Query() query) {
     const pagination: PaginationType = req.pagination;
@@ -92,7 +92,7 @@ export class PermissionsController {
   }
 
   @Get('/:id')
-  @ActionsPermission([SystemAction.View, SystemAction.Edit])
+  @ActionsPermission([SystemAction.View])
   @ModulePermission(SystemFeatures.ManagerRoles)
   async getDetailPermission(@Res() res, @Param() params) {
     const id = params.id;

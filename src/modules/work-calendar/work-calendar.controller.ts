@@ -34,7 +34,7 @@ import { User } from '../database/schemas/users.schema';
 import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 import { Paginate } from 'src/decorator/paginate.decorator';
 import { UnitDBService } from '../database/services/unitDBService';
-import { UserDBService } from '../database/services/userDbService';
+import { UserDBService } from '../database/services/userDBService';
 
 @Controller('work-calendar')
 @UseGuards(PermissionsGuard)
@@ -45,11 +45,11 @@ export class WorkCalendarController {
   @Inject(WorkCalendarAssignDBService)
   workCalendarAssignDBService: WorkCalendarAssignDBService;
 
-  @Inject(UserDBService)
-  userDBService: UserDBService;
-
   @Inject(UnitDBService)
   unitDBService: UnitDBService;
+
+  @Inject(UserDBService)
+  userDBService: UserDBService;
 
   @Get('/')
   @ActionsPermission([SystemAction.View, SystemAction.Edit])

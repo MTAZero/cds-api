@@ -81,7 +81,7 @@ export class WorkCalendarController {
   @UseInterceptors(FileInterceptor('file'))
   @ActionsPermission([SystemAction.Edit])
   @ModulePermission(SystemFeatures.WorkCalendar)
-  async insertUser(
+  async insertCalendar(
     @Body(new ValidationPipe()) entity: CreateWorkCalendarDto,
     @Res() res,
   ) {

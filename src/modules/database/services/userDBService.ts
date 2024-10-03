@@ -339,6 +339,7 @@ export class UserDBService extends BaseDBService<User> {
             ..._query.filter,
             ...{
               unit: unitId,
+              isPersonal: true,
             },
           },
           limit: MAX_ITEM_QUERYS,
@@ -388,16 +389,16 @@ export class UserDBService extends BaseDBService<User> {
     };
   }
 
-  async getItemByUsername(username: string){
+  async getItemByUsername(username: string) {
     const requestData = await this.getItems({
       filter: {
-        username: username
+        username: username,
       },
       skip: 0,
       limit: MAX_ITEM_QUERYS,
     });
 
     const user = requestData.items.length !== 0 ? requestData.items[0] : null;
-    return user; 
+    return user;
   }
 }

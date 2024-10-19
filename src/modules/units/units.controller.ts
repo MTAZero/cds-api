@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Inject,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -27,6 +28,9 @@ import {
 } from 'src/decorator/module-action.decorator';
 import { SystemAction, SystemFeatures } from 'src/enums';
 import { UpdateUnitDto } from './dtos/update-unit.dto';
+import { CurrentUser } from 'src/decorator/current-user.decorator';
+import { User } from '../database/schemas/users.schema';
+import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 
 @Controller('units')
 @UseGuards(PermissionsGuard)
@@ -85,7 +89,7 @@ export class UnitsController {
   async updateUnit(
     @Body(new ValidationPipe()) entity: UpdateUnitDto,
     @Res() res,
-    @Param() params
+    @Param() params,
   ) {
     const id = params.id;
 
@@ -114,13 +118,31 @@ export class UnitsController {
     );
   }
 
+  @Get('/full-tree')
+  @UseGuards(JwtAuthGuard)
+  async getFullTreeUnit(@Res() res, @CurrentUser() user: User) {
+    const id = user?.unit;
+    if (!id) throw new NotFoundException();
+
+    const root = await this.unitDBService.getRootOfUnit(id?.toString());
+    const ans = await this.unitDBService.getListDescendants(root?._id?.toString());
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
   @Get('/:id')
   @ActionsPermission([SystemAction.View])
   @ModulePermission(SystemFeatures.ManagerUnits)
   async getDetailUnit(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.unitDBService.getItemById(id);
-    
+
     return ApiResponse(
       res,
       true,
@@ -150,6 +172,7 @@ export class UnitsController {
   @ModulePermission(SystemFeatures.ManagerUnits)
   async getDescendantsUnit(@Res() res, @Param() params) {
     const id = params.id;
+
     const ans = await this.unitDBService.getListDescendants(id);
     return ApiResponse(
       res,

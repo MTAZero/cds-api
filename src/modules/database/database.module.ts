@@ -93,6 +93,10 @@ import { TrackDisciplineBook, TrackDisciplineBookSchema } from './schemas/track-
 import { StatisticDocumentBook, StatisticDocumentBookSchema } from './schemas/statistic-document-book.schema';
 import { AccessControl, AccessControlSchema } from './schemas/access-control.schema';
 import { AccessControlDBService } from './services/accessControlDBService';
+import { MonthlyPlanDetailService } from './services/monthly-plan-detail.service';
+import { MonthlyPlanService } from './services/monthly-plan.service'
+import { MonthlyPlan, MonthlyPlanSchema } from './schemas/monthly-plan/monthly-plan';
+import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-plan/monthly-plan-detail';
 
 @Module({
   imports: [
@@ -232,6 +236,14 @@ import { AccessControlDBService } from './services/accessControlDBService';
       {
         name: AccessControl.name,
         schema: AccessControlSchema
+      },
+      {
+        name: MonthlyPlan.name,
+        schema: MonthlyPlanSchema
+      },
+      {
+        name: MonthlyPlanDetail.name,
+        schema: MonthlyPlanDetailSchema
       }
     ]),
     JwtModule.registerAsync({
@@ -278,7 +290,9 @@ import { AccessControlDBService } from './services/accessControlDBService';
     ManagerTrackDisciplineDBService,
     TrackWorkBookDBService,
     StatisticDocumentBookDBService,
-    AccessControlDBService
+    AccessControlDBService,
+    MonthlyPlanDetailService,
+    MonthlyPlanService
   ],
   exports: [
     UserDBService,
@@ -315,7 +329,9 @@ import { AccessControlDBService } from './services/accessControlDBService';
     ManagerTrackDisciplineDBService,
     TrackWorkBookDBService,
     StatisticDocumentBookDBService,
-    AccessControlDBService
+    AccessControlDBService,
+    MonthlyPlanService,
+    MonthlyPlanDetailService
   ],
 })
 export class DatabaseModule {}

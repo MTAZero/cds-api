@@ -1,0 +1,247 @@
+{
+  "template": [
+    {
+      "type": "title",
+      "content": "KẾ HOẠCH",
+      "style": "center"
+    },
+    {
+      "type": "subtitle",
+      "content": "Huấn luyện chiến đấu tháng 9 năm 2024 của cơ quan Trung tâm",
+      "style": "center"
+    },
+    {
+      "type": "heading",
+      "content": "I. NHIỆM VỤ",
+      "style": "left"
+    },
+    {
+      "type": "text",
+      "content": "- Quán triệt sâu sắc nhiệm vụ huấn luyện đến cán bộ, nhân viên, chiến sĩ trong toàn đơn vị; tổ chức triển khai 100% các nội dung trong kế hoạch huấn luyện tháng 9 năm 2024; bảo đảm an toàn tuyệt đối trong huấn luyện; tập trung giải quyết dứt điểm các khâu yếu, kém; phấn đấu không để xảy ra vi phạm pháp luật, kỷ luật nghiêm trọng hoặc mất an toàn trong huấn luyện."
+    },
+    {
+      "type": "text",
+      "content": "- Duy trì nghiêm nền nếp, chế độ huấn luyện, luyện tập của cơ quan, đơn vị; bảo đảm 100% trang bị, công cụ, vũ khí mạng, lực lượng sẵn sàng cơ động tham gia nhiệm vụ."
+    },
+    {
+      "type": "heading",
+      "content": "II. YÊU CẦU",
+      "style": "left"
+    },
+    {
+      "type": "text",
+      "content": "- Chi ủy các cấp tập trung lãnh đạo, chỉ đạo thực hiện nghiêm các nghị quyết, chỉ thị, mệnh lệnh SSCĐ của cấp trên; Kế hoạch huấn luyện SSCĐ Giai đoạn 2 năm 2024 của Trung tâm và Kế hoạch SSCD bảo vệ đơn vị."
+    },
+    {
+      "type": "table",
+      "id": "table_1",
+      "data": {
+        "column_widths": [5, 20, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10],
+        "rows": [
+          [
+            "STT",
+            "Đối tượng",
+            "Tổng số (giờ)",
+            "Nội dung huấn luyện",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "",
+            "",
+            "",
+            "Chuyên ngành",
+            "Chính trị",
+            "Hậu cần",
+            "Kỹ thuật",
+            "Quân sự",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "Diễn tập, kiểm tra"
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "Chiến thuật BB",
+            "ĐLĐN, ĐLQLBĐ",
+            "Thể lực",
+            "PCCN, CHCN",
+            "KT Chiến đấu BB",
+            "Phòng hoá phổ thông",
+            "Khác",
+            ""
+          ]
+        ],
+        "horizontal_merge": [
+          {
+            "row": 0,
+            "col_start": 3,
+            "col_end": 14
+          },
+          {
+            "row": 1,
+            "col_start": 7,
+            "col_end": 13
+          }
+        ],
+        "vertical_merge": [
+          {
+            "col": 0,
+            "row_start": 0,
+            "row_end": 2
+          },
+          {
+            "col": 1,
+            "row_start": 0,
+            "row_end": 2
+          },
+          {
+            "col": 2,
+            "row_start": 0,
+            "row_end": 2
+          },
+          {
+            "col": 3,
+            "row_start": 1,
+            "row_end": 2
+          },
+          {
+            "col": 4,
+            "row_start": 1,
+            "row_end": 2
+          },
+          {
+            "col": 5,
+            "row_start": 1,
+            "row_end": 2
+          },
+          {
+            "col": 6,
+            "row_start": 1,
+            "row_end": 2
+          },
+          {
+            "col": 14,
+            "row_start": 1,
+            "row_end": 2
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading",
+      "content": "IV. NỘI DUNG, THỜI GIAN HUẤN LUYỆN CÁC ĐỐI TƯỢNG",
+      "style": "left"
+    },
+    {
+      "type": "table",
+      "id": "table_2",
+      "data": {
+        "column_widths": [5, 25, 15, 15, 12, 7, 7, 7, 7, 7, 15],
+        "header": [],
+        "rows": [
+          [
+            "STT",
+            "NỘI DUNG",
+            "Thành phần tham gia",
+            "Cấp phụ trách",
+            "Thời gian (giờ)",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "Biện pháp tiến hành"
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            "Tổng số (giờ)",
+            "Tuần 1",
+            "Tuần 2",
+            "Tuần 3",
+            "Tuần 4",
+            "Tuần 5",
+            ""
+          ]
+        ],
+        "horizontal_merge": [
+          {
+            "row": 0,
+            "col_start": 4,
+            "col_end": 9
+          }
+        ],
+        "vertical_merge": [
+          {
+            "col": 0,
+            "row_start": 0,
+            "row_end": 1
+          },
+          {
+            "col": 1,
+            "row_start": 0,
+            "row_end": 1
+          },
+          {
+            "col": 2,
+            "row_start": 0,
+            "row_end": 1
+          },
+          {
+            "col": 3,
+            "row_start": 0,
+            "row_end": 1
+          },
+          {
+            "col": 10,
+            "row_start": 0,
+            "row_end": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "heading",
+      "content": "V. BẢO ĐẢM HUẤN LUYỆN",
+      "style": "left"
+    },
+    {
+      "type": "text",
+      "content": "- Thực hiện từ ngân sách thường xuyên và phối hợp với Bộ Tham mưu/BTL để bảo đảm tài liệu, mô hình học cụ, trang thiết bị cho các đơn vị huấn luyện, luyện tập."
+    },
+    {
+      "type": "text",
+      "content": "- Tổ chức in mẫu biểu, kế hoạch, giáo án huấn luyện, sổ sách nghiệp vụ; tiếp nhận, cấp phát cơ sở vật chất huấn luyện cho các đơn vị."
+    },
+    {
+      "type": "heading",
+      "content": "VI. TỔ CHỨC THỰC HIỆN",
+      "style": "left"
+    },
+    {
+      "type": "text",
+      "content": "- Cấp ủy, chỉ huy các cấp quán triệt và triển khai thực hiện hiệu quả nghị quyết lãnh đạo thực hiện công tác Huấn luyện chiến đấu năm 2024 của BTL và ĐUTT về công tác huấn luyện SSCĐ. \n- Tăng cường giáo dục chính trị, rèn luyện phẩm chất đạo đức cách mạng cho cán bộ, tạo cơ sở hoàn thành tốt nhiệm vụ huấn luyện. Tiếp tục đẩy mạnh việc học tập và làm theo tấm gương đạo đức Hồ Chí Minh, gắn hoạt động huấn luyện với phong trào thi đua quyết thắng. \n- Tổ chức phân công đội ngũ giáo viên hợp lý theo từng khoa mục và nội dung huấn luyện; biên chế các lớp học phù hợp với biên chế và quân số của đơn vị; xây dựng nội dung huấn luyện sát với từng đối tượng. \n- Tăng cường phối hợp, hiệp đồng với các cơ quan, đơn vị; đổi mới phương pháp, rèn luyện khả năng cơ động của đơn vị và sức cơ động cho bội đội, bảo đảm an toàn tuyệt đối. \n- Tổ chức kiểm tra định kỳ, đột xuất để đánh giá kết quả huấn luyện, rút kinh nghiệm kịp thời; duy trì chặt chẽ kỷ luật, nền nếp, tác phong chính quy trong toàn đơn vị."
+    }
+  ]
+}

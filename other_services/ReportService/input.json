@@ -1,0 +1,224 @@
+{
+    "data": {
+      "table_1": {
+        "rows": [
+          [
+            "1",
+            "SQ Chỉ huy, CQ",
+            "37",
+            "",
+            "25",
+            "2",
+            "",
+            "",
+            "4",
+            "",
+            "2",
+            "",
+            "",
+            "4",
+            ""
+          ],
+          [
+            "2",
+            "QNCN - Viên chức quốc phòng",
+            "28",
+            "14",
+            "",
+            "2",
+            "1",
+            "",
+            "4",
+            "4",
+            "",
+            "",
+            "",
+            "3",
+            ""
+          ],
+          [
+            "3",
+            "Hạ sĩ quan - binh sĩ năm thứ nhất",
+            "28",
+            "6",
+            "8",
+            "1",
+            "2",
+            "",
+            "4",
+            "2",
+            "2",
+            "",
+            "",
+            "3",
+            ""
+          ],
+          [
+            "4",
+            "Hạ sĩ quan - binh sĩ năm thứ hai",
+            "28",
+            "18",
+            "7",
+            "",
+            "",
+            "",
+            "",
+            "3",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      "table_2": {
+        "rows": [
+          [
+            "A",
+            "SĨ QUAN CHỈ HUY, CƠ QUAN (SQCH&CQ)",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "",
+            "HUẤN LUYỆN HÀNG THÁNG",
+            "SQCH&CQ",
+            "Các CQ",
+            "37",
+            "9",
+            "9",
+            "9",
+            "10",
+            "",
+            ""
+          ],
+          [
+            "1",
+            "Học chính trị, pháp luật và nghị quyết của Đảng",
+            "SQCH&CQ",
+            "Phòng CT",
+            "25",
+            "7",
+            "7",
+            "7",
+            "4",
+            "",
+            "Lập kế hoạch thông qua và phê duyệt giáo án, tổ chức huấn luyện đúng đối tượng, đánh giá kết quả kiểm tra"
+          ],
+          [
+            "-",
+            "Nghiên cứu, quán triệt các nghị quyết, chỉ thị, kết luận của Ban Chấp hành Trung ương, Bộ Chính trị, Ban Bí thư, Quân ủy Trung ương; chỉ thị của Bộ Quốc phòng, Bộ Tổng Tham mưu, Tổng cục Chính trị; nghị quyết đại hội đảng các cấp.",
+            "SQCH&CQ",
+            "BTĐU, Chính ủy Trung tâm",
+            "7",
+            "7",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "-",
+            "Học các chuyên đề",
+            "SQCH&CQ",
+            "Phòng CT",
+            "14",
+            "",
+            "7",
+            "7",
+            "",
+            "",
+            ""
+          ],
+          [
+            "+",
+            "Chuyên đề: Nội dung cơ bản của Luật Quản lý, bảo vệ công trình quốc phòng và khu quân sự",
+            "",
+            "",
+            "7",
+            "",
+            "7",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "+",
+            "Chuyên đề: Quy định của pháp luật về phòng cháy, chữa cháy và các giải pháp bảo đảm phòng cháy, chữa cháy",
+            "",
+            "",
+            "7",
+            "",
+            "",
+            "7",
+            "",
+            "",
+            ""
+          ],
+          [
+            "-",
+            "Nội dung do đơn vị xác định:",
+            "",
+            "",
+            "4",
+            "",
+            "",
+            "",
+            "4",
+            "",
+            ""
+          ],
+          [
+            "+",
+            "Chuyên đề: Kỹ năng quay phim, chụp ảnh; Quy trình khai thác và bảo quản máy quay, máy ảnh.",
+            "",
+            "",
+            "4",
+            "",
+            "",
+            "",
+            "",
+            "4",
+            ""
+          ],
+          [
+            "2",
+            "Huấn luyện quân sự chung",
+            "SQCH&CQ",
+            "Phòng TM",
+            "10",
+            "2",
+            "2",
+            "2",
+            "4",
+            "",
+            ""
+          ],
+          [
+            "2.1",
+            "Huấn luyện lý luận quân sự và các nội dung khác",
+            "",
+            "",
+            "4",
+            "",
+            "",
+            "",
+            "",
+            "4",
+            ""
+          ]
+        ]
+      }
+    }
+  }
+  

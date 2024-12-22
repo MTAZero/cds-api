@@ -17,7 +17,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "crud": "nest g module modules/monthly-plan && nest g controller modules/monthly-plan && nest g service modules/database/services/monthly-plan && nest g class modules/database/schemas/monthly-plan --no-spec",
+    "create-controller": "nest g controller modules/monthly-plan/monthly-plan-detail"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

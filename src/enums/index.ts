@@ -28,7 +28,8 @@ export enum SystemFeatures {
   AccessControl = 'AccessControl',
   StatisticWebC86 = 'StatisticWebC86',
   GoingCall = 'GoingCall',
-  InComingCall = 'InComingCall'
+  InComingCall = 'InComingCall',
+  MonthyPlan = "MonthyPlan",
 }
 
 export enum SystemAction {
@@ -57,6 +58,21 @@ export enum UserType {
   QNCN = 'QNCN',
   CCQP = 'CCQP',
   HQSCS = 'HSQCS',
+}
+
+export enum LoaiNoiDungHuanLuyenThang {
+  KHAC = 'Khác',
+  CN = 'Chuyên ngành',
+  CT = 'Chính trị',
+  HC = 'Hậu cần',
+  KT = 'Kỹ thuật',
+  CTBB = 'Chiến thuật BB',
+  DLDN = 'ĐLĐN, ĐLQLBĐ',
+  THELUC= 'Thể lực',
+  PCCN= 'PCCN, CHCN',
+  KTCDBB= 'KT Chiến đấu BB',
+  PHPT= 'Phòng hóa phổ thông',
+
 }
 
 export enum RegisterLeaveStatus {

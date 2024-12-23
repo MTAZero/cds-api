@@ -97,6 +97,10 @@ import { GoingCall, GoingCallSchema } from './schemas/going_call.schema';
 import { IncomingCall, IncomingCallSchema } from './schemas/incoming_call.schema';
 import { goingCallDBService } from './services/goingCallDBService';
 import { IncomingDBService } from './services/incomingCallDBService';
+import { MonthlyPlanDetailService } from './services/monthly-plan-detail.service';
+import { MonthlyPlanService } from './services/monthly-plan.service';
+import { MonthlyPlan, MonthlyPlanSchema } from './schemas/monthly-plan/monthly-plan';
+import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-plan/monthly-plan-detail';
 
 @Module({
   imports: [
@@ -244,6 +248,14 @@ import { IncomingDBService } from './services/incomingCallDBService';
       {
         name: IncomingCall.name,
         schema: IncomingCallSchema
+      },
+      {
+        name: MonthlyPlan.name,
+        schema: MonthlyPlanSchema
+      },
+      {
+        name: MonthlyPlanDetail.name,
+        schema: MonthlyPlanDetailSchema
       }
     ]),
     JwtModule.registerAsync({
@@ -292,7 +304,9 @@ import { IncomingDBService } from './services/incomingCallDBService';
     StatisticDocumentBookDBService,
     AccessControlDBService,
     goingCallDBService,
-    IncomingDBService
+    IncomingDBService,
+    MonthlyPlanDetailService,
+    MonthlyPlanService
   ],
   exports: [
     UserDBService,
@@ -331,7 +345,9 @@ import { IncomingDBService } from './services/incomingCallDBService';
     StatisticDocumentBookDBService,
     AccessControlDBService,
     goingCallDBService,
-    IncomingDBService
+    IncomingDBService,
+    MonthlyPlanService,
+    MonthlyPlanDetailService
   ],
 })
 export class DatabaseModule {}

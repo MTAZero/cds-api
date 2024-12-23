@@ -37,6 +37,7 @@ import { ManagerTrackWorkModule } from './modules/track-work/trackWork.module';
 import { AccessControlModule } from './modules/access control/AccessControl.module';
 import { GoingCallModule } from './modules/going-call/goingCall.module';
 import { IncomingCallModule} from './modules/incoming-call/incomingCall.module';
+import { MonthlyPlanModule } from './modules/monthly-plan/monthly-plan.module';
 
 @Module({
   imports: [
@@ -79,7 +80,8 @@ import { IncomingCallModule} from './modules/incoming-call/incomingCall.module';
     ManagerTrackWorkModule,
     AccessControlModule,
     GoingCallModule,
-    IncomingCallModule
+    IncomingCallModule,
+    MonthlyPlanModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -39,7 +39,6 @@ export class UserDBService extends BaseDBService<User> {
 
   async insertItem(entity: any): Promise<any> {
     const cnt = await this.countByFilter({ username: entity.username });
-    
     if (cnt > 0)
       throw new HttpException(
         ResponseMessage.ALREADY_EXIST,
@@ -329,16 +328,77 @@ export class UserDBService extends BaseDBService<User> {
     return ans;
   }
 
-  async getItemByUsername(username: string){
+  async findUserInUnitTree(unitId: string, _query: QueryParams) {
+    const ans = await this.unitDBService.getItemById(unitId);
+
+    const users = (
+      await this.getItems({
+        ..._query,
+        ...{
+          filter: {
+            ..._query.filter,
+            ...{
+              unit: unitId,
+              isPersonal: true,
+            },
+          },
+          limit: MAX_ITEM_QUERYS,
+          skip: 0,
+        },
+      })
+    ).items;
+
+    const query: QueryParams = {
+      skip: 0,
+      limit: MAX_ITEM_QUERYS,
+      filter: {
+        parent: unitId,
+      },
+    };
+    const childs = (await this.unitDBService.getItems(query)).items;
+
+    if (childs.length === 0) {
+      if (users.length === 0) return null;
+
+      return {
+        ...ans,
+        ...{
+          childs: [],
+          users: users,
+        },
+      };
+    }
+
+    const finalChilds = (
+      await Promise.all(
+        childs.map(async (child) => {
+          const childId = child._id.toString();
+          const childList = await this.findUserInUnitTree(childId, _query);
+          return childList;
+        }),
+      )
+    ).filter((child) => child !== null);
+
+    if (finalChilds.length === 0 && users.length === 0) return null;
+    return {
+      ...ans,
+      ...{
+        childs: finalChilds,
+        users: users,
+      },
+    };
+  }
+
+  async getItemByUsername(username: string) {
     const requestData = await this.getItems({
       filter: {
-        username: username
+        username: username,
       },
       skip: 0,
       limit: MAX_ITEM_QUERYS,
     });
 
     const user = requestData.items.length !== 0 ? requestData.items[0] : null;
-    return user; 
+    return user;
   }
 }

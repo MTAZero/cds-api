@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Inject,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -31,6 +32,9 @@ import { PermissionsGuard } from '../authentication/guards/permission.guard';
 import { WorkCalendarAssignDBService } from '../database/services/workCalendarAssignDBService';
 import { User } from '../database/schemas/users.schema';
 import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
+import { Paginate } from 'src/decorator/paginate.decorator';
+import { UnitDBService } from '../database/services/unitDBService';
+import { UserDBService } from '../database/services/userDBService';
 
 @Controller('work-calendar')
 @UseGuards(PermissionsGuard)
@@ -40,6 +44,12 @@ export class WorkCalendarController {
 
   @Inject(WorkCalendarAssignDBService)
   workCalendarAssignDBService: WorkCalendarAssignDBService;
+
+  @Inject(UnitDBService)
+  unitDBService: UnitDBService;
+
+  @Inject(UserDBService)
+  userDBService: UserDBService;
 
   @Get('/')
   @ActionsPermission([SystemAction.View, SystemAction.Edit])
@@ -71,7 +81,7 @@ export class WorkCalendarController {
   @UseInterceptors(FileInterceptor('file'))
   @ActionsPermission([SystemAction.Edit])
   @ModulePermission(SystemFeatures.WorkCalendar)
-  async insertUser(
+  async insertCalendar(
     @Body(new ValidationPipe()) entity: CreateWorkCalendarDto,
     @Res() res,
   ) {
@@ -216,6 +226,38 @@ export class WorkCalendarController {
       user.unit.toString(),
       start,
       end,
+    );
+
+    return ApiResponse(
+      res,
+      true,
+      ResponseCode.SUCCESS,
+      ResponseMessage.SUCCESS,
+      ans,
+    );
+  }
+
+  @Get('/find-user')
+  @ActionsPermission([SystemAction.View, SystemAction.Edit])
+  @ModulePermission(SystemFeatures.WorkCalendar)
+  async findUser(
+    @Res() res,
+    @Paginate() pagination: PaginationType,
+    @Query('keyword') keyword: string,
+  ) {
+    const unit = await this.unitDBService.getFirstItem({
+      parent: null,
+    });
+    if (!unit) throw new NotFoundException();
+
+    const ans = await this.userDBService.findUserInUnitTree(
+      unit._id.toString(),
+      {
+        filter: {},
+        skip: pagination.skip,
+        limit: pagination.limit,
+        textSearch: keyword,
+      },
     );
 
     return ApiResponse(

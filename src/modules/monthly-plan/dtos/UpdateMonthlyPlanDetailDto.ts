@@ -8,6 +8,10 @@ export class UpdateMonthlyPlanDetailDto {
     ke_hoach_thang: string;
 
     @IsNotEmpty()
+    @IsNumber()
+    thu_tu: number;
+
+    @IsNotEmpty()
     @IsString()
     loai_doi_tuong: string;
 

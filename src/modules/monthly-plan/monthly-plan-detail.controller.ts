@@ -124,9 +124,6 @@ export class MonthlyPlanDetailController {
         @CurrentUser() user
     ) {
 
-        const pagination: PaginationType = req.pagination;
-        const sort = req.sort;
-
         let filter ={
             $and: [
                 {ke_hoach_thang: {"$eq": params.id}}
@@ -139,7 +136,7 @@ export class MonthlyPlanDetailController {
 
         const data = await this.service.getItems({
             filter,
-            sort,
+            sort: {'thu_tu': 1, _id: 1},
             skip: 0,
             limit: Number.MAX_SAFE_INTEGER,
             textSearch: keyword,

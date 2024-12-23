@@ -93,10 +93,16 @@ import { TrackDisciplineBook, TrackDisciplineBookSchema } from './schemas/track-
 import { StatisticDocumentBook, StatisticDocumentBookSchema } from './schemas/statistic-document-book.schema';
 import { AccessControl, AccessControlSchema } from './schemas/access-control.schema';
 import { AccessControlDBService } from './services/accessControlDBService';
+import { GoingCall, GoingCallSchema } from './schemas/going_call.schema';
+import { IncomingCall, IncomingCallSchema } from './schemas/incoming_call.schema';
+import { goingCallDBService } from './services/goingCallDBService';
+import { IncomingDBService } from './services/incomingCallDBService';
 import { MonthlyPlanDetailService } from './services/monthly-plan-detail.service';
-import { MonthlyPlanService } from './services/monthly-plan.service'
+import { MonthlyPlanService } from './services/monthly-plan.service';
 import { MonthlyPlan, MonthlyPlanSchema } from './schemas/monthly-plan/monthly-plan';
 import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-plan/monthly-plan-detail';
+import { TypeBookDBService } from './services/typeBookDBService';
+import { TypeBook, TypeBookSchema } from './schemas/typeBook.schema';
 
 @Module({
   imports: [
@@ -238,12 +244,24 @@ import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-pl
         schema: AccessControlSchema
       },
       {
+        name: GoingCall.name,
+        schema: GoingCallSchema
+      },
+      {
+        name: IncomingCall.name,
+        schema: IncomingCallSchema
+      },
+      {
         name: MonthlyPlan.name,
         schema: MonthlyPlanSchema
       },
       {
         name: MonthlyPlanDetail.name,
         schema: MonthlyPlanDetailSchema
+      },
+      {
+        name: TypeBook.name,
+        schema: TypeBookSchema
       }
     ]),
     JwtModule.registerAsync({
@@ -291,8 +309,11 @@ import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-pl
     TrackWorkBookDBService,
     StatisticDocumentBookDBService,
     AccessControlDBService,
+    goingCallDBService,
+    IncomingDBService,
     MonthlyPlanDetailService,
-    MonthlyPlanService
+    MonthlyPlanService,
+    TypeBookDBService
   ],
   exports: [
     UserDBService,
@@ -330,8 +351,11 @@ import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-pl
     TrackWorkBookDBService,
     StatisticDocumentBookDBService,
     AccessControlDBService,
+    goingCallDBService,
+    IncomingDBService,
     MonthlyPlanService,
-    MonthlyPlanDetailService
+    MonthlyPlanDetailService,
+    TypeBookDBService
   ],
 })
 export class DatabaseModule {}

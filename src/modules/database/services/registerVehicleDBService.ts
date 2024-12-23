@@ -5,12 +5,17 @@ import { RegisterVehicle } from '../schemas/register-vehicle.schema';
 import { UnitDBService } from './unitDBService';
 import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
 import { convertTimeStampToDateTime } from 'src/utils/time.helper';
+import { DeliveryBillDBService } from './deliveryBillDbService';
+import { VehicleCommandDBService } from './vehicleCommandDBService';
 
 @Injectable()
 export class RegisterVehicleDBService extends BaseDBService<RegisterVehicle> {
   
   @Inject(UnitDBService)
   unitDBService: UnitDBService;
+
+  @Inject(VehicleCommandDBService)
+  vehicleCommandDBService: VehicleCommandDBService;
   
   constructor(@InjectModel(RegisterVehicle.name) private readonly entityModel) {
     super(entityModel);
@@ -69,9 +74,36 @@ export class RegisterVehicleDBService extends BaseDBService<RegisterVehicle> {
 
     const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, registerVehicle.unit)
     if(!checkPermisison) throw new ForbiddenException();
+    
+    if(entity.type == "00"){
 
-    return await this.updateItem(registerVehicleID, entity);
+      return await this.updateItem(registerVehicleID, entity);
 
+    } else if(entity.type == "01"){
+      
+      const planRegisterVehicle = await this.updateItem(registerVehicleID, entity);
+
+      const vehicleCommand = await this.vehicleCommandDBService.getItemById(registerVehicleID)
+
+      if(!vehicleCommand) {
+
+        await this.vehicleCommandDBService.insertItem({
+          _id: planRegisterVehicle._id,
+          mission: entity.contentUse
+        })
+
+      } else {
+
+        await this.vehicleCommandDBService.updateItem(
+        planRegisterVehicle._id,
+        {
+          mission: entity.contentUse
+        })
+      }
+
+      return planRegisterVehicle;
+
+    }
   }
 
   async remove(userUnitID: string, registerVehicleID: string): Promise<any> {
@@ -81,7 +113,9 @@ export class RegisterVehicleDBService extends BaseDBService<RegisterVehicle> {
     const checkPermisison = await this.unitDBService.checkUnitPermission(userUnitID, registerVehicle.unit)
     if(!checkPermisison) throw new ForbiddenException();
 
-    return await this.removeItem(registerVehicleID);
+    await this.removeItem(registerVehicleID);
+
+    await this.removeItem
   }
 
   async getDetail(userUnitID: string, registerVehicleID: string): Promise<any> {
@@ -96,7 +130,6 @@ export class RegisterVehicleDBService extends BaseDBService<RegisterVehicle> {
       ...registerVehicle,
       unitName: (await this.unitDBService.getItemById(registerVehicle.unit)).name
     };
-
     return ans;
   }
 

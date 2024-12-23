@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, Types } from 'mongoose';
 import { User } from './users.schema';
-import { Training } from './trainnings.schema';
+import { TypeBook } from './typeBook.schema';
+import { Unit } from './units.schema';
 
 @Schema()
 export class RelatedDocument extends Document<any> {
@@ -14,8 +15,11 @@ export class RelatedDocument extends Document<any> {
   @Prop()
   name: string;
 
-  @Prop()
+  @Prop({ type: Types.ObjectId, ref: TypeBook.name, default: null })
   type: string;
+
+  @Prop({ type: Types.ObjectId, ref: Unit.name, default: null })
+  unit: string;   
 
   @Prop()
   url: string;

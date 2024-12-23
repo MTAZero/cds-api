@@ -35,7 +35,10 @@ import { StatisticDocumentModule } from './modules/statistic-document/statisticD
 import { ManagerTrackDisciplineModule } from './modules/track-discipline/trackDiscipline.module';
 import { ManagerTrackWorkModule } from './modules/track-work/trackWork.module';
 import { AccessControlModule } from './modules/access control/AccessControl.module';
+import { GoingCallModule } from './modules/going-call/goingCall.module';
+import { IncomingCallModule} from './modules/incoming-call/incomingCall.module';
 import { MonthlyPlanModule } from './modules/monthly-plan/monthly-plan.module';
+import { TypeBookModule } from './modules/typeBook/typeBook.module';
 
 @Module({
   imports: [
@@ -77,7 +80,10 @@ import { MonthlyPlanModule } from './modules/monthly-plan/monthly-plan.module';
     ManagerTrackDisciplineModule,
     ManagerTrackWorkModule,
     AccessControlModule,
-    MonthlyPlanModule
+    GoingCallModule,
+    IncomingCallModule,
+    MonthlyPlanModule,
+    TypeBookModule
   ],
   controllers: [AppController],
   providers: [AppService],

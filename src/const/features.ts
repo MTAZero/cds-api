@@ -27,7 +27,10 @@ export const FEATURES_SYSTEM = [
   SystemFeatures.ManagerTrackDiscipline,
   SystemFeatures.StatisticDocument,
   SystemFeatures.ManagerTrackWork,
-  SystemFeatures.AccessControl
+  SystemFeatures.AccessControl,
+  SystemFeatures.StatisticWebC86,
+  SystemFeatures.GoingCall,
+  SystemFeatures.InComingCall
 ];
 
 export const ACTIONS_SYSTEM = [

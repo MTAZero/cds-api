@@ -8,15 +8,15 @@ export class CreateVehicleCommandDto {
 
   @IsOptional()
   @IsString()
-  commandDateCreated: string;
+  commandDateCreated: number;
 
   @IsOptional()
   @IsString()
-  baseFromDate: string;
+  baseFromDate: number;
 
   @IsOptional()
   @IsString()
-  baseToDate: string;
+  baseToDate: number;
 
   @IsOptional()
   @IsString()

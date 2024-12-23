@@ -6,7 +6,6 @@ import {
     Inject,
     Param,
     Post,
-    Put,
     Query,
     Req,
     Res,
@@ -47,8 +46,13 @@ import {
   ) {
     const pagination: PaginationType = req.pagination;
     const sort = req.sort;
-    const filter = {};
+    let filter = {};
     const keyword = query.keyword ? query.keyword : '';
+
+    const type = query.type ? query.type : '';
+    if(type !== ''){
+      filter = { type: type}
+    }
 
     const data = await this.relatedDocumentService.getListDocuments({
       filter,
@@ -104,6 +108,7 @@ import {
       user: userID,
       name: entity.name,
       type: entity.type,
+      unit: entity.unit,
       url: file ? file.filename : null
     }
 

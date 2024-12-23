@@ -101,6 +101,8 @@ import { MonthlyPlanDetailService } from './services/monthly-plan-detail.service
 import { MonthlyPlanService } from './services/monthly-plan.service';
 import { MonthlyPlan, MonthlyPlanSchema } from './schemas/monthly-plan/monthly-plan';
 import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-plan/monthly-plan-detail';
+import { TypeBookDBService } from './services/typeBookDBService';
+import { TypeBook, TypeBookSchema } from './schemas/typeBook.schema';
 
 @Module({
   imports: [
@@ -256,6 +258,10 @@ import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-pl
       {
         name: MonthlyPlanDetail.name,
         schema: MonthlyPlanDetailSchema
+      },
+      {
+        name: TypeBook.name,
+        schema: TypeBookSchema
       }
     ]),
     JwtModule.registerAsync({
@@ -306,7 +312,8 @@ import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-pl
     goingCallDBService,
     IncomingDBService,
     MonthlyPlanDetailService,
-    MonthlyPlanService
+    MonthlyPlanService,
+    TypeBookDBService
   ],
   exports: [
     UserDBService,
@@ -347,7 +354,8 @@ import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-pl
     goingCallDBService,
     IncomingDBService,
     MonthlyPlanService,
-    MonthlyPlanDetailService
+    MonthlyPlanDetailService,
+    TypeBookDBService
   ],
 })
 export class DatabaseModule {}

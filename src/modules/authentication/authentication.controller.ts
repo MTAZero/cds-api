@@ -32,7 +32,7 @@ export class AuthenticationController {
   @Inject(UserDBService)
   userDBService: UserDBService;
 
-  @Inject(PermissionDBService)
+  @Inject()
   permissionDBService: PermissionDBService;
 
   @Inject(SSODBService)

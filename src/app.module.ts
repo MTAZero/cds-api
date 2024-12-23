@@ -38,6 +38,7 @@ import { AccessControlModule } from './modules/access control/AccessControl.modu
 import { GoingCallModule } from './modules/going-call/goingCall.module';
 import { IncomingCallModule} from './modules/incoming-call/incomingCall.module';
 import { MonthlyPlanModule } from './modules/monthly-plan/monthly-plan.module';
+import { TypeBookModule } from './modules/typeBook/typeBook.module';
 
 @Module({
   imports: [
@@ -81,7 +82,11 @@ import { MonthlyPlanModule } from './modules/monthly-plan/monthly-plan.module';
     AccessControlModule,
     GoingCallModule,
     IncomingCallModule,
+<<<<<<< HEAD
     MonthlyPlanModule
+=======
+    TypeBookModule
+>>>>>>> 117884b (23_12_2024_update)
   ],
   controllers: [AppController],
   providers: [AppService],

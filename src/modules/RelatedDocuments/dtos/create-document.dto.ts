@@ -6,9 +6,14 @@ import { TYPE_BOOK } from 'src/const';
 export class CreateRelatedDocumentDto {
 
     @IsNotEmpty()
-    name: Number;
+    name: string;
 
     @IsNotEmpty()
-    type: Number;
+    @IsMongoId()
+    type: string;
+
+    @IsNotEmpty()
+    @IsMongoId()
+    unit: string;
 
 }

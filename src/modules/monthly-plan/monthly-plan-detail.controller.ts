@@ -144,25 +144,26 @@ export class MonthlyPlanDetailController {
         });
 
         let respData = {
-            noi_dung: {rows: []},
+            noi_dung: {rows: [], headers: []},
             thong_ke: {rows: [], headers: []}
         }
         let thongKe = {};
         let noiDung = respData.noi_dung;
         let dictLoaiNd= [];
-        let dictNd= [
-            "stt",
-            "noi_dung",
-            "tham_gia",
-            "cap_phu_trach",
-            "tong_gio",
-            "tuan_1",
-            "tuan_2",
-            "tuan_3",
-            "tuan_4",
-            "tuan5",
-            "bien_phap_tien_hanh"
-        ]
+        let dictNd= {
+            "stt": "TT",
+            "noi_dung": 'NỘI DUNG',
+            "tham_gia": "Thành phần tham gia",
+            "cap_phu_trach": 'Cấp phụ trách',
+            "tong_gio": 'Tổng số (giờ)',
+            "tuan_1": 'Tuần 1',
+            "tuan_2": 'Tuần 2',
+            "tuan_3": 'Tuần 3',
+            "tuan_4": 'Tuần 4',
+            "tuan5": 'Tuần 5',
+            "bien_phap_tien_hanh": 'Biện pháp tiến hành'
+        }
+        respData.noi_dung.headers= Object.values(dictNd)
         data.items.forEach(el => {
             if (el.loai_noi_dung) {
                 if(!dictLoaiNd.includes(el.loai_noi_dung)) dictLoaiNd.push(el.loai_noi_dung)
@@ -171,7 +172,7 @@ export class MonthlyPlanDetailController {
                 thongKe[el.tham_gia][el.loai_noi_dung] += el.tong_gio;
             }
             let item= [];
-            for(let i of dictNd){
+            for(let i of Object.keys(dictNd)){
                 // console.log({i})
                 item.push(''+ (el[i]|| ''))
             }

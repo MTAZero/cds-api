@@ -1,9 +1,9 @@
-import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateMonthlyPlanDto {
 
+  @IsMongoId()
   @IsNotEmpty()
-  @IsString()
   unit: string;
 
   @IsNotEmpty()

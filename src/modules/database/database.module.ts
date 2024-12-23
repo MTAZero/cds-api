@@ -97,6 +97,7 @@ import { MonthlyPlanDetailService } from './services/monthly-plan-detail.service
 import { MonthlyPlanService } from './services/monthly-plan.service'
 import { MonthlyPlan, MonthlyPlanSchema } from './schemas/monthly-plan/monthly-plan';
 import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-plan/monthly-plan-detail';
+import { CommonService } from './services/common.service';
 
 @Module({
   imports: [
@@ -291,6 +292,7 @@ import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-pl
     TrackWorkBookDBService,
     StatisticDocumentBookDBService,
     AccessControlDBService,
+    CommonService,
     MonthlyPlanDetailService,
     MonthlyPlanService
   ],
@@ -330,6 +332,7 @@ import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-pl
     TrackWorkBookDBService,
     StatisticDocumentBookDBService,
     AccessControlDBService,
+    CommonService,
     MonthlyPlanService,
     MonthlyPlanDetailService
   ],

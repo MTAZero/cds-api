@@ -152,8 +152,8 @@ export class MonthlyPlanDetailController {
         data.items.forEach(el => {
             let k= el.loai_doi_tuong;
             let tmp= this.common.genDynamicObject(thongKe, k);
-            tmp.tong_gio= tmp.tong_gio|| 0;
-            tmp.tong_gio+= el.tong_gio;
+            tmp[el.loai_noi_dung]= tmp[el.loai_noi_dung]|| 0;
+            tmp[el.loai_noi_dung]+= el.tong_gio;
         });
 
         return ApiResponse(

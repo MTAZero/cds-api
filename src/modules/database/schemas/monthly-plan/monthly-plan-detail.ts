@@ -33,6 +33,9 @@ export class MonthlyPlanDetail extends Document<any>{
     loai_doi_tuong: string; //
 
     @Prop()
+    thu_tu: number; //
+
+    @Prop()
     cap_phu_trach: string; // 
 
     @Prop()

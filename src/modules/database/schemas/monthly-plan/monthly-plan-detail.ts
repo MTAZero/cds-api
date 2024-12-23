@@ -16,9 +16,7 @@ export class MonthlyPlanDetail extends Document<any>{
     ke_hoach_thang: ObjectId;
 
     @Prop()
-    type: string;
-    // A. sĩ quan chỉ huy, cơ quan/huấn luyện hàng tháng/học chính trị, pháp luật và nghị quyết...
-    // A. sĩ quan chỉ huy, cơ quan/huấn luyện hàng tháng/huấn luyện quân sự chung
+    stt: string;
 
     @Prop() 
     tham_gia: string; // sỹ quan chỉ huy, cơ quan, qncn....
@@ -30,13 +28,10 @@ export class MonthlyPlanDetail extends Document<any>{
     loai_noi_dung: LoaiNoiDungHuanLuyenThang;
 
     @Prop()
-    loai_doi_tuong: string; //
+    thu_tu: number; // thứ tự hiển thị các bản ghi
 
     @Prop()
-    thu_tu: number; //
-
-    @Prop()
-    cap_phu_trach: string; // 
+    cap_phu_trach: string;
 
     @Prop()
     tong_gio: number;
@@ -58,5 +53,5 @@ export class MonthlyPlanDetail extends Document<any>{
 export const MonthlyPlanDetailSchema = SchemaFactory.createForClass(MonthlyPlanDetail);
 
 MonthlyPlanDetailSchema.index({
-    type: 'text'
+    ke_hoach_thang: 'text'
 });

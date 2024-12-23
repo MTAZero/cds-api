@@ -3,7 +3,7 @@ import { MonthlyPlanDetailService } from '../database/services/monthly-plan-deta
 import { PermissionDBService } from '../database/services/permissionDBService';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ActionsPermission, ModulePermission } from 'src/decorator/module-action.decorator';
-import { SystemAction, SystemFeatures } from 'src/enums';
+import { LoaiNoiDungHuanLuyenThang, SystemAction, SystemFeatures } from 'src/enums';
 import { ApiResponse } from 'src/utils';
 import { ResponseCode, ResponseMessage } from 'src/const';
 import { CurrentUser } from 'src/decorator/current-user.decorator';
@@ -34,19 +34,19 @@ export class MonthlyPlanDetailController {
         @Res() res,
     ) {
 
-        let tong_so_gio= (entity.tuan_1||0)+ (entity.tuan_2||0)+ (entity.tuan_3||0)+ (entity.tuan_4||0)+ (entity.tuan_5||0);
-        if(tong_so_gio!= 0){
-            if(entity.tong_gio && entity.tong_gio!= tong_so_gio) {
+        let tong_so_gio = (entity.tuan_1 || 0) + (entity.tuan_2 || 0) + (entity.tuan_3 || 0) + (entity.tuan_4 || 0) + (entity.tuan_5 || 0);
+        if (tong_so_gio != 0) {
+            if (entity.tong_gio && entity.tong_gio != tong_so_gio) {
                 throw new ForbiddenException();
             }
-            entity.tong_gio= tong_so_gio;
+            entity.tong_gio = tong_so_gio;
         } else {
-            if(!entity.tong_gio) throw new ForbiddenException();
-            entity.tuan_1= null;
-            entity.tuan_2= null;
-            entity.tuan_3= null;
-            entity.tuan_4= null;
-            entity.tuan_5= null;
+            if (!entity.tong_gio) throw new ForbiddenException();
+            entity.tuan_1 = null;
+            entity.tuan_2 = null;
+            entity.tuan_3 = null;
+            entity.tuan_4 = null;
+            entity.tuan_5 = null;
 
         }
         const ans = await this.service.insertItem(entity);
@@ -69,22 +69,22 @@ export class MonthlyPlanDetailController {
         @Param() params,
     ) {
         const id = params.id;
-        let tong_so_gio= (entity.tuan_1||0)+ (entity.tuan_2||0)+ (entity.tuan_3||0)+ (entity.tuan_4||0)+ (entity.tuan_5||0);
-        if(tong_so_gio!= 0){
-            if(entity.tong_gio && entity.tong_gio!= tong_so_gio) {
+        let tong_so_gio = (entity.tuan_1 || 0) + (entity.tuan_2 || 0) + (entity.tuan_3 || 0) + (entity.tuan_4 || 0) + (entity.tuan_5 || 0);
+        if (tong_so_gio != 0) {
+            if (entity.tong_gio && entity.tong_gio != tong_so_gio) {
                 throw new ForbiddenException();
             }
-            entity.tong_gio= tong_so_gio;
+            entity.tong_gio = tong_so_gio;
         } else {
-            if(!entity.tong_gio) throw new ForbiddenException();
-            entity.tuan_1= null;
-            entity.tuan_2= null;
-            entity.tuan_3= null;
-            entity.tuan_4= null;
-            entity.tuan_5= null;
+            if (!entity.tong_gio) throw new ForbiddenException();
+            entity.tuan_1 = null;
+            entity.tuan_2 = null;
+            entity.tuan_3 = null;
+            entity.tuan_4 = null;
+            entity.tuan_5 = null;
 
         }
-        
+
         const ans = await this.service.updateItem(id, entity);
         return ApiResponse(
             res,
@@ -124,9 +124,10 @@ export class MonthlyPlanDetailController {
         @CurrentUser() user
     ) {
 
-        let filter ={
+        let filter = {
             $and: [
-                {ke_hoach_thang: {"$eq": params.id}}
+                { ke_hoach_thang: { "$eq": params.id } },
+                // { loai_noi_dung: {'$ne': null} }
             ]
         };
 
@@ -136,28 +137,60 @@ export class MonthlyPlanDetailController {
 
         const data = await this.service.getItems({
             filter,
-            sort: {'thu_tu': 1, _id: 1},
+            sort: { 'thu_tu': 1, _id: 1 },
             skip: 0,
             limit: Number.MAX_SAFE_INTEGER,
             textSearch: keyword,
         });
 
-        let respData= {
-            noi_dung: {},
-            thong_ke: {}
+        let respData = {
+            noi_dung: {rows: [], headers: []},
+            thong_ke: {rows: [], headers: []}
         }
-        let thongKe= respData.thong_ke;
-        let noiDung= respData.noi_dung;
+        let thongKe = {};
+        let noiDung = respData.noi_dung;
+        let dictLoaiNd= [];
+        let dictNd= [
+            "stt",
+            "noi_dung",
+            "tham_gia",
+            "cap_phu_trach",
+            "tong_gio",
+            "tuan_1",
+            "tuan_2",
+            "tuan_3",
+            "tuan_4",
+            "tuan5",
+            "bien_phap_tien_hanh"
+        ]
+        respData.noi_dung.headers= dictNd;
         data.items.forEach(el => {
-            let k= el.loai_doi_tuong;
-            let tmp= this.common.genDynamicObject(thongKe, k);
-            tmp[el.loai_noi_dung]= tmp[el.loai_noi_dung]|| 0;
-            tmp[el.loai_noi_dung]+= el.tong_gio;
-            k= el.type;
-            tmp= this.common.genDynamicObject(noiDung, k);
-            tmp.items= tmp.items || [];
-            tmp.items.push(el);
+            if (el.loai_noi_dung) {
+                if(!dictLoaiNd.includes(el.loai_noi_dung)) dictLoaiNd.push(el.loai_noi_dung)
+                thongKe[el.tham_gia] = thongKe[el.tham_gia] || {};
+                thongKe[el.tham_gia][el.loai_noi_dung] = thongKe[el.tham_gia][el.loai_noi_dung] || 0;
+                thongKe[el.tham_gia][el.loai_noi_dung] += el.tong_gio;
+            }
+            let item= [];
+            for(let i of dictNd){
+                console.log({i})
+                item.push(''+ (el[i]|| ''))
+            }
+            noiDung.rows.push(item);
         });
+
+        let j= 0;
+        for(let e in thongKe){
+            let item= [], tong= 0;
+            for(let i of dictLoaiNd){
+                item.push(''+ (thongKe[e][i]|| ''))
+                tong+= (thongKe[e][i]||0);
+            }
+            item= [''+ (++j), e, ''+ tong].concat(item);
+            respData.thong_ke.rows.push(item);
+
+        }
+        respData.thong_ke.headers= ['STT', 'Đối tượng', 'Tổng'].concat(dictLoaiNd);
 
         return ApiResponse(
             res,
@@ -201,13 +234,13 @@ export class MonthlyPlanDetailController {
         // let from = Number(query.fromDateTime) ? Number(query.fromDateTime) : timestampConfig().timestamp_2000;
         // let to = Number(query.toDateTime) ? Number(query.toDateTime) : timestampConfig().timestamp_2100;
 
-        let filter = query.ke_hoach_thang? {
+        let filter = query.ke_hoach_thang ? {
             $and: [
                 //{ ts: { "$gte": from } },
                 //{ ts: { "$lte": to } }
-                {ke_hoach_thang: {"$eq": query.ke_hoach_thang}}
+                { ke_hoach_thang: { "$eq": query.ke_hoach_thang } }
             ]
-        }: {}
+        } : {}
 
         const keyword = query.keyword ? query.keyword : '';
 

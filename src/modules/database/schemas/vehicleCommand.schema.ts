@@ -10,13 +10,13 @@ export class VehicleCommand extends Document<any> {
   orderNumber: string;
 
   @Prop()
-  commandDateCreated: Date;
+  commandDateCreated: number;
 
   @Prop()
-  baseFromDate: Date;
+  baseFromDate: number;
 
   @Prop()
-  baseToDate: Date;
+  baseToDate: number;
 
   @Prop({ type: Types.ObjectId, ref: ManagerVehicle.name, default: null })
   vehicle: ObjectId;

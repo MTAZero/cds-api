@@ -35,6 +35,8 @@ import { StatisticDocumentModule } from './modules/statistic-document/statisticD
 import { ManagerTrackDisciplineModule } from './modules/track-discipline/trackDiscipline.module';
 import { ManagerTrackWorkModule } from './modules/track-work/trackWork.module';
 import { AccessControlModule } from './modules/access control/AccessControl.module';
+import { GoingCallModule } from './modules/going-call/goingCall.module';
+import { IncomingCallModule} from './modules/incoming-call/incomingCall.module';
 
 @Module({
   imports: [
@@ -75,7 +77,9 @@ import { AccessControlModule } from './modules/access control/AccessControl.modu
     StatisticDocumentModule,
     ManagerTrackDisciplineModule,
     ManagerTrackWorkModule,
-    AccessControlModule
+    AccessControlModule,
+    GoingCallModule,
+    IncomingCallModule
   ],
   controllers: [AppController],
   providers: [AppService],

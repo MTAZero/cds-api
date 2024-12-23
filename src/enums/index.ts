@@ -26,6 +26,9 @@ export enum SystemFeatures {
   StatisticDocument = 'StatisticDocument',
   ManagerTrackWork = 'ManagerTrackWork',
   AccessControl = 'AccessControl',
+  StatisticWebC86 = 'StatisticWebC86',
+  GoingCall = 'GoingCall',
+  InComingCall = 'InComingCall'
 }
 
 export enum SystemAction {

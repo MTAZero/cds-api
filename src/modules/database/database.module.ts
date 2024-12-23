@@ -93,6 +93,10 @@ import { TrackDisciplineBook, TrackDisciplineBookSchema } from './schemas/track-
 import { StatisticDocumentBook, StatisticDocumentBookSchema } from './schemas/statistic-document-book.schema';
 import { AccessControl, AccessControlSchema } from './schemas/access-control.schema';
 import { AccessControlDBService } from './services/accessControlDBService';
+import { GoingCall, GoingCallSchema } from './schemas/going_call.schema';
+import { IncomingCall, IncomingCallSchema } from './schemas/incoming_call.schema';
+import { goingCallDBService } from './services/goingCallDBService';
+import { IncomingDBService } from './services/incomingCallDBService';
 
 @Module({
   imports: [
@@ -232,6 +236,14 @@ import { AccessControlDBService } from './services/accessControlDBService';
       {
         name: AccessControl.name,
         schema: AccessControlSchema
+      },
+      {
+        name: GoingCall.name,
+        schema: GoingCallSchema
+      },
+      {
+        name: IncomingCall.name,
+        schema: IncomingCallSchema
       }
     ]),
     JwtModule.registerAsync({
@@ -278,7 +290,9 @@ import { AccessControlDBService } from './services/accessControlDBService';
     ManagerTrackDisciplineDBService,
     TrackWorkBookDBService,
     StatisticDocumentBookDBService,
-    AccessControlDBService
+    AccessControlDBService,
+    goingCallDBService,
+    IncomingDBService
   ],
   exports: [
     UserDBService,
@@ -315,7 +329,9 @@ import { AccessControlDBService } from './services/accessControlDBService';
     ManagerTrackDisciplineDBService,
     TrackWorkBookDBService,
     StatisticDocumentBookDBService,
-    AccessControlDBService
+    AccessControlDBService,
+    goingCallDBService,
+    IncomingDBService
   ],
 })
 export class DatabaseModule {}

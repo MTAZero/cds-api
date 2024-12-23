@@ -66,10 +66,10 @@ export class GiaoAn extends Document<any> {
   @Prop({ type: Date }) // Dạng datetime
   thoi_gian_hoan_thanh_cong_tac_chuan_bi: Date;
 
-  @Prop({ type: Date }) // Dạng datetime
+  @Prop() // Dạng datetime
   thoi_gian_len_lop_ly_thuyet: number;
 
-  @Prop({ type: Date }) // Dạng datetime
+  @Prop() // Dạng datetime
   thoi_gian_len_lop_thuc_hanh: number;
 
   @Prop()

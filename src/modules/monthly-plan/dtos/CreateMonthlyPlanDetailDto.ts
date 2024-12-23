@@ -1,33 +1,37 @@
-import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { LoaiNoiDungHuanLuyenThang } from 'src/enums';
 
 export class CreateMonthlyPlanDetailDto {
 
+  @IsMongoId()
+  @IsNotEmpty()
+  ke_hoach_thang: string;
+
   @IsNotEmpty()
   @IsString()
-  ke_hoach_thang: string;
+  loai_doi_tuong: string;
 
   @IsNotEmpty()
   @IsString()
   loai_noi_dung: LoaiNoiDungHuanLuyenThang;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   type: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   tham_gia: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   noi_dung: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   cap_phu_trach: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   bien_phap_tien_hanh: string;
 

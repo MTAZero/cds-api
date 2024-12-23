@@ -134,6 +134,7 @@ import {
 import { goingCallDBService } from './services/goingCallDBService';
 import { IncomingDBService } from './services/incomingCallDBService';
 import { MonthlyPlanDetailService } from './services/monthly-plan-detail.service';
+import { CommonService } from './services/common.service';
 import { MonthlyPlanService } from './services/monthly-plan.service';
 import {
   MonthlyPlan,
@@ -374,6 +375,7 @@ import { TypeBook, TypeBookSchema } from './schemas/typeBook.schema';
     TrackWorkBookDBService,
     StatisticDocumentBookDBService,
     AccessControlDBService,
+    CommonService,
     goingCallDBService,
     IncomingDBService,
     MonthlyPlanDetailService,
@@ -418,6 +420,7 @@ import { TypeBook, TypeBookSchema } from './schemas/typeBook.schema';
     TrackWorkBookDBService,
     StatisticDocumentBookDBService,
     AccessControlDBService,
+    CommonService,
     goingCallDBService,
     IncomingDBService,
     MonthlyPlanService,

@@ -7,6 +7,7 @@ import { RelatedDocument } from '../schemas/related-documents.schema';
 import { QueryParams, ResponseQuery } from 'src/interface/i-base-db-service';
 import { readFileSync, rmSync   } from 'fs'
 import { archiveConfig } from './../../../configs/configuration.config';
+import { TypeBookDBService } from './typeBookDBService';
 
 @Injectable()
 export class RelatedDocumentDBService extends BaseDBService<RelatedDocument> {
@@ -17,21 +18,45 @@ export class RelatedDocumentDBService extends BaseDBService<RelatedDocument> {
   @Inject(PositionDBService)
   positionDBService: PositionDBService;
 
+  @Inject(TypeBookDBService)
+  typeBookDBService: TypeBookDBService;
+
   constructor(@InjectModel(RelatedDocument.name) private readonly entityModel) {
     super(entityModel);
   }
 
   async getListDocuments(query: QueryParams): Promise<ResponseQuery<any>> {
 
-    const lstDocuments = await this.getItems(query)
+    let { filter } = query;
+    const { skip, limit } = query;
+    const pageIndex = skip / limit + 1;
+
+    const typeBook = await this.typeBookDBService.getFirstItem(filter)
+
+    filter = {
+      type: typeBook._id.toString()
+    }
+
+    const lstDocuments = await this.getItems({
+      ...query,
+      ...{
+        filter,
+      },
+    });
+    
     const populateQuery = [
       {
-          path: "user",
-          populate: 
-          { 
-            path: 'unit' 
-          }
-          
+        path: "user",
+        populate: 
+        { 
+          path: 'unit' 
+        }
+      },
+      {
+        path: 'type'
+      },
+      {
+        path: 'unit'
       }
   ];
   
@@ -40,10 +65,14 @@ export class RelatedDocumentDBService extends BaseDBService<RelatedDocument> {
 
       return {
         _id: item._id,
+        name: item.name,
+        user: item.user._id,
         nameOfUser: item.user.full_name,
         unitOfUser: item.user.unit.name,
-        name: item.name,
-        type: item.type,
+        type: item.type.type,
+        typeName: item.type.name,
+        unit: item.unit._id,
+        unitName: item.unit.name,
         url: item.url,
         create_at: item.created_date,
         update_at: item.last_update
@@ -78,5 +107,14 @@ export class RelatedDocumentDBService extends BaseDBService<RelatedDocument> {
     } catch (e) {
       console.log(e)
     }
+  }
+
+   async insertItem(entity: any): Promise<any> {
+      const typeBook = await this.typeBookDBService.getFirstItem({ type: entity.type });
+      let _entity = {
+        ...entity,
+        type: typeBook._id.toString()
+      }
+      return await super.insertItem(_entity);
   }
 }

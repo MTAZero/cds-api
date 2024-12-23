@@ -2,7 +2,11 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { appConfig, archiveConfig, databaseConfig } from './configs/configuration.config';
+import {
+  appConfig,
+  archiveConfig,
+  databaseConfig,
+} from './configs/configuration.config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DatabaseModule } from './modules/database/database.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
@@ -35,14 +39,18 @@ import { StatisticDocumentModule } from './modules/statistic-document/statisticD
 import { ManagerTrackDisciplineModule } from './modules/track-discipline/trackDiscipline.module';
 import { ManagerTrackWorkModule } from './modules/track-work/trackWork.module';
 import { AccessControlModule } from './modules/access control/AccessControl.module';
+import { GoingCallModule } from './modules/going-call/goingCall.module';
+import { IncomingCallModule } from './modules/incoming-call/incomingCall.module';
 import { MonthlyPlanModule } from './modules/monthly-plan/monthly-plan.module';
+import { HuanLuyenModule } from './modules/huan-luyen/huan-luyen.module';
+import { TypeBookModule } from './modules/typeBook/typeBook.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.env'],
       isGlobal: true,
-      load: [databaseConfig, appConfig, archiveConfig ],
+      load: [databaseConfig, appConfig, archiveConfig],
     }),
     MongooseModule.forRoot(databaseConfig().uri),
     ServeStaticModule.forRoot({
@@ -77,7 +85,11 @@ import { MonthlyPlanModule } from './modules/monthly-plan/monthly-plan.module';
     ManagerTrackDisciplineModule,
     ManagerTrackWorkModule,
     AccessControlModule,
-    MonthlyPlanModule
+    GoingCallModule,
+    IncomingCallModule,
+    MonthlyPlanModule,
+    HuanLuyenModule,
+    TypeBookModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -88,4 +100,3 @@ export class AppModule {
     consumer.apply(SortMiddleware).forRoutes('/');
   }
 }
-

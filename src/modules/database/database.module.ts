@@ -64,22 +64,43 @@ import { cWards, cWards_schema } from './schemas/c_wards';
 import { ProvincesDBService } from './services/cProvincesDBService';
 import { DistrictDBService } from './services/cDistrictsDBService';
 import { WardsDBService } from './services/cWardsDBServicets';
-import { ExperienceBook, ExperienceBookSchema } from './schemas/experience-book.schema';
+import {
+  ExperienceBook,
+  ExperienceBookSchema,
+} from './schemas/experience-book.schema';
 import { ExperienceBookDBService } from './services/experienceBookDBService';
-import { RelatedDocument, RelatedDocumentSchema } from './schemas/related-documents.schema';
+import {
+  RelatedDocument,
+  RelatedDocumentSchema,
+} from './schemas/related-documents.schema';
 import { RelatedDocumentDBService } from './services/relatedDocumentDBService';
 import { SSODBService } from './services/SSODBService';
-import { ManagerVehicle, ManagerVehicleSchema } from './schemas/manager-vehicle.schema';
+import {
+  ManagerVehicle,
+  ManagerVehicleSchema,
+} from './schemas/manager-vehicle.schema';
 import { ManagerVehicleDBService } from './services/managerVehicleDBService';
-import { RegisterVehicle, RegisterVehicleSchema } from './schemas/register-vehicle.schema';
+import {
+  RegisterVehicle,
+  RegisterVehicleSchema,
+} from './schemas/register-vehicle.schema';
 import { RegisterVehicleDBService } from './services/registerVehicleDBService';
-import { VehicleCommand, VehicleCommandSchema } from './schemas/vehicleCommand.schema';
+import {
+  VehicleCommand,
+  VehicleCommandSchema,
+} from './schemas/vehicleCommand.schema';
 import { VehicleCommandDBService } from './services/vehicleCommandDBService';
-import { DeliveryBill, DeliveryBillSchema } from './schemas/delivery-bill.schema';
+import {
+  DeliveryBill,
+  DeliveryBillSchema,
+} from './schemas/delivery-bill.schema';
 import { DeliveryBillDBService } from './services/deliveryBillDbService';
 import { MeetingBook, MeetingBookSchema } from './schemas/meeting-book.schema';
 import { MeetingBookDBService } from './services/meetingBookDBService';
-import { ManagerWorkAddress, ManagerWorkAddressSchema } from './schemas/manager-work-address.schema';
+import {
+  ManagerWorkAddress,
+  ManagerWorkAddressSchema,
+} from './schemas/manager-work-address.schema';
 import { ManagerFuel, ManagerFuelSchema } from './schemas/manager-fuel.schema';
 import { ManagerTask, ManagerTaskSchema } from './schemas/manager-task.schema';
 import { ManagerFuelDBService } from './services/managerFuelDBService';
@@ -88,16 +109,50 @@ import { ManagerTaskDBService } from './services/managerTaskDBService';
 import { TrackWorkBookDBService } from './services/track-workDBService';
 import { ManagerTrackDisciplineDBService } from './services/track-disciplineDBService';
 import { StatisticDocumentBookDBService } from './services/statistic-documentDBService';
-import { TrackWorkBook, TrackWorkBookSchema } from './schemas/track-work-book.schema';
-import { TrackDisciplineBook, TrackDisciplineBookSchema } from './schemas/track-discipline-book.schema';
-import { StatisticDocumentBook, StatisticDocumentBookSchema } from './schemas/statistic-document-book.schema';
-import { AccessControl, AccessControlSchema } from './schemas/access-control.schema';
+import {
+  TrackWorkBook,
+  TrackWorkBookSchema,
+} from './schemas/track-work-book.schema';
+import {
+  TrackDisciplineBook,
+  TrackDisciplineBookSchema,
+} from './schemas/track-discipline-book.schema';
+import {
+  StatisticDocumentBook,
+  StatisticDocumentBookSchema,
+} from './schemas/statistic-document-book.schema';
+import {
+  AccessControl,
+  AccessControlSchema,
+} from './schemas/access-control.schema';
 import { AccessControlDBService } from './services/accessControlDBService';
+import { GoingCall, GoingCallSchema } from './schemas/going_call.schema';
+import {
+  IncomingCall,
+  IncomingCallSchema,
+} from './schemas/incoming_call.schema';
+import { goingCallDBService } from './services/goingCallDBService';
+import { IncomingDBService } from './services/incomingCallDBService';
 import { MonthlyPlanDetailService } from './services/monthly-plan-detail.service';
-import { MonthlyPlanService } from './services/monthly-plan.service'
-import { MonthlyPlan, MonthlyPlanSchema } from './schemas/monthly-plan/monthly-plan';
-import { MonthlyPlanDetail, MonthlyPlanDetailSchema } from './schemas/monthly-plan/monthly-plan-detail';
 import { CommonService } from './services/common.service';
+import { MonthlyPlanService } from './services/monthly-plan.service';
+import {
+  MonthlyPlan,
+  MonthlyPlanSchema,
+} from './schemas/monthly-plan/monthly-plan';
+import {
+  MonthlyPlanDetail,
+  MonthlyPlanDetailSchema,
+} from './schemas/monthly-plan/monthly-plan-detail';
+import {
+  KeHoachThongQuaGiaoAn,
+  KeHoachThongQuaGiaoAnSchema,
+} from './schemas/huan_luyen/ke_hoach_thong_qua_giao_an.schema';
+import { GiaoAn, GiaoAnSchema } from './schemas/huan_luyen/giao_an.schema';
+import { GiaoAnDBService } from './services/huan_luyen/GiaoAnDBService';
+import { KeHoachThongQuaGiaoAnDBService } from './services/huan_luyen/KeHoachThongQuaGiaoAnDBService';
+import { TypeBookDBService } from './services/typeBookDBService';
+import { TypeBook, TypeBookSchema } from './schemas/typeBook.schema';
 
 @Module({
   imports: [
@@ -184,68 +239,96 @@ import { CommonService } from './services/common.service';
       },
       {
         name: ExperienceBook.name,
-        schema: ExperienceBookSchema
+        schema: ExperienceBookSchema,
       },
       {
         name: RelatedDocument.name,
-        schema: RelatedDocumentSchema
+        schema: RelatedDocumentSchema,
       },
       {
         name: ManagerVehicle.name,
-        schema: ManagerVehicleSchema
-      }, 
+        schema: ManagerVehicleSchema,
+      },
       {
         name: RegisterVehicle.name,
-        schema: RegisterVehicleSchema
+        schema: RegisterVehicleSchema,
       },
       {
         name: VehicleCommand.name,
-        schema: VehicleCommandSchema
+        schema: VehicleCommandSchema,
       },
       {
         name: DeliveryBill.name,
-        schema: DeliveryBillSchema
+        schema: DeliveryBillSchema,
       },
       {
         name: MeetingBook.name,
-        schema: MeetingBookSchema
+        schema: MeetingBookSchema,
       },
       {
         name: ManagerWorkAddress.name,
-        schema: ManagerWorkAddressSchema
+        schema: ManagerWorkAddressSchema,
       },
       {
         name: ManagerFuel.name,
-        schema: ManagerFuelSchema
+        schema: ManagerFuelSchema,
       },
       {
         name: ManagerTask.name,
-        schema: ManagerTaskSchema
+        schema: ManagerTaskSchema,
       },
       {
         name: TrackWorkBook.name,
-        schema: TrackWorkBookSchema
+        schema: TrackWorkBookSchema,
       },
       {
         name: TrackDisciplineBook.name,
-        schema: TrackDisciplineBookSchema
+        schema: TrackDisciplineBookSchema,
       },
       {
         name: StatisticDocumentBook.name,
-        schema: StatisticDocumentBookSchema
+        schema: StatisticDocumentBookSchema,
       },
       {
         name: AccessControl.name,
-        schema: AccessControlSchema
+        schema: AccessControlSchema,
+      },
+      {
+        name: GoingCall.name,
+        schema: GoingCallSchema,
+      },
+      {
+        name: IncomingCall.name,
+        schema: IncomingCallSchema,
+      },
+      {
+        name: GoingCall.name,
+        schema: GoingCallSchema,
+      },
+      {
+        name: IncomingCall.name,
+        schema: IncomingCallSchema,
       },
       {
         name: MonthlyPlan.name,
-        schema: MonthlyPlanSchema
+        schema: MonthlyPlanSchema,
       },
       {
         name: MonthlyPlanDetail.name,
-        schema: MonthlyPlanDetailSchema
-      }
+        schema: MonthlyPlanDetailSchema,
+      },
+      {
+        name: GiaoAn.name,
+        schema: GiaoAnSchema,
+      },
+      {
+        name: KeHoachThongQuaGiaoAn.name,
+        schema: KeHoachThongQuaGiaoAnSchema,
+      },
+      {
+        name: TypeBook.name,
+        schema: TypeBookSchema,
+      },
     ]),
     JwtModule.registerAsync({
       useFactory: async () => ({
@@ -293,8 +376,13 @@ import { CommonService } from './services/common.service';
     StatisticDocumentBookDBService,
     AccessControlDBService,
     CommonService,
+    goingCallDBService,
+    IncomingDBService,
     MonthlyPlanDetailService,
-    MonthlyPlanService
+    MonthlyPlanService,
+    GiaoAnDBService,
+    KeHoachThongQuaGiaoAnDBService,
+    TypeBookDBService,
   ],
   exports: [
     UserDBService,
@@ -333,8 +421,13 @@ import { CommonService } from './services/common.service';
     StatisticDocumentBookDBService,
     AccessControlDBService,
     CommonService,
+    goingCallDBService,
+    IncomingDBService,
     MonthlyPlanService,
-    MonthlyPlanDetailService
+    MonthlyPlanDetailService,
+    GiaoAnDBService,
+    KeHoachThongQuaGiaoAnDBService,
+    TypeBookDBService,
   ],
 })
 export class DatabaseModule {}

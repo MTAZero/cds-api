@@ -57,7 +57,7 @@ export class RegisterVehicleController {
 
   let filter = {
     unit: user.unit,
-    $or: [
+    $and: [
       { fromDateTime: { "$gte": from }},
       { fromDateTime: { "$lte": to }}
     ]
@@ -102,14 +102,14 @@ export class RegisterVehicleController {
   if(unitRegisterVehicle){
     filter = {
       unit: user.unit,
-      $or: [
+      $and: [
         { fromDateTime: { "$gte": fromDatetime }},
         { toDateTime: { "$lte": toDatetime  }}
       ]
     }
   } else {
     filter = {
-      $or: [
+      $and: [
         { fromDateTime: { "$gte": fromDatetime }},
         { toDateTime: { "$lte": toDatetime }}
       ]

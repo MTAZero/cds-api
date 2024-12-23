@@ -15,6 +15,12 @@ export class TrackDisciplineBook extends Document<any> {
   personId: string;
 
   @Prop()
+  rank: string;
+
+  @Prop()
+  unit: string;
+
+  @Prop()
   fromDate: number;
 
   @Prop()

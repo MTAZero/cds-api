@@ -146,14 +146,20 @@ export class MonthlyPlanDetailController {
         });
 
         let respData= {
+            noi_dung: {},
             thong_ke: {}
         }
         let thongKe= respData.thong_ke;
+        let noiDung= respData.noi_dung;
         data.items.forEach(el => {
             let k= el.loai_doi_tuong;
             let tmp= this.common.genDynamicObject(thongKe, k);
             tmp[el.loai_noi_dung]= tmp[el.loai_noi_dung]|| 0;
             tmp[el.loai_noi_dung]+= el.tong_gio;
+            k= el.type;
+            tmp= this.common.genDynamicObject(noiDung, k);
+            tmp.items= tmp.items || [];
+            tmp.items.push(el);
         });
 
         return ApiResponse(

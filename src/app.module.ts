@@ -82,11 +82,8 @@ import { TypeBookModule } from './modules/typeBook/typeBook.module';
     AccessControlModule,
     GoingCallModule,
     IncomingCallModule,
-<<<<<<< HEAD
-    MonthlyPlanModule
-=======
+    MonthlyPlanModule,
     TypeBookModule
->>>>>>> 117884b (23_12_2024_update)
   ],
   controllers: [AppController],
   providers: [AppService],

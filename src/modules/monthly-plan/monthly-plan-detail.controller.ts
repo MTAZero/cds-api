@@ -144,7 +144,7 @@ export class MonthlyPlanDetailController {
         });
 
         let respData = {
-            noi_dung: {rows: [], headers: []},
+            noi_dung: {rows: []},
             thong_ke: {rows: [], headers: []}
         }
         let thongKe = {};
@@ -163,7 +163,6 @@ export class MonthlyPlanDetailController {
             "tuan5",
             "bien_phap_tien_hanh"
         ]
-        respData.noi_dung.headers= dictNd;
         data.items.forEach(el => {
             if (el.loai_noi_dung) {
                 if(!dictLoaiNd.includes(el.loai_noi_dung)) dictLoaiNd.push(el.loai_noi_dung)

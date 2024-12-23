@@ -34,6 +34,7 @@ export class RelatedDocumentDBService extends BaseDBService<RelatedDocument> {
     const typeBook = await this.typeBookDBService.getFirstItem(filter)
 
     filter = {
+      ...filter,
       type: typeBook._id.toString()
     }
 
@@ -111,6 +112,9 @@ export class RelatedDocumentDBService extends BaseDBService<RelatedDocument> {
 
    async insertItem(entity: any): Promise<any> {
       const typeBook = await this.typeBookDBService.getFirstItem({ type: entity.type });
+      
+      if(!typeBook) throw new BadRequestException("Loại document không tồn tại")
+
       let _entity = {
         ...entity,
         type: typeBook._id.toString()

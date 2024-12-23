@@ -172,7 +172,7 @@ export class MonthlyPlanDetailController {
             }
             let item= [];
             for(let i of dictNd){
-                console.log({i})
+                // console.log({i})
                 item.push(''+ (el[i]|| ''))
             }
             noiDung.rows.push(item);

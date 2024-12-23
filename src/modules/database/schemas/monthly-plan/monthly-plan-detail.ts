@@ -24,7 +24,7 @@ export class MonthlyPlanDetail extends Document<any>{
     @Prop()
     noi_dung: string; // nội dung
 
-    @Prop({ type: String, enum: LoaiNoiDungHuanLuyenThang, default: LoaiNoiDungHuanLuyenThang.KHAC })
+    @Prop({ type: String, enum: LoaiNoiDungHuanLuyenThang })
     loai_noi_dung: LoaiNoiDungHuanLuyenThang;
 
     @Prop()

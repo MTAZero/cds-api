@@ -11,31 +11,31 @@ export class UpdateMonthlyPlanDetailDto {
     @IsNumber()
     thu_tu: number;
 
-    @IsNotEmpty()
-    @IsString()
-    loai_doi_tuong: string;
-
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     loai_noi_dung: LoaiNoiDungHuanLuyenThang;
 
-    @IsNotEmpty()
+    @IsOptional()
+    @IsString()
+    stt: string;
+
+    @IsOptional()
     @IsString()
     type: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     tham_gia: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     noi_dung: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     cap_phu_trach: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     bien_phap_tien_hanh: string;
 

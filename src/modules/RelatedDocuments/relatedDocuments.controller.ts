@@ -50,8 +50,21 @@ import {
     const keyword = query.keyword ? query.keyword : '';
 
     const type = query.type ? query.type : '';
-    if(type !== ''){
-      filter = { type: type}
+    const unit = query.unit ? query.unit : '';
+
+    if(type !== '' && unit !== ''){
+      filter = { 
+        type: type,
+        unit: unit
+      }
+    } else if(type !== ''){
+      filter = { 
+        type: type,
+      }
+    } else if(unit !== ''){
+      filter = { 
+        unit: unit,
+      }
     }
 
     const data = await this.relatedDocumentService.getListDocuments({

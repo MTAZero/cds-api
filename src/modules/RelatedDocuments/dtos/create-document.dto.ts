@@ -9,7 +9,7 @@ export class CreateRelatedDocumentDto {
     name: string;
 
     @IsNotEmpty()
-    @IsMongoId()
+    @IsString()
     type: string;
 
     @IsNotEmpty()

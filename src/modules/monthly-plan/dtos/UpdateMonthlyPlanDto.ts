@@ -11,6 +11,22 @@ export class UpdateMonthlyPlanDto {
     name: string;
 
     @IsOptional()
+    @IsString()
+    nhiem_vu: string;
+
+    @IsOptional()
+    @IsString()
+    yeu_cau: string;
+
+    @IsOptional()
+    @IsString()
+    bao_dam_thuc_hien: string;
+
+    @IsOptional()
+    @IsString()
+    to_chuc_thuc_hien: string;
+
+    @IsOptional()
     @IsNumber()
     ts: number;
 

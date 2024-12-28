@@ -19,6 +19,15 @@ export class MonthlyPlan extends Document<any>{
     name: string;
 
     @Prop()
+    bao_dam_thuc_hien: string;
+    @Prop()
+    to_chuc_thuc_hien: string;
+    @Prop()
+    nhiem_vu: string;
+    @Prop()
+    yeu_cau: string;
+
+    @Prop()
     ts: number;
 }
 

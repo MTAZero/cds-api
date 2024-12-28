@@ -12,6 +12,7 @@ import { UpdateMonthlyPlanDetailDto } from './dtos/UpdateMonthlyPlanDetailDto';
 import { PaginationType } from 'src/middleware';
 import { timestampConfig } from 'src/configs/configuration.config';
 import { CommonService } from '../database/services/common.service';
+import { MonthlyPlanService } from '../database/services/monthly-plan.service';
 
 @Controller('monthly-plan-detail')
 export class MonthlyPlanDetailController {
@@ -23,6 +24,9 @@ export class MonthlyPlanDetailController {
 
     @Inject(PermissionDBService)
     permissionDBService: PermissionDBService;
+
+    @Inject(MonthlyPlanService)
+    monthyPlanService: MonthlyPlanService;
 
 
     @Post('')
@@ -124,6 +128,8 @@ export class MonthlyPlanDetailController {
         @CurrentUser() user
     ) {
 
+        const ans = await this.monthyPlanService.getDetail(params.id);
+
         let filter = {
             $and: [
                 { ke_hoach_thang: { "$eq": params.id } },
@@ -144,6 +150,7 @@ export class MonthlyPlanDetailController {
         });
 
         let respData = {
+            mo_ta: ans,
             noi_dung: {rows: [], headers: []},
             thong_ke: {rows: [], headers: []}
         }

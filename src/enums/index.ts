@@ -61,7 +61,6 @@ export enum UserType {
 }
 
 export enum LoaiNoiDungHuanLuyenThang {
-  KHAC = 'Khác',
   CN = 'Chuyên ngành',
   CT = 'Chính trị',
   HC = 'Hậu cần',
@@ -72,7 +71,7 @@ export enum LoaiNoiDungHuanLuyenThang {
   PCCN= 'PCCN, CHCN',
   KTCDBB= 'KT Chiến đấu BB',
   PHPT= 'Phòng hóa phổ thông',
-  SSCD= 'SSCĐ'
+  KHAC = 'Khác',
 
 }
 

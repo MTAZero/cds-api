@@ -215,10 +215,16 @@ export class MonthlyPlanDetailController {
             },
             // respData
         }
-        
+
+        console.log(JSON.stringify(body, null, 4))
+
         const proxiedResponse=  await this.common.forwardPostRequest(body);
+
+        console.log(proxiedResponse)
+        
         res.set(proxiedResponse.headers);
-        return res.status(proxiedResponse.status).send(proxiedResponse.data);
+        // return res.status(proxiedResponse.status).send(proxiedResponse.data);
+        proxiedResponse.data.pipe(res);
         
 
         // return ApiResponse(

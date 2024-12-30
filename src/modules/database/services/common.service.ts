@@ -23,8 +23,8 @@ export class CommonService {
     async forwardPostRequest(data: any) {
         const response = await firstValueFrom(
             this.httpService.post(
-                'http://45.77.252.19:5000/generate-report',
-                // 'http://127.0.0.1:5000/generate-report',
+                // 'http://45.77.252.19:5000/generate-report',
+                'http://127.0.0.1:5000/generate-report',
                 data,
                 {
                     headers:

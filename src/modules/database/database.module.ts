@@ -340,7 +340,7 @@ import { HttpModule, HttpService } from '@nestjs/axios';
       }),
     }),
     HttpModule.register({
-      timeout: 5000,
+      // timeout: 5000,
       maxRedirects: 5,
     }),
   ],

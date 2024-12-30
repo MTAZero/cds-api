@@ -122,7 +122,7 @@ export class MonthlyPlanDetailController {
     @Get('/of/:id')
     @ActionsPermission([SystemAction.View])
     // @ModulePermission(SystemFeatures.MonthyPlan)
-    async getListOfMonthlyPlan(
+    async genContentOfMonthlyPlan(
         @Res() res,
         @Req() req,
         @Param() params,
@@ -215,16 +215,19 @@ export class MonthlyPlanDetailController {
             },
             // respData
         }
-        return this.common.forwardPostRequest(body);
+        
+        const proxiedResponse=  await this.common.forwardPostRequest(body);
+        res.set(proxiedResponse.headers);
+        return res.status(proxiedResponse.status).send(proxiedResponse.data);
         
 
-        return ApiResponse(
-            res,
-            true,
-            ResponseCode.SUCCESS,
-            ResponseMessage.SUCCESS,
-            body,
-        );
+        // return ApiResponse(
+        //     res,
+        //     true,
+        //     ResponseCode.SUCCESS,
+        //     ResponseMessage.SUCCESS,
+        //     body,
+        // );
     }
 
     @Get('/:id')

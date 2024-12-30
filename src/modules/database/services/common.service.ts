@@ -22,8 +22,17 @@ export class CommonService{
 
     async forwardPostRequest(data: any) {
         const response = await firstValueFrom(
-            this.httpService.post('http://127.0.0.1:5000/generate-report', data)
+            this.httpService.request({
+                method: 'post',
+                // maxBodyLength: Infinity,
+                // url: 'http://45.77.252.19:5000/generate-report',
+                url: 'http://127.0.0.1:5000/generate-report',
+                headers: { 
+                  'Content-Type': 'application/json'
+                },
+                data : JSON.stringify(data)
+              })
         );
-        return response.data;
+        return response;
     }
 }

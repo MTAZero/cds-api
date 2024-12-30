@@ -13,6 +13,7 @@ import { PaginationType } from 'src/middleware';
 import { timestampConfig } from 'src/configs/configuration.config';
 import { CommonService } from '../database/services/common.service';
 import { MonthlyPlanService } from '../database/services/monthly-plan.service';
+import { firstValueFrom } from 'rxjs';
 
 @Controller('monthly-plan-detail')
 export class MonthlyPlanDetailController {
@@ -170,10 +171,13 @@ export class MonthlyPlanDetailController {
             "tuan5": 'Tuần 5',
             "bien_phap_tien_hanh": 'Biện pháp tiến hành'
         }
+
+        dictLoaiNd= Object.values(LoaiNoiDungHuanLuyenThang);
+
         respData.noi_dung.headers= Object.values(dictNd)
         data.items.forEach(el => {
             if (el.loai_noi_dung) {
-                if(!dictLoaiNd.includes(el.loai_noi_dung)) dictLoaiNd.push(el.loai_noi_dung)
+                // if(!dictLoaiNd.includes(el.loai_noi_dung)) dictLoaiNd.push(el.loai_noi_dung)
                 thongKe[el.tham_gia] = thongKe[el.tham_gia] || {};
                 thongKe[el.tham_gia][el.loai_noi_dung] = thongKe[el.tham_gia][el.loai_noi_dung] || 0;
                 thongKe[el.tham_gia][el.loai_noi_dung] += el.tong_gio;
@@ -193,18 +197,33 @@ export class MonthlyPlanDetailController {
                 item.push(''+ (thongKe[e][i]|| ''))
                 tong+= (thongKe[e][i]||0);
             }
-            item= [''+ (++j), e, ''+ tong].concat(item);
+            item= [''+ (++j), e].concat(item);
+            item.push(''+ tong);
             respData.thong_ke.rows.push(item);
 
         }
-        respData.thong_ke.headers= ['STT', 'Đối tượng', 'Tổng'].concat(dictLoaiNd);
+        respData.thong_ke.headers= ['STT', 'Đối tượng', 'Tổng giờ'].concat(dictLoaiNd);
+
+        let body= {
+            "data": {
+                "table_1": {
+                    "rows": respData.thong_ke.rows
+                },
+                "table_2": {
+                    "rows": respData.noi_dung.rows
+                }
+            },
+            // respData
+        }
+        return this.common.forwardPostRequest(body);
+        
 
         return ApiResponse(
             res,
             true,
             ResponseCode.SUCCESS,
             ResponseMessage.SUCCESS,
-            respData,
+            body,
         );
     }
 

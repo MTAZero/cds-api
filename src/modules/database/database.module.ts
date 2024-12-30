@@ -153,6 +153,7 @@ import { GiaoAnDBService } from './services/huan_luyen/GiaoAnDBService';
 import { KeHoachThongQuaGiaoAnDBService } from './services/huan_luyen/KeHoachThongQuaGiaoAnDBService';
 import { TypeBookDBService } from './services/typeBookDBService';
 import { TypeBook, TypeBookSchema } from './schemas/typeBook.schema';
+import { HttpModule, HttpService } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -338,6 +339,10 @@ import { TypeBook, TypeBookSchema } from './schemas/typeBook.schema';
         },
       }),
     }),
+    HttpModule.register({
+      timeout: 5000,
+      maxRedirects: 5,
+    }),
   ],
   providers: [
     UserDBService,
@@ -382,7 +387,7 @@ import { TypeBook, TypeBookSchema } from './schemas/typeBook.schema';
     MonthlyPlanService,
     GiaoAnDBService,
     KeHoachThongQuaGiaoAnDBService,
-    TypeBookDBService,
+    TypeBookDBService 
   ],
   exports: [
     UserDBService,

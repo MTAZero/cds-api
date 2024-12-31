@@ -12,7 +12,7 @@ export class CreateRelatedDocumentDto {
     @IsString()
     type: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsMongoId()
     unit: string;
 

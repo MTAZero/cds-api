@@ -30,6 +30,7 @@ export enum SystemFeatures {
   GoingCall = 'GoingCall',
   InComingCall = 'InComingCall',
   MonthyPlan = "MonthyPlan",
+  ManagerTypeBook = "ManagerTypeBook"
 }
 
 export enum SystemAction {

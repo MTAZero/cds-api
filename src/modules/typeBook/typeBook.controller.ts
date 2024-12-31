@@ -40,7 +40,7 @@ export class TypeBookController {
 
   @Get('/')
   @ActionsPermission([SystemAction.View])
-  @ModulePermission(SystemFeatures.ManagerDocuments)
+  @ModulePermission(SystemFeatures.ManagerTypeBook)
   async getListTypeBook(@Res() res, @Req() req, @Query() query) {
     const pagination: PaginationType = req.pagination;
     const sort = req.sort;
@@ -67,7 +67,7 @@ export class TypeBookController {
   @Post('')
   @UseInterceptors(FileInterceptor('file'))
   @ActionsPermission([SystemAction.Edit])
-  @ModulePermission(SystemFeatures.ManagerDocuments)
+  @ModulePermission(SystemFeatures.ManagerTypeBook)
   async insertTypeBook(
     @Body(new ValidationPipe()) entity: CreateTypeBookDto,
     @Res() res,
@@ -85,7 +85,7 @@ export class TypeBookController {
   @Put('/:id')
   @UseInterceptors(FileInterceptor('file'))
   @ActionsPermission([SystemAction.Edit])
-  @ModulePermission(SystemFeatures.ManagerDocuments)
+  @ModulePermission(SystemFeatures.ManagerTypeBook)
   async updateTypeBook(
     @Body(new ValidationPipe()) entity: UpdateTypeBookDto,
     @Res() res,
@@ -104,7 +104,7 @@ export class TypeBookController {
 
   @Delete('/:id')
   @ActionsPermission([SystemAction.Edit])
-  @ModulePermission(SystemFeatures.ManagerDocuments)
+  @ModulePermission(SystemFeatures.ManagerTypeBook)
   async removeTypeBook(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.typeBookDbService.removeItem(id);
@@ -119,7 +119,7 @@ export class TypeBookController {
 
   @Get('/:id')
   @ActionsPermission([SystemAction.View])
-  @ModulePermission(SystemFeatures.ManagerDocuments)
+  @ModulePermission(SystemFeatures.ManagerTypeBook)
   async getDetailTypeBook(@Res() res, @Param() params) {
     const id = params.id;
     const ans = await this.typeBookDbService.getItemById(id);

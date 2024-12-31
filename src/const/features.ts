@@ -30,7 +30,8 @@ export const FEATURES_SYSTEM = [
   SystemFeatures.AccessControl,
   SystemFeatures.StatisticWebC86,
   SystemFeatures.GoingCall,
-  SystemFeatures.InComingCall
+  SystemFeatures.InComingCall,
+  SystemFeatures.ManagerTypeBook
 ];
 
 export const ACTIONS_SYSTEM = [

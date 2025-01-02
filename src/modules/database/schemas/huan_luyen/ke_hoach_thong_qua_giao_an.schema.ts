@@ -16,8 +16,8 @@ export enum KeHoachTrangThaiEnum {
 export class KeHoachThongQuaGiaoAn extends Document<any> {
   _id: Types.ObjectId;
 
-  @Prop({ type: Date }) // Dạng datetime
-  thoi_gian: Date;
+  @Prop()
+  thoi_gian: number;
 
   @Prop({ type: Types.ObjectId, ref: Unit.name }) // Liên kết với bảng units
   don_vi: Types.ObjectId;

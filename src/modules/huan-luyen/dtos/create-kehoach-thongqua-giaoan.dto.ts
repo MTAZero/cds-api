@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, IsOptional, IsEnum, IsDate, IsMongoId } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsString, IsNotEmpty, IsOptional, IsEnum, IsDate, IsMongoId, IsNumber } from 'class-validator';
 import { KeHoachTrangThaiEnum } from 'src/modules/database/schemas/huan_luyen/ke_hoach_thong_qua_giao_an.schema';
 
 export class CreateKeHoachThongQuaGiaoAnDto {
@@ -6,9 +7,9 @@ export class CreateKeHoachThongQuaGiaoAnDto {
   @IsNotEmpty()
   giao_an: string; // Liên kết với giao_an, phải là ObjectId
 
-  @IsDate()
+  @IsNumber()
   @IsNotEmpty()
-  thoi_gian: Date;
+  thoi_gian: number;
 
   @IsMongoId()
   @IsNotEmpty()
@@ -24,10 +25,12 @@ export class CreateKeHoachThongQuaGiaoAnDto {
 
   @IsDate()
   @IsNotEmpty()
+  @Type(() => Date)
   thoi_gian_bat_dau_phe_duyet: Date;
 
   @IsDate()
   @IsNotEmpty()
+  @Type(() => Date)
   thoi_gian_ket_thuc_phe_duyet: Date;
 
   @IsString()
@@ -36,10 +39,12 @@ export class CreateKeHoachThongQuaGiaoAnDto {
 
   @IsDate()
   @IsNotEmpty()
+  @Type(() => Date)
   thoi_gian_bat_dau_thong_qua: Date;
 
   @IsDate()
   @IsNotEmpty()
+  @Type(() => Date)
   thoi_gian_ket_thuc_thong_qua: Date;
 
   @IsString()

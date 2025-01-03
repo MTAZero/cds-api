@@ -61,8 +61,16 @@ export class HuanLuyenController {
   async getListGiaoAn(@Res() res, @Req() req, @Query() query) {
     const pagination: PaginationType = req.pagination;
     const sort = req.sort;
-    const filter = {};
     const keyword = query.keyword ? query.keyword : '';
+
+      // Thêm tham số trạng thái
+    const trangThai = query.trang_thai;
+    const filter: any = {};
+
+    // Nếu tham số trạng thái tồn tại, thêm điều kiện lọc vào bộ lọc
+    if (trangThai) {
+      filter.trang_thai = trangThai;
+    }
 
     const data = await this.giaoAnDbService.getItems({
       filter,

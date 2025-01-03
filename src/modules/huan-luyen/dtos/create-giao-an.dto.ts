@@ -15,33 +15,33 @@ export class CreateGiaoAnDto {
   @IsNotEmpty()
   nganh: string;
 
-  @IsDate()
-  @IsNotEmpty()
-  @Type(() => Date)
-  thoi_gian_bat_dau_thong_qua: Date;
+  // @IsDate()
+  // @IsNotEmpty()
+  // @Type(() => Date)
+  // thoi_gian_bat_dau_thong_qua: Date;
 
   @IsString()
   @IsNotEmpty()
   dia_diem_thong_qua: string;
 
-  @IsDate()
-  @IsNotEmpty()
-  @Type(() => Date)
-  thoi_gian_ket_thuc_thong_qua: Date;
+  // @IsDate()
+  // @IsNotEmpty()
+  // @Type(() => Date)
+  // thoi_gian_ket_thuc_thong_qua: Date;
 
   @IsString()
   @IsNotEmpty()
   dia_diem_phe_duyet: string;
 
-  @IsDate()
-  @IsNotEmpty()
-  @Type(() => Date)
-  thoi_gian_bat_dau_phe_duyet: Date;
+  // @IsDate()
+  // @IsNotEmpty()
+  // @Type(() => Date)
+  // thoi_gian_bat_dau_phe_duyet: Date;
 
-  @IsDate()
-  @IsNotEmpty()
-  @Type(() => Date)
-  thoi_gian_ket_thuc_phe_duyet: Date;
+  // @IsDate()
+  // @IsNotEmpty()
+  // @Type(() => Date)
+  // thoi_gian_ket_thuc_phe_duyet: Date;
 
   @IsString()
   @IsNotEmpty()
@@ -63,18 +63,18 @@ export class CreateGiaoAnDto {
   @IsNotEmpty()
   yeu_cau: string;
 
-  @IsDate()
-  @IsNotEmpty()
-  @Type(() => Date)
-  thoi_gian_hoan_thanh_cong_tac_chuan_bi: Date;
+  // @IsDate()
+  // @IsNotEmpty()
+  // @Type(() => Date)
+  // thoi_gian_hoan_thanh_cong_tac_chuan_bi: Date;
 
-  @IsNumber()
-  @IsNotEmpty()
-  thoi_gian_len_lop_ly_thuyet: number;
+  // @IsNumber()
+  // @IsNotEmpty()
+  // thoi_gian_len_lop_ly_thuyet: number;
 
-  @IsNumber()
-  @IsNotEmpty()
-  thoi_gian_len_lop_thuc_hanh: number;
+  // @IsNumber()
+  // @IsNotEmpty()
+  // thoi_gian_len_lop_thuc_hanh: number;
 
   @IsNumber()
   @IsNotEmpty()
